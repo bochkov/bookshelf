@@ -2,13 +2,13 @@
 - hosts: 127.0.0.1
   tasks:
     - file: path=/tmp/bookshelf-deploy state=directory
-    - copy: src=../target/bookshelf-1.0.jar dest=/tmp/bookshelf-deploy/bookshelf.jar
+    - copy: src=../target/bookshelf-web-1.0.0.jar dest=/tmp/bookshelf-deploy/bookshelf.jar
     - copy: src=Dockerfile dest=/tmp/bookshelf-deploy/Dockerfile
 
     - name: stop and delete obsolete containers
       docker:
         image: sb/bookshelf-web
-        name: bookshelf
+        name: bookshelf-web
         state: absent
 
     - name: delete docker image
@@ -30,7 +30,7 @@
         restart_policy: always
         state: running
         expose: 8080
-        ports: 8286:8080
+        ports: 8288:8080
 
     - name: clean
       shell: rm -rf /tmp/bookshelf-deploy
