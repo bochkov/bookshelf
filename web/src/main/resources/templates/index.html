@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="bookshelf.app">
+<head>
+    <meta charset="UTF-8" />
+    <title>Bookshelf</title>
+
+    <link rel="stylesheet" type="text/css" href="/static/css/bootstrap.min.css" />
+</head>
+<body ng-controller="BookController" class="container">
+
+<form class="form-inline">
+    <div class="form-group">
+        <input type="search" class="form-control" placeholder="Search" ng-model="request">
+    </div>
+    <button type="submit" class="btn btn-default" ng-click="find(request)"><i class="glyphicon glyphicon-search"></i></button>
+</form>
+
+<span ng-if="data_not_found" ng-bind="data_not_found"></span>
+<table ng-if="data" class="table table-condensed table-striped">
+    <tr>
+        <th>Автор</th>
+        <th>Название</th>
+        <th>Год выпуска</th>
+    </tr>
+    <tr ng-repeat="i in data track by i.id">
+        <td ng-bind="i.author"></td>
+        <td ng-bind="i.name"></td>
+        <td ng-bind="i.year"></td>
+    </tr>
+</table>
+
+<script src="/static/js/jquery-2.1.4.min.js"></script>
+<script src="/static/js/bootstrap.min.js"></script>
+<script src="/static/js/angular.min.js"></script>
+<script src="/static/js/script.js"></script>
+
+</body>
+</html>

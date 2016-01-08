@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import java.net.URL?>
+<VBox xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.sergeybochkov.bookshelf.fx.controller.MainController"
+      prefWidth="800" prefHeight="640">
+    <MenuBar>
+        <Menu text="Файл">
+            <MenuItem text="Выход" onAction="#exit"/>
+        </Menu>
+        <Menu text="Правка">
+            <MenuItem text="Добавить запись" onAction="#addBook" />
+            <MenuItem text="Редактировать запись" onAction="#editBook" fx:id="editBookMenuItem" />
+            <MenuItem text="Удалить запись" onAction="#deleteBook" fx:id="deleteBookMenuItem" />
+        </Menu>
+        <Menu text="Помощь">
+            <MenuItem text="О программе" />
+        </Menu>
+    </MenuBar>
+
+    <HBox>
+        <HBox spacing="10">
+            <padding>
+                <Insets top="10" bottom="10" left="10" right="10" />
+            </padding>
+            <Button text="Добавить" onAction="#addBook" />
+            <Button text="Редактировать" onAction="#editBook" fx:id="editBookButton" />
+            <Button text="Удалить" onAction="#deleteBook" fx:id="deleteBookButton" />
+        </HBox>
+        <HBox HBox.hgrow="ALWAYS" />
+        <HBox spacing="10">
+            <padding>
+                <Insets top="10" bottom="10" left="10" right="10"/>
+            </padding>
+
+            <TextField fx:id="searchField" />
+        </HBox>
+    </HBox>
+
+    <TableView VBox.vgrow="ALWAYS" fx:id="bookTable">
+    </TableView>
+
+    <HBox alignment="center" spacing="15">
+        <padding>
+            <Insets top="10" bottom="10" left="10" right="10"/>
+        </padding>
+
+        <Button text="Выход" onAction="#exit"/>
+    </HBox>
+
+    <stylesheets>
+        <URL value="@/ui/style.css"/>
+    </stylesheets>
+</VBox>
