@@ -78,6 +78,7 @@
                                            mainclassname="com.sergeybochkov.bookshelf.fx.Application">
                                     <classpath file="${project.build.directory}/${project.build.finalName}.${project.packaging}"/>
                                     <classpath dir="${project.build.directory}/lib" />
+                                    <option value="-Dapple.laf.useScreenMenuBar=true" />
                                     <option value="-Xdock:name=BookShelf Admin"/>
                                 </bundleapp>
                             </target>

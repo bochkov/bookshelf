@@ -11,6 +11,7 @@ import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseButton;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +33,10 @@ public class MainController {
     @FXML
     private TextField searchField;
     @FXML
+    private MenuBar menuBar;
+    @FXML
+    private MenuItem editBookMenuItem, deleteBookMenuItem;
+    @FXML
     private Button editBookButton, deleteBookButton;
 
     private ObservableList<Book> data;
@@ -39,11 +44,19 @@ public class MainController {
 
     @FXML
     public void initialize() {
+        menuBar.setUseSystemMenuBar(true);
+
         bookTable.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+        bookTable.setOnMouseClicked(event -> {
+            if (event.getButton().equals(MouseButton.PRIMARY) && event.getClickCount() == 2)
+                editBook();
+        });
 
         ObservableBooleanValue isSelected = bookTable.getSelectionModel().selectedIndexProperty().isEqualTo(-1);
         editBookButton.disableProperty().bind(isSelected);
         deleteBookButton.disableProperty().bind(isSelected);
+        editBookMenuItem.disableProperty().bind(isSelected);
+        deleteBookMenuItem.disableProperty().bind(isSelected);
     }
 
     @PostConstruct
