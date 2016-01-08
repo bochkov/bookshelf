@@ -2,6 +2,14 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <repositories>
+        <repository>
+            <id>pentaho-releases</id>
+            <url>http://repository.pentaho.org/artifactory/repo/</url>
+        </repository>
+    </repositories>
+
     <parent>
         <artifactId>bookshelf</artifactId>
         <groupId>com.sergeybochkov</groupId>
@@ -16,7 +24,6 @@
             <groupId>com.oracle</groupId>
             <artifactId>appbundler</artifactId>
             <version>1.0</version>
-            <scope>provided</scope>
         </dependency>
     </dependencies>
 
