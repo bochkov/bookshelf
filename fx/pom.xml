@@ -11,5 +11,94 @@
 
     <artifactId>bookshelf-fx</artifactId>
 
+    <dependencies>
+        <dependency>
+            <groupId>com.oracle</groupId>
+            <artifactId>appbundler</artifactId>
+            <version>1.0</version>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>2.4</version>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <addClasspath>true</addClasspath>
+                            <classpathPrefix>lib/</classpathPrefix>
+                            <mainClass>com.sergeybochkov.bookshelf.fx.Application</mainClass>
+                        </manifest>
+                    </archive>
+                </configuration>
+            </plugin>
+            <plugin>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <version>2.8</version>
+                <executions>
+                    <execution>
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>copy-dependencies</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${project.build.directory}/lib</outputDirectory>
+                            <includeScope>runtime</includeScope>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>1.7</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <configuration>
+                            <target>
+                                <property name="lib.classpath" refid="maven.compile.classpath"/>
+                                <taskdef name="bundleapp"
+                                         classname="com.oracle.appbundler.AppBundlerTask"
+                                         classpath="${lib.classpath}" />
+                                <bundleapp outputdirectory="target"
+                                           name="BookShelf Admin"
+                                           displayname="BookShelf Admin"
+                                           icon="${basedir}/src/main/resources/ui/logo.icns"
+                                           identifier="com.sergeybochkov.bookshelf"
+                                           mainclassname="com.sergeybochkov.bookshelf.fx.Application">
+                                    <classpath file="${project.build.directory}/${project.build.finalName}.${project.packaging}"/>
+                                    <classpath dir="${project.build.directory}/lib" />
+                                    <option value="-Xdock:name=BookShelf Admin"/>
+                                </bundleapp>
+                            </target>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>bundle</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                        <configuration>
+                            <descriptors>
+                                <descriptor>deploy/assembly.xml</descriptor>
+                            </descriptors>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>

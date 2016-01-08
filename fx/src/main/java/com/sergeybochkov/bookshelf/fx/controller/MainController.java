@@ -32,8 +32,6 @@ public class MainController {
     @FXML
     private TextField searchField;
     @FXML
-    private MenuItem editBookMenuItem, deleteBookMenuItem;
-    @FXML
     private Button editBookButton, deleteBookButton;
 
     private ObservableList<Book> data;
@@ -46,8 +44,6 @@ public class MainController {
         ObservableBooleanValue isSelected = bookTable.getSelectionModel().selectedIndexProperty().isEqualTo(-1);
         editBookButton.disableProperty().bind(isSelected);
         deleteBookButton.disableProperty().bind(isSelected);
-        editBookMenuItem.disableProperty().bind(isSelected);
-        deleteBookMenuItem.disableProperty().bind(isSelected);
     }
 
     @PostConstruct
