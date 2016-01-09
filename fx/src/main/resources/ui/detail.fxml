@@ -41,7 +41,7 @@
             <Insets top="10" bottom="10" left="10" right="10"/>
         </padding>
 
-        <Button fx:id="okButton" onAction="#saveBook" />
+        <Button fx:id="okButton" onAction="#saveBook" defaultButton="true" />
         <Button text="Отмена" onAction="#exit" />
     </HBox>
 
