@@ -10,6 +10,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -134,7 +135,10 @@ public class MainController {
         });
         filtered.addListener((ListChangeListener<Book>) c -> countLabel.setText("Томов: " + filtered.size()));
 
-        bookTable.setItems(filtered);
+        SortedList<Book> sorted = new SortedList<>(filtered);
+        sorted.comparatorProperty().bind(bookTable.comparatorProperty());
+
+        bookTable.setItems(sorted);
         countLabel.setText("Всего книг: " + filtered.size());
     }
 
