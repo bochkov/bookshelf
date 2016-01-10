@@ -3,6 +3,8 @@ package com.sergeybochkov.bookshelf.fx.controller;
 import com.sergeybochkov.bookshelf.fx.config.ControllersConfig;
 import com.sergeybochkov.bookshelf.fx.model.Book;
 import com.sergeybochkov.bookshelf.fx.service.BookService;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.beans.value.ObservableBooleanValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -14,9 +16,11 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseButton;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.annotation.PostConstruct;
+import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Optional;
 
@@ -50,6 +54,40 @@ public class MainController {
         bookTable.setOnMouseClicked(event -> {
             if (event.getButton().equals(MouseButton.PRIMARY) && event.getClickCount() == 2)
                 editBook();
+        });
+        bookTable.setRowFactory(tr -> new TableRow<Book>() {
+            private Tooltip tt = new Tooltip();
+
+            private void hackTooltipStartTiming(Tooltip tooltip) {
+                try {
+                    Field fieldBehavior = tooltip.getClass().getDeclaredField("BEHAVIOR");
+                    fieldBehavior.setAccessible(true);
+                    Object objBehavior = fieldBehavior.get(tooltip);
+
+                    Field fieldTimer = objBehavior.getClass().getDeclaredField("hideTimer");
+                    fieldTimer.setAccessible(true);
+                    Timeline objTimer = (Timeline) fieldTimer.get(objBehavior);
+
+                    objTimer.getKeyFrames().clear();
+                    objTimer.getKeyFrames().add(new KeyFrame(new Duration(200000)));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void updateItem(Book book, boolean empty) {
+                super.updateItem(book, empty);
+                if (book == null || book.getAnnotation() == null)
+                    setTooltip(null);
+                else {
+                    tt.setText(book.getAnnotation());
+                    tt.setWrapText(true);
+                    hackTooltipStartTiming(tt);
+                    tt.setPrefWidth(400D);
+                    setTooltip(tt);
+                }
+            }
         });
 
         ObservableBooleanValue isSelected = bookTable.getSelectionModel().selectedIndexProperty().isEqualTo(-1);
