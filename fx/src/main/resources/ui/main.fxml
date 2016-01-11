@@ -11,7 +11,7 @@
             <MenuItem text="Выход" onAction="#exit" />
         </Menu>
         <Menu text="Правка">
-            <MenuItem text="Добавить запись" onAction="#addBook" mnemonicParsing="true" accelerator="meta+A" />
+            <MenuItem text="Добавить запись" onAction="#addBook" mnemonicParsing="true" accelerator="meta+D" />
             <MenuItem text="Редактировать запись" onAction="#editBook" fx:id="editBookMenuItem" />
             <MenuItem text="Удалить запись" onAction="#deleteBook" fx:id="deleteBookMenuItem" />
         </Menu>
