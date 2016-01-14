@@ -11,7 +11,7 @@
             <MenuItem text="Выход" onAction="#exit" />
         </Menu>
         <Menu text="Правка">
-            <MenuItem text="Добавить запись" onAction="#addBook" />
+            <MenuItem text="Добавить запись" onAction="#addBook" mnemonicParsing="true" accelerator="meta+D" />
             <MenuItem text="Редактировать запись" onAction="#editBook" fx:id="editBookMenuItem" />
             <MenuItem text="Удалить запись" onAction="#deleteBook" fx:id="deleteBookMenuItem" />
         </Menu>
@@ -28,13 +28,16 @@
             <Button text="Редактировать" onAction="#editBook" fx:id="editBookButton" />
             <Button text="Удалить" onAction="#deleteBook" fx:id="deleteBookButton" />
         </HBox>
+
         <HBox HBox.hgrow="ALWAYS" />
-        <HBox spacing="10">
+
+        <HBox spacing="10" alignment="CENTER_RIGHT">
             <padding>
                 <Insets top="10" bottom="10" left="10" right="10"/>
             </padding>
 
-            <TextField fx:id="searchField" />
+            <Label style="-fx-font-weight: bold" fx:id="countLabel" textAlignment="RIGHT" />
+            <TextField fx:id="searchField" promptText="Поиск по библиотеке" prefColumnCount="25" />
         </HBox>
     </HBox>
 

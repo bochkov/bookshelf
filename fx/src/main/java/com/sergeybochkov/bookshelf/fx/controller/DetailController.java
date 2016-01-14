@@ -73,6 +73,8 @@ public class DetailController {
         else
             pagesField.setText(String.valueOf(book.getPages()));
         annotationArea.setText(book.getAnnotation());
+
+        authorField.requestFocus();
     }
 
     @FXML

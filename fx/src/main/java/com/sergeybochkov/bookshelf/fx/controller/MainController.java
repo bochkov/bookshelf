@@ -3,10 +3,14 @@ package com.sergeybochkov.bookshelf.fx.controller;
 import com.sergeybochkov.bookshelf.fx.config.ControllersConfig;
 import com.sergeybochkov.bookshelf.fx.model.Book;
 import com.sergeybochkov.bookshelf.fx.service.BookService;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.beans.value.ObservableBooleanValue;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -14,9 +18,11 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseButton;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.annotation.PostConstruct;
+import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Optional;
 
@@ -30,6 +36,8 @@ public class MainController {
 
     @FXML
     private TableView<Book> bookTable;
+    @FXML
+    private Label countLabel;
     @FXML
     private TextField searchField;
     @FXML
@@ -50,6 +58,40 @@ public class MainController {
         bookTable.setOnMouseClicked(event -> {
             if (event.getButton().equals(MouseButton.PRIMARY) && event.getClickCount() == 2)
                 editBook();
+        });
+        bookTable.setRowFactory(tr -> new TableRow<Book>() {
+            private Tooltip tt = new Tooltip();
+
+            private void hackTooltipStartTiming(Tooltip tooltip) {
+                try {
+                    Field fieldBehavior = tooltip.getClass().getDeclaredField("BEHAVIOR");
+                    fieldBehavior.setAccessible(true);
+                    Object objBehavior = fieldBehavior.get(tooltip);
+
+                    Field fieldTimer = objBehavior.getClass().getDeclaredField("hideTimer");
+                    fieldTimer.setAccessible(true);
+                    Timeline objTimer = (Timeline) fieldTimer.get(objBehavior);
+
+                    objTimer.getKeyFrames().clear();
+                    objTimer.getKeyFrames().add(new KeyFrame(new Duration(200000)));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void updateItem(Book book, boolean empty) {
+                super.updateItem(book, empty);
+                if (book == null || book.getAnnotation() == null || book.getAnnotation().equals(""))
+                    setTooltip(null);
+                else {
+                    tt.setText(book.getAnnotation());
+                    tt.setWrapText(true);
+                    hackTooltipStartTiming(tt);
+                    tt.setPrefWidth(400D);
+                    setTooltip(tt);
+                }
+            }
         });
 
         ObservableBooleanValue isSelected = bookTable.getSelectionModel().selectedIndexProperty().isEqualTo(-1);
@@ -73,7 +115,9 @@ public class MainController {
         TableColumn<Book, String> yearColumn = new TableColumn<>("Год издания");
         yearColumn.setCellValueFactory(new PropertyValueFactory<>("year"));
 
-        bookTable.getColumns().setAll(nameColumn, authorColumn, yearColumn);
+        bookTable.getColumns().add(0, authorColumn);
+        bookTable.getColumns().add(1, nameColumn);
+        bookTable.getColumns().add(2, yearColumn);
 
         FilteredList<Book> filtered = new FilteredList<>(data, p -> true);
         searchField.textProperty().addListener((observable, oldValue, newValue) -> {
@@ -82,14 +126,20 @@ public class MainController {
                     return true;
                 if (book.getName() != null && book.getName().toLowerCase().contains(newValue.toLowerCase()) ||
                         book.getAuthor() != null && book.getAuthor().toLowerCase().contains(newValue.toLowerCase()) ||
-                        book.getYear() != null && book.getYear().toLowerCase().contains(newValue.toLowerCase()))
+                        book.getYear() != null && book.getYear().toLowerCase().contains(newValue.toLowerCase()) ||
+                        book.getAnnotation() != null && book.getAnnotation().toLowerCase().contains(newValue.toLowerCase()))
                     return true;
 
                 return false;
             });
         });
+        filtered.addListener((ListChangeListener<Book>) c -> countLabel.setText("Томов: " + filtered.size()));
 
-        bookTable.setItems(filtered);
+        SortedList<Book> sorted = new SortedList<>(filtered);
+        sorted.comparatorProperty().bind(bookTable.comparatorProperty());
+
+        bookTable.setItems(sorted);
+        countLabel.setText("Всего книг: " + filtered.size());
     }
 
     @FXML
