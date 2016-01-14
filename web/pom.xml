@@ -4,8 +4,6 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>bookshelf-web</artifactId>
-    <version>1.0.0</version>
-    <packaging>jar</packaging>
 
     <name>web</name>
     <description>Web view for book shelf</description>
