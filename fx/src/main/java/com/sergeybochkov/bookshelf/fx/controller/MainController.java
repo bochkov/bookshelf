@@ -16,8 +16,10 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseButton;
+import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 import javafx.util.Duration;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -82,14 +84,16 @@ public class MainController {
             @Override
             public void updateItem(Book book, boolean empty) {
                 super.updateItem(book, empty);
-                if (book == null || book.getAnnotation() == null || book.getAnnotation().equals(""))
+                if (book == null || book.getAnnotation() == null || book.getAnnotation().equals("")) {
                     setTooltip(null);
-                else {
+                    setStyle("-fx-background-color: bisque");
+                } else {
                     tt.setText(book.getAnnotation());
                     tt.setWrapText(true);
                     hackTooltipStartTiming(tt);
                     tt.setPrefWidth(400D);
                     setTooltip(tt);
+                    setStyle("-fx-background-color: cornsilk");
                 }
             }
         });
