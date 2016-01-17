@@ -1,0 +1,27 @@
+.table-view {
+    -fx-table-cell-border-color: lightgray;
+}
+
+.table-row-cell:selected {
+    -fx-background-color: teal;
+    -fx-table-cell-border-color: lightgray;
+}
+
+.table-row-cell:selected .text {
+    -fx-fill: white;
+}
+
+.annotated {
+    -fx-background-color: cornsilk;
+}
+
+.not-annotated {
+    -fx-background-color: bisque;
+}
+
+.table-row-cell:empty {
+    -fx-background-color: white;
+    -fx-border-color: transparent;
+    -fx-border-width: 0;
+    -fx-table-cell-border-color: transparent;
+}

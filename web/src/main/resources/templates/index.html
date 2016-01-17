@@ -23,7 +23,7 @@
         <th>Название</th>
         <th>Год выпуска</th>
     </tr>
-    <tr ng-repeat="i in data track by i.id">
+    <tr ng-repeat="i in data track by $index">
         <td ng-bind="i.author"></td>
         <td ng-bind="i.name"></td>
         <td ng-bind="i.year"></td>

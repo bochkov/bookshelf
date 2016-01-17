@@ -82,14 +82,22 @@ public class MainController {
             @Override
             public void updateItem(Book book, boolean empty) {
                 super.updateItem(book, empty);
-                if (book == null || book.getAnnotation() == null || book.getAnnotation().equals(""))
-                    setTooltip(null);
-                else {
+                setTooltip(null);
+                if (book == null || book.getAnnotation() == null || book.getAnnotation().equals("")) {
+                    if (getStyleClass().contains("annotated"))
+                        getStyleClass().remove("annotated");
+                    if (!getStyleClass().contains("not-annotated"))
+                        getStyleClass().add("not-annotated");
+                } else {
                     tt.setText(book.getAnnotation());
                     tt.setWrapText(true);
                     hackTooltipStartTiming(tt);
                     tt.setPrefWidth(400D);
                     setTooltip(tt);
+                    if (getStyleClass().contains("not-annotated"))
+                        getStyleClass().remove("not-annotated");
+                    if (!getStyleClass().contains("annotated"))
+                        getStyleClass().add("annotated");
                 }
             }
         });
