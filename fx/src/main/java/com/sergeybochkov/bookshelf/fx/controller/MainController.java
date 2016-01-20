@@ -145,6 +145,11 @@ public class MainController {
 
         SortedList<Book> sorted = new SortedList<>(filtered);
         sorted.comparatorProperty().bind(bookTable.comparatorProperty());
+        sorted.addListener((ListChangeListener<Book>) c -> {
+            while (c.next()) {
+                bookTable.scrollTo(c.getTo());
+            }
+        });
 
         bookTable.setItems(sorted);
         countLabel.setText("Всего книг: " + filtered.size());
