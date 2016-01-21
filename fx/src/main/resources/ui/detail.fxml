@@ -24,11 +24,11 @@
         <Label text="Год издания" GridPane.rowIndex="3" GridPane.columnIndex="0" />
         <TextField GridPane.rowIndex="3" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" fx:id="yearField" />
 
-        <Label text="ISBN" GridPane.rowIndex="4" GridPane.columnIndex="0" />
-        <TextField GridPane.rowIndex="4" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" fx:id="isbnField" />
+        <Label text="Страниц" GridPane.rowIndex="4" GridPane.columnIndex="0" />
+        <TextField GridPane.rowIndex="4" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" fx:id="pagesField" />
 
-        <Label text="Страниц" GridPane.rowIndex="5" GridPane.columnIndex="0" />
-        <TextField GridPane.rowIndex="5" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" fx:id="pagesField" />
+        <Label text="ISBN" GridPane.rowIndex="5" GridPane.columnIndex="0" />
+        <TextField GridPane.rowIndex="5" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" fx:id="isbnField" />
 
         <Label text="Аннотация" GridPane.rowIndex="6" GridPane.columnIndex="0" />
         <TextArea GridPane.rowIndex="6" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" VBox.vgrow="ALWAYS"
