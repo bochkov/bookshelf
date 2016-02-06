@@ -15,24 +15,28 @@ public class BookServiceImpl implements BookService {
     private BookDao bookDao;
 
     @Override
-    public List<Book> find(String query) {
-        List<Book> books = new ArrayList<>();
-
-        bookDao.findByAuthorContainingIgnoreCase(query)
-                .stream()
-                .filter(book -> !books.contains(book))
-                .forEach(books::add);
-
-        bookDao.findByNameContainingIgnoreCase(query)
-                .stream()
-                .filter(book -> !books.contains(book))
-                .forEach(books::add);
-
-        return books;
+    public List<Book> findAll() {
+        return bookDao.findAll();
     }
 
     @Override
-    public List<Book> findAll() {
-        return bookDao.findAll();
+    public List<Book> findOr(String query) {
+        return bookDao.findOr(query);
+    }
+
+    @Override
+    public List<Book> findByField(String field, String query) {
+        switch (field) {
+            case "name":
+                return bookDao.findByNameContaining(query);
+            case "author":
+                return bookDao.findByAuthorContaining(query);
+            case "year":
+                return bookDao.findByYearContaining(query);
+            case "annotation":
+                return bookDao.findByAnnotationContaining(query);
+            default:
+                return new ArrayList<>();
+        }
     }
 }

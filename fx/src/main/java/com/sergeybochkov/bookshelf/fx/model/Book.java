@@ -3,6 +3,8 @@ package com.sergeybochkov.bookshelf.fx.model;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.Objects;
+
 @Document(collection = Book.COLLECTION_NAME)
 public class Book {
 
@@ -94,5 +96,14 @@ public class Book {
                 ", isbn='" + isbn + '\'' +
                 ", pages=" + pages +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof Book) {
+            Book book = (Book) obj;
+            return Objects.equals(id, book.getId());
+        }
+        return super.equals(obj);
     }
 }

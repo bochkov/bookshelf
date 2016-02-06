@@ -6,7 +6,9 @@ import java.util.List;
 
 public interface BookService {
 
-    List<Book> find(String query);
-
     List<Book> findAll();
+
+    List<Book> findOr(String query);
+
+    List<Book> findByField(String field, String query);
 }
