@@ -5,12 +5,11 @@ import com.sergeybochkov.bookshelf.fx.model.Book;
 import com.sergeybochkov.bookshelf.fx.service.BookService;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.beans.property.SimpleListProperty;
 import javafx.beans.value.ObservableBooleanValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
-import javafx.collections.transformation.FilteredList;
-import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -23,6 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.annotation.PostConstruct;
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -51,6 +51,7 @@ public class MainController {
     private Stage detailStage;
 
     @FXML
+    @SuppressWarnings("unused")
     public void initialize() {
         menuBar.setUseSystemMenuBar(true);
 
@@ -111,8 +112,8 @@ public class MainController {
 
     @PostConstruct
     public void init() {
-        List<Book> bookList = bookService.findAll();
-        data = FXCollections.observableArrayList(bookList);
+        data = FXCollections.observableArrayList(bookService.findAll());
+        countLabel.setText("Томов: " + data.size());
 
         TableColumn<Book, String> nameColumn = new TableColumn<>("Название");
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
@@ -127,27 +128,36 @@ public class MainController {
         bookTable.getColumns().add(1, nameColumn);
         bookTable.getColumns().add(2, yearColumn);
 
-        FilteredList<Book> filtered = new FilteredList<>(data, p -> true);
         searchField.textProperty().addListener((observable, oldValue, newValue) -> {
-            filtered.setPredicate(book -> {
-                if (newValue == null || newValue.isEmpty())
-                    return true;
-                if (book.getName() != null && book.getName().toLowerCase().contains(newValue.toLowerCase()) ||
-                        book.getAuthor() != null && book.getAuthor().toLowerCase().contains(newValue.toLowerCase()) ||
-                        book.getYear() != null && book.getYear().toLowerCase().contains(newValue.toLowerCase()) ||
-                        book.getAnnotation() != null && book.getAnnotation().toLowerCase().contains(newValue.toLowerCase()))
-                    return true;
-
-                return false;
-            });
+            data.removeAll();
+            if (newValue.startsWith("{")) {
+                List<Book> allBooks = bookService.findAll();
+                allBooks.retainAll(match(newValue));
+                data.setAll(allBooks);
+            }
+            else
+                data.setAll(bookService.findOr(newValue));
         });
-        filtered.addListener((ListChangeListener<Book>) c -> countLabel.setText("Томов: " + filtered.size()));
 
-        SortedList<Book> sorted = new SortedList<>(filtered);
-        sorted.comparatorProperty().bind(bookTable.comparatorProperty());
+        data.addListener((ListChangeListener<Book>) c -> countLabel.setText("Томов: " + data.size()));
 
-        bookTable.setItems(sorted);
-        countLabel.setText("Всего книг: " + filtered.size());
+        bookTable.itemsProperty().bind(new SimpleListProperty<>(data));
+    }
+
+    private List<Book> match(String value) {
+        String v = value.replaceAll("\\{|\\}", "");
+        List<Book> books = new ArrayList<>();
+        for (String token : v.split(";|,")) {
+            String[] f = token.split("=");
+            if (f.length != 2)
+                continue;
+
+            if (books.isEmpty())
+                books.addAll(bookService.findByField(f[0], f[1]));
+            else
+                books.retainAll(bookService.findByField(f[0], f[1]));
+        }
+        return books;
     }
 
     @FXML
@@ -206,6 +216,8 @@ public class MainController {
             data.set(data.indexOf(book), book);
         else
             data.add(book);
+
+        bookTable.scrollTo(book);
     }
 
     private Stage createStage(int mode) {

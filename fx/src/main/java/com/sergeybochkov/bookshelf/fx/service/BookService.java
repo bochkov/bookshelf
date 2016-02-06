@@ -13,4 +13,8 @@ public interface BookService {
     void deleteAll(List<Book> books);
 
     Book save(Book book);
+
+    List<Book> findOr(String query);
+
+    List<Book> findByField(String field, String query);
 }
