@@ -179,12 +179,13 @@ public class MainController {
 
     @FXML
     public void deleteBook() {
-        List<Book> selectedRows = bookTable.getSelectionModel().getSelectedItems();
-        if (selectedRows.isEmpty())
+        List<Book> selectedBooks = bookTable.getSelectionModel().getSelectedItems();
+        if (selectedBooks.isEmpty())
             return;
 
-        if (confirmDelete(selectedRows)) {
-            bookService.deleteAll(selectedRows);
+        if (confirmDelete(selectedBooks)) {
+            bookService.deleteAll(selectedBooks);
+            data.removeAll(selectedBooks);
         }
     }
 
