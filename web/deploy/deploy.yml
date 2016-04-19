@@ -33,4 +33,6 @@
         ports: 8288:8080
 
     - name: clean
-      shell: rm -rf /tmp/bookshelf-deploy
+      file:
+        state: absent
+        path: /tmp/bookshelf-deploy
