@@ -37,16 +37,10 @@ public class ControllersConfig {
     }
 
     protected View loadView(String url) throws IOException {
-        InputStream fxmlStream = null;
-        try {
-            fxmlStream = getClass().getClassLoader().getResourceAsStream(url);
+        try (InputStream fxmlStream = getClass().getClassLoader().getResourceAsStream(url)) {
             FXMLLoader loader = new FXMLLoader();
             loader.load(fxmlStream);
             return new View(loader.getRoot(), loader.getController());
-        }
-        finally {
-            if (fxmlStream != null)
-                fxmlStream.close();
         }
     }
 

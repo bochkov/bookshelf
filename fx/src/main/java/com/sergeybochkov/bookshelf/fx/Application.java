@@ -2,6 +2,7 @@ package com.sergeybochkov.bookshelf.fx;
 
 import com.sergeybochkov.bookshelf.fx.config.AbstractJavaFxApplicationSupport;
 import com.sergeybochkov.bookshelf.fx.config.ControllersConfig;
+import com.sergeybochkov.bookshelf.fx.controller.MainController;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
@@ -24,6 +25,7 @@ public class Application extends AbstractJavaFxApplicationSupport {
     public void start(Stage stage) throws Exception {
         stage.setTitle(title);
         stage.setScene(new Scene(mainView.getView()));
+        ((MainController) mainView.getController()).fillData();
         stage.setResizable(true);
         stage.centerOnScreen();
         stage.getIcons().add(new Image("ui/logo.png"));

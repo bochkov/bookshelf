@@ -85,6 +85,14 @@ public class Book {
         this.pages = pages;
     }
 
+    public String getTitle() {
+        String title = "";
+        if (getAuthor() != null && !getAuthor().isEmpty())
+            title += getAuthor() + ". ";
+        title += getName();
+        return title;
+    }
+
     @Override
     public String toString() {
         return "Book{" +

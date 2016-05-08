@@ -47,7 +47,7 @@ public class MainController {
     @FXML
     private Button editBookButton, deleteBookButton;
 
-    private ObservableList<Book> data;
+    private ObservableList<Book> data = FXCollections.emptyObservableList();
     private Stage detailStage;
 
     @FXML
@@ -112,9 +112,6 @@ public class MainController {
 
     @PostConstruct
     public void init() {
-        data = FXCollections.observableArrayList(bookService.findAll());
-        countLabel.setText("Томов: " + data.size());
-
         TableColumn<Book, String> nameColumn = new TableColumn<>("Название");
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
 
@@ -138,9 +135,20 @@ public class MainController {
             else
                 data.setAll(bookService.findOr(newValue));
         });
+    }
+
+    public void fillData() {
+        try {
+            data = FXCollections.observableArrayList(bookService.findAll());
+        }
+        catch (Exception ex) {
+            Alert alert = new Alert(Alert.AlertType.ERROR, "No connection with database. Program will be closed");
+            alert.showAndWait();
+            exit();
+        }
 
         data.addListener((ListChangeListener<Book>) c -> countLabel.setText("Томов: " + data.size()));
-
+        countLabel.setText("Томов: " + data.size());
         bookTable.itemsProperty().bind(new SimpleListProperty<>(data));
     }
 
@@ -196,13 +204,12 @@ public class MainController {
 
         if (books.size() == 1) {
             Book book = books.get(0);
-            String bookStr = book.getAuthor() + ". " + book.getName();
-            alert.setContentText("Удалить книгу " + bookStr + "?");
+            alert.setContentText("Удалить книгу \"" + book.getTitle() + "\" ?");
         } else
             alert.setContentText("Удалить " + books.size() + " книг?");
 
         Optional<ButtonType> op = alert.showAndWait();
-        return op.get() == ButtonType.OK;
+        return op.isPresent() && op.get() == ButtonType.OK;
     }
 
     @FXML
