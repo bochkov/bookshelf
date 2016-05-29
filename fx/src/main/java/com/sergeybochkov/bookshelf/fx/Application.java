@@ -12,9 +12,18 @@ public class Application extends javafx.application.Application {
         return controllers;
     }
 
+    private ApplicationProperties appProperties;
+
     @Override
     public void init() throws Exception {
         controllers = new ControllersConfig();
+        appProperties = new ApplicationProperties();
+        appProperties.load();
+    }
+
+    @Override
+    public void stop() throws Exception {
+        appProperties.save();
     }
 
     @Override
@@ -26,7 +35,7 @@ public class Application extends javafx.application.Application {
         stage.getIcons().add(new Image("ui/logo.png"));
         stage.show();
 
-        controllers.mainController().start();
+        controllers.mainController().start(appProperties);
     }
 
     public static void main(String[] args) {

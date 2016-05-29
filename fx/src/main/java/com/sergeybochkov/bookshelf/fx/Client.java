@@ -1,6 +1,5 @@
 package com.sergeybochkov.bookshelf.fx;
 
-import com.google.common.collect.Lists;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import org.apache.commons.io.IOUtils;
@@ -29,55 +28,35 @@ public class Client {
         hostConfiguration = new HttpHost(host, port);
     }
 
-    public List<Book> findAll() {
-        try {
-            String response = get("/api/list/");
-            Type type = new TypeToken<List<Book>>() {}.getType();
-            return gson.fromJson(response, type);
-        }
-        catch (IOException ex) {
-            return Lists.newArrayList();
-        }
+    public List<Book> findAll() throws IOException {
+        String response = get("/api/list/");
+        Type type = new TypeToken<List<Book>>() {}.getType();
+        return gson.fromJson(response, type);
     }
 
-    public Book save(Book book) {
-        try {
-            String json = gson.toJson(book);
-            String response = post("/api/save/", json);
-            return gson.fromJson(response, Book.class);
-        }
-        catch (IOException ex) {
-            return null;
-        }
+    public Book save(Book book) throws IOException {
+        String json = gson.toJson(book);
+        String response = post("/api/save/", json);
+        return gson.fromJson(response, Book.class);
     }
 
-    public List<Book> find(String query) {
-        try {
-            SearchQuery q = new SearchQuery();
-            q.setRequest(query);
-            String json = gson.toJson(q);
-            String response = post("/api/search/", json);
-            Type type = new TypeToken<List<Book>>() {}.getType();
-            return gson.fromJson(response, type);
-        }
-        catch (IOException ex) {
-            return null;
-        }
+    public List<Book> find(String query) throws IOException {
+        SearchQuery q = new SearchQuery();
+        q.setRequest(query);
+        String json = gson.toJson(q);
+        String response = post("/api/search/", json);
+        Type type = new TypeToken<List<Book>>() {}.getType();
+        return gson.fromJson(response, type);
     }
 
-    public List<Book> delete(List<Book> books) {
-        try {
-            BookWrapper wrapper = new BookWrapper();
-            wrapper.setBooks(books);
-            String json = gson.toJson(wrapper);
+    public List<Book> delete(List<Book> books) throws IOException {
+        BookWrapper wrapper = new BookWrapper();
+        wrapper.setBooks(books);
+        String json = gson.toJson(wrapper);
 
-            String response = post("/api/delete/", json);
-            Type type = new TypeToken<List<Book>>() {}.getType();
-            return gson.fromJson(response, type);
-        }
-        catch (IOException ex) {
-            return null;
-        }
+        String response = post("/api/delete/", json);
+        Type type = new TypeToken<List<Book>>() {}.getType();
+        return gson.fromJson(response, type);
     }
 
     private String get(String url) throws IOException {

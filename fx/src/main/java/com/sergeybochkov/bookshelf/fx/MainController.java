@@ -13,8 +13,10 @@ import javafx.scene.control.*;
 import javafx.scene.input.MouseButton;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.util.Duration;
+import javafx.util.*;
+import javafx.util.Callback;
 
+import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Optional;
@@ -22,6 +24,7 @@ import java.util.Optional;
 public class MainController {
 
     private ControllersConfig controllers;
+    private ApplicationProperties appProperties;
 
     @FXML
     private TableView<Book> bookTable;
@@ -38,6 +41,7 @@ public class MainController {
 
     private ObservableList<Book> data = FXCollections.observableArrayList();
     private Stage detailStage;
+    private Stage settingsStage;
     private Client client;
 
     @FXML
@@ -52,16 +56,11 @@ public class MainController {
         data.addListener((ListChangeListener<Book>) c -> countLabel.setText("Томов: " + data.size()));
 
         searchField.textProperty().addListener((observable, oldValue, newValue) -> {
-            data.setAll(client.find(newValue));
-            /*
-            if (newValue.startsWith("{")) {
-                List<Book> allBooks = client.findAll();
-                allBooks.retainAll(match(newValue));
-                data.setAll(allBooks);
+            try {
+                data.setAll(client.find(newValue));
+            } catch (IOException e) {
+                //e.printStackTrace();
             }
-            else
-                data.setAll(client.findOr(newValue));
-                */
         });
     }
 
@@ -125,36 +124,42 @@ public class MainController {
         bookTable.itemsProperty().bind(new SimpleListProperty<>(data));
     }
 
-    public void start() {
+    public void start(ApplicationProperties appProperties) {
+        this.appProperties = appProperties;
         controllers = Application.getControllers();
-        client = new Client("127.0.0.1", 8080);
-        try {
-            data.setAll(client.findAll());
+
+        String host = appProperties.getHost();
+        int port = appProperties.getPort();
+
+        if (host != null && !host.isEmpty() && port != 0) {
+            client = new Client(host, port);
+            try {
+                data.setAll(client.findAll());
+            } catch (Exception ex) {
+                Alert alert = new Alert(Alert.AlertType.ERROR, "Нет соединения с сервером. Проверьте настройки");
+                alert.showAndWait();
+            }
         }
-        catch (Exception ex) {
-            Alert alert = new Alert(Alert.AlertType.ERROR, "No connection with database. Program will be closed");
+        else {
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Нет соединения с сервером. Проверьте настройки");
             alert.showAndWait();
-            exit();
+            showSettings();
         }
     }
 
-    /*
-    private List<Book> match(String value) {
-        String v = value.replaceAll("\\{|\\}", "");
-        List<Book> books = new ArrayList<>();
-        for (String token : v.split(";|,")) {
-            String[] f = token.split("=");
-            if (f.length != 2)
-                continue;
-
-            if (books.isEmpty())
-                books.addAll(client.findByField(f[0], f[1]));
-            else
-                books.retainAll(client.findByField(f[0], f[1]));
+    @FXML
+    private void showSettings() {
+        if (settingsStage == null) {
+            settingsStage = new Stage();
+            settingsStage.initModality(Modality.APPLICATION_MODAL);
+            settingsStage.setScene(new Scene(controllers.getSettingsView()));
+            controllers.settingsController().setStage(settingsStage);
+            controllers.settingsController().setCallback(() -> start(appProperties));
         }
-        return books;
+
+        controllers.settingsController().setProperties(appProperties);
+        settingsStage.show();
     }
-    */
 
     @FXML
     public void exit() {
@@ -175,7 +180,7 @@ public class MainController {
     }
 
     @FXML
-    public void deleteBook() {
+    public void deleteBook() throws IOException {
         List<Book> selectedBooks = bookTable.getSelectionModel().getSelectedItems();
         if (selectedBooks.isEmpty())
             return;
@@ -218,15 +223,13 @@ public class MainController {
         bookTable.scrollTo(book);
     }
 
-    private Stage initDetailStage(int mode) {
+    private void initDetailStage(int mode) {
         if (detailStage == null) {
             detailStage = new Stage();
             detailStage.initModality(Modality.APPLICATION_MODAL);
             detailStage.setScene(new Scene(controllers.getDetailView()));
             controllers.detailController().setStage(detailStage);
         }
-
         controllers.detailController().setMode(mode);
-        return detailStage;
     }
 }

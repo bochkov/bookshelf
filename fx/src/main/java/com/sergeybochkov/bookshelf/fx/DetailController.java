@@ -6,6 +6,8 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
+import java.io.IOException;
+
 public class DetailController {
 
     public static final int MODE_ADD = 0;
@@ -74,7 +76,7 @@ public class DetailController {
     }
 
     @FXML
-    public void saveBook() {
+    public void saveBook() throws IOException {
         book.setAuthor(authorField.getText());
         book.setName(nameField.getText());
         book.setPublisher(publisherField.getText());

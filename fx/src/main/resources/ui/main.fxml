@@ -9,6 +9,8 @@
       prefWidth="1200" prefHeight="700">
     <MenuBar fx:id="menuBar">
         <Menu text="Файл">
+            <MenuItem text="Настройки" onAction="#showSettings" />
+            <SeparatorMenuItem />
             <MenuItem text="Выход" onAction="#exit" />
         </Menu>
         <Menu text="Правка">
@@ -43,6 +45,7 @@
     </HBox>
 
     <TableView VBox.vgrow="ALWAYS" fx:id="bookTable">
+        <columnResizePolicy><TableView fx:constant="CONSTRAINED_RESIZE_POLICY" /></columnResizePolicy>
         <columns>
             <TableColumn text="Автор">
                 <cellValueFactory>

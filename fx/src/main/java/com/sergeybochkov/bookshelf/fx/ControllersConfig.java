@@ -10,10 +10,12 @@ public class ControllersConfig {
 
     private View mainView;
     private View detailView;
+    private View settingsView;
 
     public ControllersConfig() throws IOException {
         mainView = loadView("ui/main.fxml");
         detailView = loadView("ui/detail.fxml");
+        settingsView = loadView("ui/settings.fxml");
     }
 
     public Parent getMainView() {
@@ -30,6 +32,14 @@ public class ControllersConfig {
 
     public DetailController detailController() {
         return (DetailController) detailView.getController();
+    }
+
+    public Parent getSettingsView() {
+        return settingsView.getView();
+    }
+
+    public SettingsController settingsController() {
+        return (SettingsController) settingsView.getController();
     }
 
     protected View loadView(String url) throws IOException {
