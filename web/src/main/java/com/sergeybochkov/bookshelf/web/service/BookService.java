@@ -13,4 +13,6 @@ public interface BookService {
     List<Book> findByField(String field, String query);
 
     Book save(Book book);
+
+    List<Book> delete(List<Book> books);
 }

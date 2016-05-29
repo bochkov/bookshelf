@@ -6,14 +6,12 @@ import com.google.gson.reflect.TypeToken;
 import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpHost;
-import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.HttpClients;
-import org.apache.http.message.BasicNameValuePair;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
@@ -24,6 +22,8 @@ public class Client {
     private HttpClient client;
     private HttpHost hostConfiguration;
 
+    private Gson gson = new Gson();
+
     public Client(String host, int port) {
         client = HttpClients.createDefault();
         hostConfiguration = new HttpHost(host, port);
@@ -33,7 +33,7 @@ public class Client {
         try {
             String response = get("/api/list/");
             Type type = new TypeToken<List<Book>>() {}.getType();
-            return new Gson().fromJson(response, type);
+            return gson.fromJson(response, type);
         }
         catch (IOException ex) {
             return Lists.newArrayList();
@@ -42,30 +42,42 @@ public class Client {
 
     public Book save(Book book) {
         try {
-            String json = new Gson().toJson(book);
-            //List<NameValuePair> param = Lists.newArrayList(new BasicNameValuePair("book", json));
+            String json = gson.toJson(book);
             String response = post("/api/save/", json);
-            System.out.println(response);
-            return book;
+            return gson.fromJson(response, Book.class);
         }
         catch (IOException ex) {
             return null;
         }
     }
 
-    public List<Book> findOr(String value) {
-        // TODO
-        return Lists.newArrayList();
+    public List<Book> find(String query) {
+        try {
+            SearchQuery q = new SearchQuery();
+            q.setRequest(query);
+            String json = gson.toJson(q);
+            String response = post("/api/search/", json);
+            Type type = new TypeToken<List<Book>>() {}.getType();
+            return gson.fromJson(response, type);
+        }
+        catch (IOException ex) {
+            return null;
+        }
     }
 
-    public List<Book> findByField(String field, String value) {
-        // TODO
-        return Lists.newArrayList();
-    }
+    public List<Book> delete(List<Book> books) {
+        try {
+            BookWrapper wrapper = new BookWrapper();
+            wrapper.setBooks(books);
+            String json = gson.toJson(wrapper);
 
-    public List<Book> deleteAll(List<Book> books) {
-        // TODO
-        return Lists.newArrayList();
+            String response = post("/api/delete/", json);
+            Type type = new TypeToken<List<Book>>() {}.getType();
+            return gson.fromJson(response, type);
+        }
+        catch (IOException ex) {
+            return null;
+        }
     }
 
     private String get(String url) throws IOException {

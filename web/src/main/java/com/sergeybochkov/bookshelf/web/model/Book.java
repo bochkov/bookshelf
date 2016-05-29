@@ -94,4 +94,18 @@ public class Book implements Serializable {
         }
         return super.equals(obj);
     }
+
+    @Override
+    public String toString() {
+        return "Book {" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", author='" + author + '\'' +
+                ", publisher='" + publisher + '\'' +
+                ", year='" + year + '\'' +
+                ", annotation='" + annotation + '\'' +
+                ", isbn='" + isbn + '\'' +
+                ", pages=" + pages +
+                '}';
+    }
 }

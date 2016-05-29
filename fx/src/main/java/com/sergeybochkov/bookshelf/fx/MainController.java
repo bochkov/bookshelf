@@ -16,7 +16,6 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import java.lang.reflect.Field;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -53,7 +52,8 @@ public class MainController {
         data.addListener((ListChangeListener<Book>) c -> countLabel.setText("Томов: " + data.size()));
 
         searchField.textProperty().addListener((observable, oldValue, newValue) -> {
-            data.removeAll();
+            data.setAll(client.find(newValue));
+            /*
             if (newValue.startsWith("{")) {
                 List<Book> allBooks = client.findAll();
                 allBooks.retainAll(match(newValue));
@@ -61,6 +61,7 @@ public class MainController {
             }
             else
                 data.setAll(client.findOr(newValue));
+                */
         });
     }
 
@@ -137,6 +138,7 @@ public class MainController {
         }
     }
 
+    /*
     private List<Book> match(String value) {
         String v = value.replaceAll("\\{|\\}", "");
         List<Book> books = new ArrayList<>();
@@ -152,6 +154,7 @@ public class MainController {
         }
         return books;
     }
+    */
 
     @FXML
     public void exit() {
@@ -178,7 +181,7 @@ public class MainController {
             return;
 
         if (confirmDelete(selectedBooks)) {
-            List<Book> deleted = client.deleteAll(selectedBooks);
+            List<Book> deleted = client.delete(selectedBooks);
             data.removeAll(deleted);
         }
     }
