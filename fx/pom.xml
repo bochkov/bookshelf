@@ -3,6 +3,16 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
+    <parent>
+        <artifactId>bookshelf</artifactId>
+        <groupId>com.sergeybochkov</groupId>
+        <version>2.0</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>bookshelf-fx</artifactId>
+    <packaging>jar</packaging>
+
     <repositories>
         <repository>
             <id>pentaho-releases</id>
@@ -10,20 +20,35 @@
         </repository>
     </repositories>
 
-    <parent>
-        <artifactId>bookshelf</artifactId>
-        <groupId>com.sergeybochkov</groupId>
-        <version>1.2.2</version>
-    </parent>
-    <modelVersion>4.0.0</modelVersion>
-
-    <artifactId>bookshelf-fx</artifactId>
-
     <dependencies>
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>commons-logging</groupId>
+            <artifactId>commons-logging</artifactId>
+            <version>1.2</version>
+        </dependency>
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>19.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>2.4</version>
+        </dependency>
         <dependency>
             <groupId>com.oracle</groupId>
             <artifactId>appbundler</artifactId>
             <version>1.0</version>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 
@@ -54,6 +79,7 @@
                         <configuration>
                             <outputDirectory>${project.build.directory}/lib</outputDirectory>
                             <includeScope>runtime</includeScope>
+                            <excludeArtifactIds>org.springframework</excludeArtifactIds>
                         </configuration>
                     </execution>
                 </executions>
@@ -71,15 +97,15 @@
                                          classname="com.oracle.appbundler.AppBundlerTask"
                                          classpath="${lib.classpath}" />
                                 <bundleapp outputdirectory="target"
-                                           name="BookShelf Admin"
-                                           displayname="BookShelf Admin"
+                                           name="BookShelf"
+                                           displayname="BookShelf"
                                            icon="${basedir}/src/main/resources/ui/logo.icns"
-                                           identifier="com.sergeybochkov.bookshelf"
+                                           identifier="com.sergeybochkov.bookshelf.app"
                                            mainclassname="com.sergeybochkov.bookshelf.fx.Application">
                                     <classpath file="${project.build.directory}/${project.build.finalName}.${project.packaging}"/>
                                     <classpath dir="${project.build.directory}/lib" />
                                     <option value="-Dapple.laf.useScreenMenuBar=true" />
-                                    <option value="-Xdock:name=BookShelf Admin"/>
+                                    <option value="-Xdock:name=BookShelf"/>
                                 </bundleapp>
                             </target>
                         </configuration>
@@ -108,5 +134,6 @@
             </plugin>
         </plugins>
     </build>
+
 
 </project>

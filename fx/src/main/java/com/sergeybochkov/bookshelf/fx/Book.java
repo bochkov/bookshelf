@@ -1,18 +1,10 @@
-package com.sergeybochkov.bookshelf.fx.model;
-
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
+package com.sergeybochkov.bookshelf.fx;
 
 import java.util.Objects;
 
-@Document(collection = Book.COLLECTION_NAME)
 public class Book {
 
-    public static final String COLLECTION_NAME = "books";
-
-    @Id
     private String id;
-
     private String name;
     private String author;
     private String publisher;
@@ -85,9 +77,17 @@ public class Book {
         this.pages = pages;
     }
 
+    public String getTitle() {
+        String title = "";
+        if (getAuthor() != null && !getAuthor().isEmpty())
+            title += getAuthor() + ". ";
+        title += getName();
+        return title;
+    }
+
     @Override
     public String toString() {
-        return "Book{" +
+        return "Book {" +
                 "id='" + id + '\'' +
                 ", name='" + name + '\'' +
                 ", author='" + author + '\'' +

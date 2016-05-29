@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import java.net.URL?>
+<VBox xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.sergeybochkov.bookshelf.fx.SettingsController">
+    <GridPane alignment="CENTER_LEFT" hgap="10" vgap="10">
+        <padding>
+            <Insets top="10" bottom="10" left="10" right="10" />
+        </padding>
+
+        <Label text="Сервер" GridPane.rowIndex="0" GridPane.columnIndex="0" />
+        <TextField GridPane.rowIndex="0" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" fx:id="hostField" />
+
+        <Label text="Порт" GridPane.rowIndex="1" GridPane.columnIndex="0" />
+        <TextField GridPane.rowIndex="1" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" fx:id="portField" />
+    </GridPane>
+
+    <HBox alignment="center" spacing="15">
+        <padding>
+            <Insets top="10" bottom="10" left="10" right="10"/>
+        </padding>
+
+        <Button text="Сохранить" onAction="#save" defaultButton="true" />
+        <Button text="Отмена" onAction="#close" />
+    </HBox>
+
+    <stylesheets>
+        <URL value="@/ui/style.css"/>
+    </stylesheets>
+</VBox>

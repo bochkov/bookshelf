@@ -1,21 +1,40 @@
 package com.sergeybochkov.bookshelf.web.controller;
 
 import com.sergeybochkov.bookshelf.web.model.Book;
+import com.sergeybochkov.bookshelf.web.model.BookWrapper;
 import com.sergeybochkov.bookshelf.web.model.SearchQuery;
 import com.sergeybochkov.bookshelf.web.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@org.springframework.web.bind.annotation.RestController
-public class RestController {
+@RestController
+public class ApiController {
 
     @Autowired
     private BookService bookService;
 
-    @RequestMapping(value = "/search/", method = RequestMethod.POST)
+    @RequestMapping(value = "/api/list/", method = RequestMethod.GET)
+    public List<Book> findAll() {
+        return bookService.findAll();
+    }
+
+    @RequestMapping(value = "/api/save/", method = RequestMethod.POST)
+    public Book addBook(@RequestBody Book book) {
+        return bookService.save(book);
+    }
+
+    @RequestMapping(value = "/api/delete/", method = RequestMethod.POST)
+    public List<Book> delete(@RequestBody BookWrapper books) {
+        return bookService.delete(books.getBooks());
+    }
+
+    @RequestMapping(value = "/api/search/", method = RequestMethod.POST)
     public List<Book> search(@RequestBody SearchQuery request) {
         if (request.getRequest() == null)
             return null;

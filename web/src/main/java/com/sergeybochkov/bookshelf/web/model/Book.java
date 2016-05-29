@@ -3,10 +3,11 @@ package com.sergeybochkov.bookshelf.web.model;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 @Document(collection = Book.COLLECTION_NAME)
-public class Book {
+public class Book implements Serializable {
 
     public static final String COLLECTION_NAME = "books";
 
@@ -92,5 +93,19 @@ public class Book {
             return Objects.equals(id, book.getId());
         }
         return super.equals(obj);
+    }
+
+    @Override
+    public String toString() {
+        return "Book {" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", author='" + author + '\'' +
+                ", publisher='" + publisher + '\'' +
+                ", year='" + year + '\'' +
+                ", annotation='" + annotation + '\'' +
+                ", isbn='" + isbn + '\'' +
+                ", pages=" + pages +
+                '}';
     }
 }

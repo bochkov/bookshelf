@@ -1,24 +1,17 @@
-package com.sergeybochkov.bookshelf.fx.controller;
+package com.sergeybochkov.bookshelf.fx;
 
-import com.sergeybochkov.bookshelf.fx.model.Book;
-import com.sergeybochkov.bookshelf.fx.service.BookService;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import org.springframework.beans.factory.annotation.Autowired;
+
+import java.io.IOException;
 
 public class DetailController {
 
     public static final int MODE_ADD = 0;
     public static final int MODE_EDIT = 1;
-
-    @Autowired
-    private BookService bookService;
-
-    @Autowired
-    private MainController mainController;
 
     @FXML
     private TextField authorField;
@@ -38,7 +31,7 @@ public class DetailController {
     private Button okButton;
 
     private Stage thisStage;
-
+    private BookCallback callback;
     private Book book;
 
     public void setStage(Stage stage) {
@@ -56,8 +49,13 @@ public class DetailController {
         updateFields();
     }
 
+    public void setCallback(BookCallback callback) {
+        this.callback = callback;
+    }
+
     @FXML
     public void exit() {
+        this.callback = null;
         if (thisStage != null)
             thisStage.close();
     }
@@ -78,7 +76,7 @@ public class DetailController {
     }
 
     @FXML
-    public void saveBook() {
+    public void saveBook() throws IOException {
         book.setAuthor(authorField.getText());
         book.setName(nameField.getText());
         book.setPublisher(publisherField.getText());
@@ -90,8 +88,7 @@ public class DetailController {
             book.setPages(Integer.parseInt(pagesField.getText()));
         book.setAnnotation(annotationArea.getText());
 
-        Book b = bookService.save(book);
-        mainController.addToTable(b);
+        callback.call(book);
         exit();
     }
 }

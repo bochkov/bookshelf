@@ -39,4 +39,16 @@ public class BookServiceImpl implements BookService {
                 return new ArrayList<>();
         }
     }
+
+    @Override
+    public Book save(Book book) {
+        System.out.println(book);
+        return book;
+    }
+
+    @Override
+    public List<Book> delete(List<Book> books) {
+        System.out.println(books);
+        return books;
+    }
 }

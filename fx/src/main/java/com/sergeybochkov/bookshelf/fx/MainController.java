@@ -1,8 +1,5 @@
-package com.sergeybochkov.bookshelf.fx.controller;
+package com.sergeybochkov.bookshelf.fx;
 
-import com.sergeybochkov.bookshelf.fx.config.ControllersConfig;
-import com.sergeybochkov.bookshelf.fx.model.Book;
-import com.sergeybochkov.bookshelf.fx.service.BookService;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.beans.property.SimpleListProperty;
@@ -13,26 +10,21 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseButton;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.util.Duration;
-import org.springframework.beans.factory.annotation.Autowired;
+import javafx.util.*;
+import javafx.util.Callback;
 
-import javax.annotation.PostConstruct;
+import java.io.IOException;
 import java.lang.reflect.Field;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 public class MainController {
 
-    @Autowired
-    private BookService bookService;
-
-    @Autowired
-    private ControllersConfig.View detailView;
+    private ControllersConfig controllers;
+    private ApplicationProperties appProperties;
 
     @FXML
     private TableView<Book> bookTable;
@@ -47,14 +39,32 @@ public class MainController {
     @FXML
     private Button editBookButton, deleteBookButton;
 
-    private ObservableList<Book> data;
+    private ObservableList<Book> data = FXCollections.observableArrayList();
     private Stage detailStage;
+    private Stage settingsStage;
+    private Client client;
 
     @FXML
     @SuppressWarnings("unused")
     public void initialize() {
         menuBar.setUseSystemMenuBar(true);
 
+        configureTable();
+        bind();
+
+        countLabel.setText("Томов: " + data.size());
+        data.addListener((ListChangeListener<Book>) c -> countLabel.setText("Томов: " + data.size()));
+
+        searchField.textProperty().addListener((observable, oldValue, newValue) -> {
+            try {
+                data.setAll(client.find(newValue));
+            } catch (IOException e) {
+                //e.printStackTrace();
+            }
+        });
+    }
+
+    private void configureTable() {
         bookTable.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         bookTable.setOnMouseClicked(event -> {
             if (event.getButton().equals(MouseButton.PRIMARY) && event.getClickCount() == 2)
@@ -102,62 +112,53 @@ public class MainController {
                 }
             }
         });
+    }
 
+    private void bind() {
         ObservableBooleanValue isSelected = bookTable.getSelectionModel().selectedIndexProperty().isEqualTo(-1);
         editBookButton.disableProperty().bind(isSelected);
         deleteBookButton.disableProperty().bind(isSelected);
         editBookMenuItem.disableProperty().bind(isSelected);
         deleteBookMenuItem.disableProperty().bind(isSelected);
-    }
-
-    @PostConstruct
-    public void init() {
-        data = FXCollections.observableArrayList(bookService.findAll());
-        countLabel.setText("Томов: " + data.size());
-
-        TableColumn<Book, String> nameColumn = new TableColumn<>("Название");
-        nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
-
-        TableColumn<Book, String> authorColumn = new TableColumn<>("Автор");
-        authorColumn.setCellValueFactory(new PropertyValueFactory<>("author"));
-
-        TableColumn<Book, String> yearColumn = new TableColumn<>("Год издания");
-        yearColumn.setCellValueFactory(new PropertyValueFactory<>("year"));
-
-        bookTable.getColumns().add(0, authorColumn);
-        bookTable.getColumns().add(1, nameColumn);
-        bookTable.getColumns().add(2, yearColumn);
-
-        searchField.textProperty().addListener((observable, oldValue, newValue) -> {
-            data.removeAll();
-            if (newValue.startsWith("{")) {
-                List<Book> allBooks = bookService.findAll();
-                allBooks.retainAll(match(newValue));
-                data.setAll(allBooks);
-            }
-            else
-                data.setAll(bookService.findOr(newValue));
-        });
-
-        data.addListener((ListChangeListener<Book>) c -> countLabel.setText("Томов: " + data.size()));
 
         bookTable.itemsProperty().bind(new SimpleListProperty<>(data));
     }
 
-    private List<Book> match(String value) {
-        String v = value.replaceAll("\\{|\\}", "");
-        List<Book> books = new ArrayList<>();
-        for (String token : v.split(";|,")) {
-            String[] f = token.split("=");
-            if (f.length != 2)
-                continue;
+    public void start(ApplicationProperties appProperties) {
+        this.appProperties = appProperties;
+        controllers = Application.getControllers();
 
-            if (books.isEmpty())
-                books.addAll(bookService.findByField(f[0], f[1]));
-            else
-                books.retainAll(bookService.findByField(f[0], f[1]));
+        String host = appProperties.getHost();
+        int port = appProperties.getPort();
+
+        if (host != null && !host.isEmpty() && port != 0) {
+            client = new Client(host, port);
+            try {
+                data.setAll(client.findAll());
+            } catch (Exception ex) {
+                Alert alert = new Alert(Alert.AlertType.ERROR, "Нет соединения с сервером. Проверьте настройки");
+                alert.showAndWait();
+            }
         }
-        return books;
+        else {
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Нет соединения с сервером. Проверьте настройки");
+            alert.showAndWait();
+            showSettings();
+        }
+    }
+
+    @FXML
+    private void showSettings() {
+        if (settingsStage == null) {
+            settingsStage = new Stage();
+            settingsStage.initModality(Modality.APPLICATION_MODAL);
+            settingsStage.setScene(new Scene(controllers.getSettingsView()));
+            controllers.settingsController().setStage(settingsStage);
+            controllers.settingsController().setCallback(() -> start(appProperties));
+        }
+
+        controllers.settingsController().setProperties(appProperties);
+        settingsStage.show();
     }
 
     @FXML
@@ -172,20 +173,21 @@ public class MainController {
             return;
 
         Book selectedBook = selectedRows.get(0);
-        Stage stage = createStage(DetailController.MODE_EDIT);
-        ((DetailController) detailView.getController()).setBook(selectedBook);
-        stage.show();
+        initDetailStage(DetailController.MODE_EDIT);
+        controllers.detailController().setBook(selectedBook);
+        controllers.detailController().setCallback(book -> addToTable(client.save(book)));
+        detailStage.show();
     }
 
     @FXML
-    public void deleteBook() {
+    public void deleteBook() throws IOException {
         List<Book> selectedBooks = bookTable.getSelectionModel().getSelectedItems();
         if (selectedBooks.isEmpty())
             return;
 
         if (confirmDelete(selectedBooks)) {
-            bookService.deleteAll(selectedBooks);
-            data.removeAll(selectedBooks);
+            List<Book> deleted = client.delete(selectedBooks);
+            data.removeAll(deleted);
         }
     }
 
@@ -196,20 +198,20 @@ public class MainController {
 
         if (books.size() == 1) {
             Book book = books.get(0);
-            String bookStr = book.getAuthor() + ". " + book.getName();
-            alert.setContentText("Удалить книгу " + bookStr + "?");
+            alert.setContentText("Удалить книгу \"" + book.getTitle() + "\" ?");
         } else
             alert.setContentText("Удалить " + books.size() + " книг?");
 
         Optional<ButtonType> op = alert.showAndWait();
-        return op.get() == ButtonType.OK;
+        return op.isPresent() && op.get() == ButtonType.OK;
     }
 
     @FXML
     public void addBook() {
-        Stage stage = createStage(DetailController.MODE_ADD);
-        ((DetailController) detailView.getController()).setBook(null);
-        stage.show();
+        initDetailStage(DetailController.MODE_ADD);
+        controllers.detailController().setBook(null);
+        controllers.detailController().setCallback(book -> addToTable(client.save(book)));
+        detailStage.show();
     }
 
     public void addToTable(Book book) {
@@ -221,19 +223,13 @@ public class MainController {
         bookTable.scrollTo(book);
     }
 
-    private Stage createStage(int mode) {
-        if (detailStage != null) {
-            DetailController controller = (DetailController) detailView.getController();
-            controller.setMode(mode);
-            return detailStage;
+    private void initDetailStage(int mode) {
+        if (detailStage == null) {
+            detailStage = new Stage();
+            detailStage.initModality(Modality.APPLICATION_MODAL);
+            detailStage.setScene(new Scene(controllers.getDetailView()));
+            controllers.detailController().setStage(detailStage);
         }
-
-        detailStage = new Stage();
-        detailStage.initModality(Modality.APPLICATION_MODAL);
-        detailStage.setScene(new Scene(detailView.getView()));
-        DetailController controller = (DetailController) detailView.getController();
-        controller.setStage(detailStage);
-        controller.setMode(mode);
-        return detailStage;
+        controllers.detailController().setMode(mode);
     }
 }

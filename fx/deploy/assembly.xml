@@ -11,7 +11,7 @@
             <directory>${project.build.directory}</directory>
             <outputDirectory>.</outputDirectory>
             <includes>
-                <include>BookShelf Admin.app/**</include>
+                <include>BookShelf.app/**</include>
             </includes>
         </fileSet>
     </fileSets>

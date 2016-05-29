@@ -2,7 +2,7 @@
 - hosts: 127.0.0.1
   tasks:
     - file: path=/tmp/bookshelf-deploy state=directory
-    - copy: src=../target/bookshelf-web-1.2.2.jar dest=/tmp/bookshelf-deploy/bookshelf.jar
+    - copy: src=../target/bookshelf-web-2.0.jar dest=/tmp/bookshelf-deploy/bookshelf.jar
     - copy: src=Dockerfile dest=/tmp/bookshelf-deploy/Dockerfile
 
     - name: stop and delete obsolete containers
@@ -31,8 +31,6 @@
         state: running
         links:
           - mongo:mongo
-        # expose: 8080
-        # ports: 8288:8080
 
     - name: clean
       file:
