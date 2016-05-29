@@ -5,16 +5,16 @@
 
     <groupId>com.sergeybochkov</groupId>
     <artifactId>bookshelf</artifactId>
-    <version>1.2.2</version>
+    <version>2.0</version>
     <packaging>pom</packaging>
 
     <modules>
         <module>web</module>
-        <module>fx</module>
+        <module>app</module>
     </modules>
 
     <name>bookshelf</name>
-    <description>Book shelf</description>
+    <description>Bookshelf</description>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -36,6 +36,12 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-mongodb</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>LATEST</version>
         </dependency>
     </dependencies>
 

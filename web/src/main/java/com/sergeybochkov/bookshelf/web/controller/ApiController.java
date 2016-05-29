@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@org.springframework.web.bind.annotation.RestController
-public class RestController {
+@RestController(value = "/api")
+public class ApiController {
 
     @Autowired
     private BookService bookService;
