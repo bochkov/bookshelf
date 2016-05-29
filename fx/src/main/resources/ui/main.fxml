@@ -3,8 +3,9 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import java.net.URL?>
+<?import javafx.scene.control.cell.PropertyValueFactory?>
 <VBox xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="com.sergeybochkov.bookshelf.fx.controller.MainController"
+      fx:controller="com.sergeybochkov.bookshelf.fx.MainController"
       prefWidth="1200" prefHeight="700">
     <MenuBar fx:id="menuBar">
         <Menu text="Файл">
@@ -42,6 +43,23 @@
     </HBox>
 
     <TableView VBox.vgrow="ALWAYS" fx:id="bookTable">
+        <columns>
+            <TableColumn text="Автор">
+                <cellValueFactory>
+                    <PropertyValueFactory property="author"/>
+                </cellValueFactory>
+            </TableColumn>
+            <TableColumn text="Название">
+                <cellValueFactory>
+                    <PropertyValueFactory property="name"/>
+                </cellValueFactory>
+            </TableColumn>
+            <TableColumn text="Год издания">
+                <cellValueFactory>
+                    <PropertyValueFactory property="year"/>
+                </cellValueFactory>
+            </TableColumn>
+        </columns>
     </TableView>
 
     <HBox alignment="center" spacing="15">

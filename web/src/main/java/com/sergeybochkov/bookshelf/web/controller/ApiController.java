@@ -9,13 +9,23 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@RestController(value = "/api")
+@RestController
 public class ApiController {
 
     @Autowired
     private BookService bookService;
 
-    @RequestMapping(value = "/search/", method = RequestMethod.POST)
+    @RequestMapping(value = "/api/list/", method = RequestMethod.GET)
+    public List<Book> findAll() {
+        return bookService.findAll();
+    }
+
+    @RequestMapping(value = "/api/save/", method = RequestMethod.POST)
+    public Book addBook(@RequestBody Book book) {
+        return bookService.save(book);
+    }
+
+    @RequestMapping(value = "/api/search/", method = RequestMethod.POST)
     public List<Book> search(@RequestBody SearchQuery request) {
         if (request.getRequest() == null)
             return null;

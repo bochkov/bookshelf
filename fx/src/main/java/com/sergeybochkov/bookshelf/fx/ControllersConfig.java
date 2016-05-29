@@ -1,39 +1,35 @@
-package com.sergeybochkov.bookshelf.fx.config;
+package com.sergeybochkov.bookshelf.fx;
 
-import com.sergeybochkov.bookshelf.fx.controller.DetailController;
-import com.sergeybochkov.bookshelf.fx.controller.MainController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 
 import java.io.IOException;
 import java.io.InputStream;
 
-@Configuration
 public class ControllersConfig {
 
-    @Bean(name = "mainView")
-    @Qualifier(value = "mainView")
-    public View getMainView() throws IOException {
-        return loadView("ui/main.fxml");
+    private View mainView;
+    private View detailView;
+
+    public ControllersConfig() throws IOException {
+        mainView = loadView("ui/main.fxml");
+        detailView = loadView("ui/detail.fxml");
     }
 
-    @Bean(name = "detailView")
-    @Qualifier(value = "detailView")
-    public View getDetailView() throws IOException {
-        return loadView("ui/detail.fxml");
+    public Parent getMainView() {
+        return mainView.getView();
     }
 
-    @Bean
-    public MainController mainController() throws IOException {
-        return (MainController) getMainView().getController();
+    public MainController mainController() {
+        return (MainController) mainView.getController();
     }
 
-    @Bean
-    public DetailController detailController() throws IOException {
-        return (DetailController) getDetailView().getController();
+    public Parent getDetailView() {
+        return detailView.getView();
+    }
+
+    public DetailController detailController() {
+        return (DetailController) detailView.getController();
     }
 
     protected View loadView(String url) throws IOException {

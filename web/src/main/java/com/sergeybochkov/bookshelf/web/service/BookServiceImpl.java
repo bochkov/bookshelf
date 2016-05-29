@@ -39,4 +39,11 @@ public class BookServiceImpl implements BookService {
                 return new ArrayList<>();
         }
     }
+
+    @Override
+    public Book save(Book book) {
+        System.out.println(book);
+        return book;
+        //return bookDao.save(book);
+    }
 }

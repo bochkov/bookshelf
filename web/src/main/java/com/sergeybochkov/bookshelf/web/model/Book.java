@@ -3,10 +3,11 @@ package com.sergeybochkov.bookshelf.web.model;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 @Document(collection = Book.COLLECTION_NAME)
-public class Book {
+public class Book implements Serializable {
 
     public static final String COLLECTION_NAME = "books";
 

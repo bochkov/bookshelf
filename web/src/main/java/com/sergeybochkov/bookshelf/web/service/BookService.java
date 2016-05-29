@@ -11,4 +11,6 @@ public interface BookService {
     List<Book> findOr(String query);
 
     List<Book> findByField(String field, String query);
+
+    Book save(Book book);
 }

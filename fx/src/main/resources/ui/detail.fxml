@@ -4,7 +4,7 @@
 <?import javafx.scene.layout.*?>
 <?import java.net.URL?>
 <VBox xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="com.sergeybochkov.bookshelf.fx.controller.DetailController"
+      fx:controller="com.sergeybochkov.bookshelf.fx.DetailController"
       prefWidth="500" prefHeight="400">
 
     <GridPane alignment="CENTER_LEFT" hgap="10" vgap="10">
