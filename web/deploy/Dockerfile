@@ -1,4 +1,4 @@
-FROM sb/java
+FROM sb-java
 VOLUME /tmp
 WORKDIR /tmp
 WORKDIR /opt

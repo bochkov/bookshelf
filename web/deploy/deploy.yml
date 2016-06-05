@@ -7,26 +7,27 @@
 
     - name: stop and delete obsolete containers
       docker:
-        image: sb/bookshelf-web
+        image: sb-bookshelf-web
         name: bookshelf-web
         state: absent
 
     - name: delete docker image
       docker_image:
         path: /tmp/bookshelf-deploy
-        name: sb/bookshelf-web
+        name: sb-bookshelf-web
         state: absent
 
     - name: build docker image
       docker_image:
         path: /tmp/bookshelf-deploy
-        name: sb/bookshelf-web
-        state: build
+        name: sb-bookshelf-web
+        state: present
+        pull: no
 
     - name: app container
       docker:
         name: bookshelf-web
-        image: sb/bookshelf-web
+        image: sb-bookshelf-web
         restart_policy: always
         state: running
         links:
