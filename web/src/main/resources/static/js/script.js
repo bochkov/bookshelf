@@ -5,7 +5,7 @@ app.controller('BookController', function ($scope, $http) {
     $scope.find = function(request) {
         $scope.data_not_found = null;
         $scope.data = null;
-        $http.post('/search/', {'request': request})
+        $http.post('/api/search/', {'request': request})
             .success(function(response) {
                 if (response.length == 0)
                     $scope.data_not_found = "Ничего не найдено";
