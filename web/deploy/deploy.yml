@@ -32,8 +32,6 @@
         state: running
         links:
           - mongo:mongo
-        ports:
-          - 8281:8080
 
     - name: clean
       file:
