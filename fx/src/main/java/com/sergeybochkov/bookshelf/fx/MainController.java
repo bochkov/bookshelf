@@ -14,7 +14,6 @@ import javafx.scene.input.MouseButton;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.*;
-import javafx.util.Callback;
 
 import java.io.IOException;
 import java.lang.reflect.Field;
@@ -186,8 +185,8 @@ public class MainController {
             return;
 
         if (confirmDelete(selectedBooks)) {
-            List<Book> deleted = client.delete(selectedBooks);
-            data.removeAll(deleted);
+            client.delete(selectedBooks);
+            data.removeAll(selectedBooks);
         }
     }
 

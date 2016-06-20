@@ -88,7 +88,12 @@ public class DetailController {
             book.setPages(Integer.parseInt(pagesField.getText()));
         book.setAnnotation(annotationArea.getText());
 
-        callback.call(book);
+        try {
+            callback.call(book);
+        }
+        catch (Exception ex) {
+            ex.printStackTrace();
+        }
         exit();
     }
 }

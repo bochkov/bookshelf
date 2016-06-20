@@ -30,8 +30,8 @@ public class ApiController {
     }
 
     @RequestMapping(value = "/api/delete/", method = RequestMethod.POST)
-    public List<Book> delete(@RequestBody BookWrapper books) {
-        return bookService.delete(books.getBooks());
+    public void delete(@RequestBody BookWrapper books) {
+        bookService.delete(books.getBooks());
     }
 
     @RequestMapping(value = "/api/search/", method = RequestMethod.POST)

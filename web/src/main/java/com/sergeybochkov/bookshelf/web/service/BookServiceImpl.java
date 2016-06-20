@@ -42,13 +42,11 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public Book save(Book book) {
-        System.out.println(book);
-        return book;
+        return bookDao.save(book);
     }
 
     @Override
-    public List<Book> delete(List<Book> books) {
-        System.out.println(books);
-        return books;
+    public void delete(List<Book> books) {
+        bookDao.delete(books);
     }
 }

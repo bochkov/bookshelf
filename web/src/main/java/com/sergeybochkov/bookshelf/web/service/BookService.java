@@ -14,5 +14,5 @@ public interface BookService {
 
     Book save(Book book);
 
-    List<Book> delete(List<Book> books);
+    void delete(List<Book> books);
 }
