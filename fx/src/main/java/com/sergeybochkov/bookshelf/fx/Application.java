@@ -32,7 +32,7 @@ public class Application extends javafx.application.Application {
         stage.setScene(new Scene(controllers.getMainView()));
         stage.setResizable(true);
         stage.centerOnScreen();
-        stage.getIcons().add(new Image("ui/logo.png"));
+        stage.getIcons().add(new Image(Application.class.getResourceAsStream("/ui/logo.png")));
         stage.show();
 
         controllers.mainController().start(appProperties);

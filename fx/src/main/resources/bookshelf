@@ -1,0 +1,8 @@
+#!/bin/sh
+BASEDIR=`dirname $0`
+exec java \
+        -classpath "$BASEDIR/*" \
+        -Dapple.laf.useScreenMenuBar=true \
+        -Dcom.apple.mrj.application.apple.menu.about.name=BookShelf \
+        -Xdock:name=BookShelf \
+        com.sergeybochkov.bookshelf.fx.Application

@@ -1,0 +1,61 @@
+group = 'com.sergeybochkov'
+
+apply 'plugin': 'java'
+
+sourceCompatibility = '1.8'
+targetCompatibility = '1.8'
+
+repositories() {
+    mavenCentral()
+}
+
+dependencies {
+    compile('org.apache.httpcomponents:httpclient:4.5.2')
+    compile('commons-logging:commons-logging:1.2')
+    compile('commons-io:commons-io:2.4')
+    compile('com.google.guava:guava:19.0')
+    compile('com.google.code.gson:gson:2.7')
+}
+
+jar {
+    baseName = 'bookshelf-fx'
+    version = '2.0'
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '2.14'
+}
+
+task macosx {dependsOn build} << {
+    def appDir = new File("build/distributions/BookShelf.app/Contents")
+    appDir.mkdirs()
+
+    def macOsDir = new File(appDir, "MacOS")
+    macOsDir.mkdirs()
+
+    def resDir = new File(appDir, "Resources")
+    resDir.mkdirs()
+
+    copy {
+        from 'src/main/resources/ui/logo.icns'
+        into resDir
+    }
+
+    copy {
+        from configurations.runtime
+        from jar.archivePath
+        from 'src/main/resources/bookshelf'
+        into macOsDir
+    }
+
+    copy {
+        from 'src/main/resources/Info.plist'
+        into appDir
+    }
+}
+
+task dist(type: Zip) {
+    from 'build/distributions/BookShelf.app'
+    into 'BookShelf.app'
+    baseName = 'BookShelf.app'
+}
