@@ -1,2 +1,4 @@
 include 'web'
+project(':web').name = 'bookshelf-web'
 include 'fx'
+project(':fx').name = 'bookshelf-fx'

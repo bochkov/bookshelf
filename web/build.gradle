@@ -1,4 +1,5 @@
 group = 'com.sergeybochkov'
+version = '2.0'
 
 apply 'plugin': 'java'
 apply 'plugin': 'spring-boot'
@@ -30,10 +31,10 @@ dependencies {
 }
 
 jar {
-    baseName = 'bookshelf-web'
-    version = '2.0'
+    baseName = project.name
+    version = project.version
 }
 
 task wrapper(type: Wrapper) {
-    gradleVersion = '2.13'
+    gradleVersion = '2.14'
 }

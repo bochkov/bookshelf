@@ -1,4 +1,9 @@
+plugins {
+    id "edu.sc.seis.macAppBundle" version "2.1.6"
+}
+
 group = 'com.sergeybochkov'
+version = '2.0'
 
 apply 'plugin': 'java'
 
@@ -18,44 +23,21 @@ dependencies {
 }
 
 jar {
-    baseName = 'bookshelf-fx'
-    version = '2.0'
+    baseName = project.name
+    version = project.version
 }
 
 task wrapper(type: Wrapper) {
     gradleVersion = '2.14'
 }
 
-task macosx {dependsOn build} << {
-    def appDir = new File("build/distributions/BookShelf.app/Contents")
-    appDir.mkdirs()
-
-    def macOsDir = new File(appDir, "MacOS")
-    macOsDir.mkdirs()
-
-    def resDir = new File(appDir, "Resources")
-    resDir.mkdirs()
-
-    copy {
-        from 'src/main/resources/ui/logo.icns'
-        into resDir
-    }
-
-    copy {
-        from configurations.runtime
-        from jar.archivePath
-        from 'src/main/resources/bookshelf'
-        into macOsDir
-    }
-
-    copy {
-        from 'src/main/resources/Info.plist'
-        into appDir
-    }
+macAppBundle {
+    appName = "BookShelf"
+    bundleIdentifier = "com.sergeybochkov.bookshelf.fx.Application"
+    mainClassName = "com.sergeybochkov.bookshelf.fx.Application"
+    icon = "src/main/resources/ui/logo.icns"
+    javaProperties.put("apple.laf.useScreenBar", "true")
 }
 
-task dist(type: Zip) {
-    from 'build/distributions/BookShelf.app'
-    into 'BookShelf.app'
-    baseName = 'BookShelf.app'
+task dist {dependsOn createAppZip} << {
 }
