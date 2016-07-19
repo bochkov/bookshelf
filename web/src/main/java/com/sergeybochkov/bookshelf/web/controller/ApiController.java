@@ -16,8 +16,12 @@ import java.util.List;
 @RestController
 public class ApiController {
 
+    private final BookService bookService;
+
     @Autowired
-    private BookService bookService;
+    public ApiController(BookService bookService) {
+        this.bookService = bookService;
+    }
 
     @RequestMapping(value = "/api/list/", method = RequestMethod.GET)
     public List<Book> findAll() {
