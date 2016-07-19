@@ -61,17 +61,13 @@ public class Client {
 
     private String get(String url) throws IOException {
         HttpGet method = new HttpGet(url);
-        return client.execute(hostConfiguration, method, httpResponse -> {
-            return IOUtils.toString(httpResponse.getEntity().getContent(), "UTF-8");
-        });
+        return client.execute(hostConfiguration, method, httpResponse -> IOUtils.toString(httpResponse.getEntity().getContent(), "UTF-8"));
     }
 
     private String post(String url, String json) throws IOException {
         HttpPost method = new HttpPost(url);
         HttpEntity entity = new StringEntity(json, ContentType.APPLICATION_JSON);
         method.setEntity(entity);
-        return client.execute(hostConfiguration, method, httpResponse -> {
-            return IOUtils.toString(httpResponse.getEntity().getContent(), "UTF-8");
-        });
+        return client.execute(hostConfiguration, method, httpResponse -> IOUtils.toString(httpResponse.getEntity().getContent(), "UTF-8"));
     }
 }
