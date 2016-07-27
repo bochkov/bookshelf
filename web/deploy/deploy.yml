@@ -32,6 +32,7 @@
         state: running
         links:
           - mongo:mongo
+        expose: 8080
 
     - name: clean
       file:

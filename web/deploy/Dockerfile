@@ -1,6 +1,6 @@
-FROM sb-java
+FROM java:alpine
 VOLUME /tmp
 WORKDIR /tmp
 WORKDIR /opt
 ADD bookshelf.jar /opt/bookshelf.jar
-ENTRYPOINT ["java", "-Xms32m", "-Xmx64m", "-Dfile.encoding=UTF-8", "-Djava.security.egd=file:/dev/./urandom", "-jar", "bookshelf.jar"]
+ENTRYPOINT ["java", "-Dfile.encoding=UTF-8", "-Djava.security.egd=file:/dev/./urandom", "-jar", "bookshelf.jar"]
