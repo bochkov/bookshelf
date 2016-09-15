@@ -1,5 +1,6 @@
 ---
 - hosts: server
+  gather_facts: false
   tasks:
     - file: path=/tmp/bookshelf-deploy state=directory
     - copy: src=../build/libs/bookshelf-web-2.0.jar dest=/tmp/bookshelf-deploy/bookshelf.jar
