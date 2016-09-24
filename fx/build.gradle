@@ -8,7 +8,6 @@ version = '2.0'
 apply 'plugin': 'java'
 
 sourceCompatibility = '1.8'
-targetCompatibility = '1.8'
 
 repositories() {
     mavenCentral()
@@ -25,10 +24,6 @@ dependencies {
 jar {
     baseName = project.name
     version = project.version
-}
-
-task wrapper(type: Wrapper) {
-    gradleVersion = '2.14'
 }
 
 macAppBundle {

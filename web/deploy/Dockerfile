@@ -8,5 +8,6 @@ VOLUME /tmp
 WORKDIR /tmp
 WORKDIR /opt
 ADD bookshelf.jar /opt/bookshelf.jar
+EXPOSE 8080
 ENTRYPOINT ["/usr/local/bin/dumb-init", "--"]
 CMD ["java", "-Xmx128m", "-Xss1m", "-Dfile.encoding=UTF-8", "-Djava.security.egd=file:/dev/./urandom", "-jar", "bookshelf.jar", "--host=mongo"]
