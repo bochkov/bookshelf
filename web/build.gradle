@@ -1,9 +1,9 @@
 buildscript {
     ext {
-        springBootVersion = '1.4.1.RELEASE'
+        springBootVersion = '1.4.2.RELEASE'
     }
     repositories {
-        mavenCentral()
+        jcenter()
     }
     dependencies {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
@@ -11,15 +11,15 @@ buildscript {
 }
 
 group = 'com.sergeybochkov'
-version = '2.0'
+version = '2.0.1'
 
 apply 'plugin': 'java'
-apply 'plugin': 'spring-boot'
+apply 'plugin': 'org.springframework.boot'
 
 sourceCompatibility = '1.8'
 
 repositories() {
-    mavenCentral()
+    jcenter()
 }
 
 dependencies {
