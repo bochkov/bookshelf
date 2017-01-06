@@ -1,9 +1,9 @@
 package com.sergeybochkov.bookshelf.web.controller;
 
-import com.sergeybochkov.bookshelf.web.model.Book;
-import com.sergeybochkov.bookshelf.web.model.BookWrapper;
+import com.sergeybochkov.bookshelf.web.model.Volume;
+import com.sergeybochkov.bookshelf.web.model.VolumeWrapper;
 import com.sergeybochkov.bookshelf.web.model.SearchQuery;
-import com.sergeybochkov.bookshelf.web.service.BookService;
+import com.sergeybochkov.bookshelf.web.service.VolumeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,55 +16,55 @@ import java.util.List;
 @RestController
 public class ApiController {
 
-    private final BookService bookService;
+    private final VolumeService volumeService;
 
     @Autowired
-    public ApiController(BookService bookService) {
-        this.bookService = bookService;
+    public ApiController(VolumeService volumeService) {
+        this.volumeService = volumeService;
     }
 
     @RequestMapping(value = "/api/list/", method = RequestMethod.GET)
-    public List<Book> findAll() {
-        return bookService.findAll();
+    public List<Volume> findAll() {
+        return volumeService.findAll();
     }
 
     @RequestMapping(value = "/api/save/", method = RequestMethod.POST)
-    public Book addBook(@RequestBody Book book) {
-        return bookService.save(book);
+    public Volume addBook(@RequestBody Volume volume) {
+        return volumeService.save(volume);
     }
 
     @RequestMapping(value = "/api/delete/", method = RequestMethod.POST)
-    public void delete(@RequestBody BookWrapper books) {
-        bookService.delete(books.getBooks());
+    public void delete(@RequestBody VolumeWrapper books) {
+        volumeService.delete(books.getVolumes());
     }
 
     @RequestMapping(value = "/api/search/", method = RequestMethod.POST)
-    public List<Book> search(@RequestBody SearchQuery request) {
+    public List<Volume> search(@RequestBody SearchQuery request) {
         if (request.getRequest() == null)
             return null;
 
         if (request.getRequest().startsWith("{")) {
-            List<Book> allBooks = bookService.findAll();
-            allBooks.retainAll(match(request.getRequest()));
-            return allBooks;
+            List<Volume> allVolumes = volumeService.findAll();
+            allVolumes.retainAll(match(request.getRequest()));
+            return allVolumes;
         }
         else
-            return bookService.findOr(request.getRequest());
+            return volumeService.findOr(request.getRequest());
     }
 
-    private List<Book> match(String value) {
+    private List<Volume> match(String value) {
         String v = value.replaceAll("\\{|\\}", "");
-        List<Book> books = new ArrayList<>();
+        List<Volume> volumes = new ArrayList<>();
         for (String token : v.split(";|,")) {
             String[] f = token.split("=");
             if (f.length != 2)
                 continue;
 
-            if (books.isEmpty())
-                books.addAll(bookService.findByField(f[0], f[1]));
+            if (volumes.isEmpty())
+                volumes.addAll(volumeService.findByField(f[0], f[1]));
             else
-                books.retainAll(bookService.findByField(f[0], f[1]));
+                volumes.retainAll(volumeService.findByField(f[0], f[1]));
         }
-        return books;
+        return volumes;
     }
 }

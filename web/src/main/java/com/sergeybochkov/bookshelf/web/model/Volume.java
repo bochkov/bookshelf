@@ -1,9 +1,18 @@
-package com.sergeybochkov.bookshelf.fx;
+package com.sergeybochkov.bookshelf.web.model;
 
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
+import java.io.Serializable;
+import java.util.List;
 import java.util.Objects;
 
-public class Book {
+@Document(collection = Volume.COLLECTION_NAME)
+public class Volume implements Serializable {
 
+    public static final String COLLECTION_NAME = "volumes";
+
+    @Id
     private String id;
     private String name;
     private String author;
@@ -12,6 +21,7 @@ public class Book {
     private String annotation;
     private String isbn;
     private Integer pages;
+    private List<String> books;
 
     public String getId() {
         return id;
@@ -77,33 +87,34 @@ public class Book {
         this.pages = pages;
     }
 
-    public String getTitle() {
-        String title = "";
-        if (getAuthor() != null && !getAuthor().isEmpty())
-            title += getAuthor() + ". ";
-        title += getName();
-        return title;
+    public List<String> getBooks() {
+        return books;
+    }
+
+    public void setBooks(List<String> books) {
+        this.books = books;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof Volume) {
+            Volume volume = (Volume) obj;
+            return Objects.equals(id, volume.getId());
+        }
+        return super.equals(obj);
     }
 
     @Override
     public String toString() {
-        return "Book {" +
+        return "Volume {" +
                 "id='" + id + '\'' +
                 ", name='" + name + '\'' +
                 ", author='" + author + '\'' +
                 ", publisher='" + publisher + '\'' +
                 ", year='" + year + '\'' +
+                ", annotation='" + annotation + '\'' +
                 ", isbn='" + isbn + '\'' +
                 ", pages=" + pages +
                 '}';
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (obj instanceof Book) {
-            Book book = (Book) obj;
-            return Objects.equals(id, book.getId());
-        }
-        return super.equals(obj);
     }
 }

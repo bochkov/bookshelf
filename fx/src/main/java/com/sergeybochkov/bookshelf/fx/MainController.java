@@ -26,7 +26,7 @@ public class MainController {
     private ApplicationProperties appProperties;
 
     @FXML
-    private TableView<Book> bookTable;
+    private TableView<Volume> bookTable;
     @FXML
     private Label countLabel;
     @FXML
@@ -38,7 +38,7 @@ public class MainController {
     @FXML
     private Button editBookButton, deleteBookButton;
 
-    private ObservableList<Book> data = FXCollections.observableArrayList();
+    private ObservableList<Volume> data = FXCollections.observableArrayList();
     private Stage detailStage;
     private Stage settingsStage;
     private Client client;
@@ -52,7 +52,7 @@ public class MainController {
         bind();
 
         countLabel.setText("Томов: " + data.size());
-        data.addListener((ListChangeListener<Book>) c -> countLabel.setText("Томов: " + data.size()));
+        data.addListener((ListChangeListener<Volume>) c -> countLabel.setText("Томов: " + data.size()));
 
         searchField.textProperty().addListener((observable, oldValue, newValue) -> {
             try {
@@ -69,7 +69,7 @@ public class MainController {
             if (event.getButton().equals(MouseButton.PRIMARY) && event.getClickCount() == 2)
                 editBook();
         });
-        bookTable.setRowFactory(tr -> new TableRow<Book>() {
+        bookTable.setRowFactory(tr -> new TableRow<Volume>() {
             private Tooltip tt = new Tooltip();
 
             private void hackTooltipStartTiming(Tooltip tooltip) {
@@ -90,16 +90,16 @@ public class MainController {
             }
 
             @Override
-            public void updateItem(Book book, boolean empty) {
-                super.updateItem(book, empty);
+            public void updateItem(Volume volume, boolean empty) {
+                super.updateItem(volume, empty);
                 setTooltip(null);
-                if (book == null || book.getAnnotation() == null || book.getAnnotation().equals("")) {
+                if (volume == null || volume.getAnnotation() == null || volume.getAnnotation().equals("")) {
                     if (getStyleClass().contains("annotated"))
                         getStyleClass().remove("annotated");
                     if (!getStyleClass().contains("not-annotated"))
                         getStyleClass().add("not-annotated");
                 } else {
-                    tt.setText(book.getAnnotation());
+                    tt.setText(volume.getAnnotation());
                     tt.setWrapText(true);
                     hackTooltipStartTiming(tt);
                     tt.setPrefWidth(400D);
@@ -167,39 +167,39 @@ public class MainController {
 
     @FXML
     public void editBook() {
-        List<Book> selectedRows = bookTable.getSelectionModel().getSelectedItems();
+        List<Volume> selectedRows = bookTable.getSelectionModel().getSelectedItems();
         if (selectedRows.isEmpty())
             return;
 
-        Book selectedBook = selectedRows.get(0);
+        Volume selectedVolume = selectedRows.get(0);
         initDetailStage(DetailController.MODE_EDIT);
-        controllers.detailController().setBook(selectedBook);
+        controllers.detailController().setVolume(selectedVolume);
         controllers.detailController().setCallback(book -> addToTable(client.save(book)));
         detailStage.show();
     }
 
     @FXML
     public void deleteBook() throws IOException {
-        List<Book> selectedBooks = bookTable.getSelectionModel().getSelectedItems();
-        if (selectedBooks.isEmpty())
+        List<Volume> selectedVolumes = bookTable.getSelectionModel().getSelectedItems();
+        if (selectedVolumes.isEmpty())
             return;
 
-        if (confirmDelete(selectedBooks)) {
-            client.delete(selectedBooks);
-            data.removeAll(selectedBooks);
+        if (confirmDelete(selectedVolumes)) {
+            client.delete(selectedVolumes);
+            data.removeAll(selectedVolumes);
         }
     }
 
-    private boolean confirmDelete(List<Book> books) {
+    private boolean confirmDelete(List<Volume> volumes) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Подтверждение");
         alert.setHeaderText(null);
 
-        if (books.size() == 1) {
-            Book book = books.get(0);
-            alert.setContentText("Удалить книгу \"" + book.getTitle() + "\" ?");
+        if (volumes.size() == 1) {
+            Volume volume = volumes.get(0);
+            alert.setContentText("Удалить книгу \"" + volume.getTitle() + "\" ?");
         } else
-            alert.setContentText("Удалить " + books.size() + " книг?");
+            alert.setContentText("Удалить " + volumes.size() + " книг?");
 
         Optional<ButtonType> op = alert.showAndWait();
         return op.isPresent() && op.get() == ButtonType.OK;
@@ -208,18 +208,18 @@ public class MainController {
     @FXML
     public void addBook() {
         initDetailStage(DetailController.MODE_ADD);
-        controllers.detailController().setBook(null);
+        controllers.detailController().setVolume(null);
         controllers.detailController().setCallback(book -> addToTable(client.save(book)));
         detailStage.show();
     }
 
-    public void addToTable(Book book) {
-        if (data.contains(book))
-            data.set(data.indexOf(book), book);
+    public void addToTable(Volume volume) {
+        if (data.contains(volume))
+            data.set(data.indexOf(volume), volume);
         else
-            data.add(book);
+            data.add(volume);
 
-        bookTable.scrollTo(book);
+        bookTable.scrollTo(volume);
     }
 
     private void initDetailStage(int mode) {

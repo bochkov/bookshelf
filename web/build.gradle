@@ -1,6 +1,6 @@
 buildscript {
     ext {
-        springBootVersion = '1.4.2.RELEASE'
+        springBootVersion = '1.4.3.RELEASE'
     }
     repositories {
         jcenter()
@@ -11,7 +11,7 @@ buildscript {
 }
 
 group = 'com.sergeybochkov'
-version = '2.0.1'
+version = '2.1'
 
 apply 'plugin': 'java'
 apply 'plugin': 'org.springframework.boot'
@@ -26,7 +26,7 @@ dependencies {
     compile('org.springframework.boot:spring-boot-starter-web')
     compile('org.springframework.boot:spring-boot-starter-data-mongodb')
 
-    compile('com.lyncode:jtwig-spring:3.1.1')
+    compile('org.jtwig:jtwig-spring-boot-starter:5.63')
 }
 
 jar {
