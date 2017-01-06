@@ -3,11 +3,11 @@
   gather_facts: false
   tasks:
     - file: path=/tmp/bookshelf-deploy state=directory
-    - copy: src=../build/libs/bookshelf-web-2.0.jar dest=/tmp/bookshelf-deploy/bookshelf.jar
+    - copy: src=../build/libs/bookshelf-web-2.1.jar dest=/tmp/bookshelf-deploy/bookshelf.jar
     - copy: src=Dockerfile dest=/tmp/bookshelf-deploy/Dockerfile
 
     - name: stop and delete obsolete containers
-      docker:
+      docker_container:
         image: registry.gitlab.com/bochkovsa/bookshelf
         name: bookshelf
         state: absent
@@ -16,6 +16,7 @@
       docker_image:
         path: /tmp/bookshelf-deploy
         name: registry.gitlab.com/bochkovsa/bookshelf
+        push: yes
 
     - name: clean
       file:

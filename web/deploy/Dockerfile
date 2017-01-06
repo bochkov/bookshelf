@@ -1,4 +1,4 @@
-FROM java:alpine
+FROM openjdk:jre-alpine
 RUN apk update && \
   apk add ca-certificates wget && \
   update-ca-certificates && \
