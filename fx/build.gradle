@@ -3,14 +3,14 @@ plugins {
 }
 
 group = 'com.sergeybochkov'
-version = '2.0'
+version = '2.1'
 
 apply 'plugin': 'java'
 
 sourceCompatibility = '1.8'
 
 repositories() {
-    mavenCentral()
+    jcenter()
 }
 
 dependencies {
@@ -34,5 +34,8 @@ macAppBundle {
     javaProperties.put("apple.laf.useScreenBar", "true")
 }
 
-task dist {dependsOn createAppZip} << {
+task dist {
+    doLast {
+        createAppZip
+    }
 }

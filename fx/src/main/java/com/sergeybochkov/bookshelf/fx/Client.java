@@ -28,34 +28,34 @@ public class Client {
         hostConfiguration = new HttpHost(host, port);
     }
 
-    public List<Book> findAll() throws IOException {
+    public List<Volume> findAll() throws IOException {
         String response = get("/api/list/");
-        Type type = new TypeToken<List<Book>>() {}.getType();
+        Type type = new TypeToken<List<Volume>>() {}.getType();
         return gson.fromJson(response, type);
     }
 
-    public Book save(Book book) throws IOException {
-        String json = gson.toJson(book);
+    public Volume save(Volume volume) throws IOException {
+        String json = gson.toJson(volume);
         String response = post("/api/save/", json);
-        return gson.fromJson(response, Book.class);
+        return gson.fromJson(response, Volume.class);
     }
 
-    public List<Book> find(String query) throws IOException {
+    public List<Volume> find(String query) throws IOException {
         SearchQuery q = new SearchQuery();
         q.setRequest(query);
         String json = gson.toJson(q);
         String response = post("/api/search/", json);
-        Type type = new TypeToken<List<Book>>() {}.getType();
+        Type type = new TypeToken<List<Volume>>() {}.getType();
         return gson.fromJson(response, type);
     }
 
-    public List<Book> delete(List<Book> books) throws IOException {
-        BookWrapper wrapper = new BookWrapper();
-        wrapper.setBooks(books);
+    public List<Volume> delete(List<Volume> volumes) throws IOException {
+        VolumeWrapper wrapper = new VolumeWrapper();
+        wrapper.setVolumes(volumes);
         String json = gson.toJson(wrapper);
 
         String response = post("/api/delete/", json);
-        Type type = new TypeToken<List<Book>>() {}.getType();
+        Type type = new TypeToken<List<Volume>>() {}.getType();
         return gson.fromJson(response, type);
     }
 

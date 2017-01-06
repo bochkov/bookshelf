@@ -7,6 +7,7 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.Arrays;
 
 public class DetailController {
 
@@ -26,13 +27,13 @@ public class DetailController {
     @FXML
     private TextField pagesField;
     @FXML
-    private TextArea annotationArea;
+    private TextArea annotationArea, booksArea;
     @FXML
     private Button okButton;
 
     private Stage thisStage;
-    private BookCallback callback;
-    private Book book;
+    private VolumeCallback callback;
+    private Volume volume;
 
     public void setStage(Stage stage) {
         thisStage = stage;
@@ -44,12 +45,12 @@ public class DetailController {
             thisStage.setTitle(mode == MODE_ADD ? "Добавление записи" : "Редактирование записи");
     }
 
-    public void setBook(Book book) {
-        this.book = book == null ? new Book() : book;
+    public void setVolume(Volume volume) {
+        this.volume = volume == null ? new Volume() : volume;
         updateFields();
     }
 
-    public void setCallback(BookCallback callback) {
+    public void setCallback(VolumeCallback callback) {
         this.callback = callback;
     }
 
@@ -61,35 +62,38 @@ public class DetailController {
     }
 
     public void updateFields() {
-        authorField.setText(book.getAuthor());
-        nameField.setText(book.getName());
-        publisherField.setText(book.getPublisher());
-        yearField.setText(book.getYear());
-        isbnField.setText(book.getIsbn());
-        if (book.getPages() == null)
+        authorField.setText(volume.getAuthor());
+        nameField.setText(volume.getName());
+        publisherField.setText(volume.getPublisher());
+        yearField.setText(volume.getYear());
+        isbnField.setText(volume.getIsbn());
+        if (volume.getPages() == null)
             pagesField.setText("");
         else
-            pagesField.setText(String.valueOf(book.getPages()));
-        annotationArea.setText(book.getAnnotation());
+            pagesField.setText(String.valueOf(volume.getPages()));
+        if (volume.getBooks() != null)
+            booksArea.setText(String.join("\n", volume.getBooks()));
+        annotationArea.setText(volume.getAnnotation());
 
         authorField.requestFocus();
     }
 
     @FXML
     public void saveBook() throws IOException {
-        book.setAuthor(authorField.getText());
-        book.setName(nameField.getText());
-        book.setPublisher(publisherField.getText());
-        book.setYear(yearField.getText());
-        book.setIsbn(isbnField.getText());
+        volume.setAuthor(authorField.getText());
+        volume.setName(nameField.getText());
+        volume.setPublisher(publisherField.getText());
+        volume.setYear(yearField.getText());
+        volume.setIsbn(isbnField.getText());
         if (pagesField.getText().equals(""))
-            book.setPages(null);
+            volume.setPages(null);
         else
-            book.setPages(Integer.parseInt(pagesField.getText()));
-        book.setAnnotation(annotationArea.getText());
+            volume.setPages(Integer.parseInt(pagesField.getText()));
+        volume.setAnnotation(annotationArea.getText());
+        volume.setBooks(Arrays.asList(booksArea.getText().split("\n")));
 
         try {
-            callback.call(book);
+            callback.call(volume);
         }
         catch (Exception ex) {
             ex.printStackTrace();
