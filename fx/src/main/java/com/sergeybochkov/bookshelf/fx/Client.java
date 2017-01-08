@@ -1,9 +1,12 @@
 package com.sergeybochkov.bookshelf.fx;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
+import com.sergeybochkov.bookshelf.fx.model.SearchQuery;
+import com.sergeybochkov.bookshelf.fx.model.Volume;
+import com.sergeybochkov.bookshelf.fx.model.VolumeList;
 import org.apache.commons.io.IOUtils;
-import org.apache.http.HttpEntity;
 import org.apache.http.HttpHost;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
@@ -13,61 +16,56 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.HttpClients;
 
 import java.io.IOException;
-import java.lang.reflect.Type;
 import java.util.List;
 
-public class Client {
+public final class Client {
 
-    private HttpClient client;
-    private HttpHost hostConfiguration;
-
-    private Gson gson = new Gson();
+    private final HttpClient client;
+    private final HttpHost hostConfiguration;
+    private final Gson gson;
 
     public Client(String host, int port) {
         client = HttpClients.createDefault();
         hostConfiguration = new HttpHost(host, port);
-    }
-
-    public List<Volume> findAll() throws IOException {
-        String response = get("/api/list/");
-        Type type = new TypeToken<List<Volume>>() {}.getType();
-        return gson.fromJson(response, type);
-    }
-
-    public Volume save(Volume volume) throws IOException {
-        String json = gson.toJson(volume);
-        String response = post("/api/save/", json);
-        return gson.fromJson(response, Volume.class);
-    }
-
-    public List<Volume> find(String query) throws IOException {
-        SearchQuery q = new SearchQuery();
-        q.setRequest(query);
-        String json = gson.toJson(q);
-        String response = post("/api/search/", json);
-        Type type = new TypeToken<List<Volume>>() {}.getType();
-        return gson.fromJson(response, type);
-    }
-
-    public List<Volume> delete(List<Volume> volumes) throws IOException {
-        VolumeWrapper wrapper = new VolumeWrapper();
-        wrapper.setVolumes(volumes);
-        String json = gson.toJson(wrapper);
-
-        String response = post("/api/delete/", json);
-        Type type = new TypeToken<List<Volume>>() {}.getType();
-        return gson.fromJson(response, type);
+        gson = new GsonBuilder()
+                .create();
     }
 
     private String get(String url) throws IOException {
-        HttpGet method = new HttpGet(url);
-        return client.execute(hostConfiguration, method, httpResponse -> IOUtils.toString(httpResponse.getEntity().getContent(), "UTF-8"));
+        return client.execute(hostConfiguration,
+                new HttpGet(url),
+                httpResponse -> IOUtils.toString(httpResponse.getEntity().getContent(), "UTF-8"));
     }
 
     private String post(String url, String json) throws IOException {
         HttpPost method = new HttpPost(url);
-        HttpEntity entity = new StringEntity(json, ContentType.APPLICATION_JSON);
-        method.setEntity(entity);
-        return client.execute(hostConfiguration, method, httpResponse -> IOUtils.toString(httpResponse.getEntity().getContent(), "UTF-8"));
+        method.setEntity(new StringEntity(json, ContentType.APPLICATION_JSON));
+        return client.execute(hostConfiguration,
+                method,
+                httpResponse -> IOUtils.toString(httpResponse.getEntity().getContent(), "UTF-8"));
+    }
+
+    public List<Volume> findAll() throws IOException {
+        return gson.fromJson(
+                get("/api/list/"),
+                new TypeToken<List<Volume>>() {}.getType());
+    }
+
+    public Volume save(Volume volume) throws IOException {
+        return gson.fromJson(
+                post("/api/save/", gson.toJson(volume)),
+                Volume.class);
+    }
+
+    public List<Volume> find(String query) throws IOException {
+        return gson.fromJson(
+                post("/api/search/", gson.toJson(new SearchQuery(query))),
+                new TypeToken<List<Volume>>() {}.getType());
+    }
+
+    public List<Volume> delete(List<Volume> volumes) throws IOException {
+        return gson.fromJson(
+                post("/api/delete/", gson.toJson(new VolumeList(volumes))),
+                new TypeToken<List<Volume>>() {}.getType());
     }
 }

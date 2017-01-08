@@ -1,9 +1,9 @@
-package com.sergeybochkov.bookshelf.fx;
+package com.sergeybochkov.bookshelf.fx.model;
 
 import java.util.List;
 import java.util.Objects;
 
-public class Volume {
+public final class Volume {
 
     private String id;
     private String name;
@@ -87,33 +87,16 @@ public class Volume {
         this.books = books;
     }
 
-    public String getTitle() {
-        String title = "";
-        if (getAuthor() != null && !getAuthor().isEmpty())
-            title += getAuthor() + ". ";
-        title += getName();
-        return title;
-    }
-
-    @Override
-    public String toString() {
-        return "Volume {" +
-                "id='" + id + '\'' +
-                ", name='" + name + '\'' +
-                ", author='" + author + '\'' +
-                ", publisher='" + publisher + '\'' +
-                ", year='" + year + '\'' +
-                ", isbn='" + isbn + '\'' +
-                ", pages=" + pages +
-                '}';
+    public String title() {
+        return (getAuthor() != null && !getAuthor().isEmpty()) ?
+                String.format("%s. %s", author, name) :
+                name;
     }
 
     @Override
     public boolean equals(Object obj) {
-        if (obj instanceof Volume) {
-            Volume volume = (Volume) obj;
-            return Objects.equals(id, volume.getId());
-        }
-        return super.equals(obj);
+        return (obj instanceof Volume) ?
+                Objects.equals(id, ((Volume) obj).getId()) :
+                super.equals(obj);
     }
 }

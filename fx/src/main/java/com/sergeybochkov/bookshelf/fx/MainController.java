@@ -1,5 +1,6 @@
 package com.sergeybochkov.bookshelf.fx;
 
+import com.sergeybochkov.bookshelf.fx.model.Volume;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.beans.property.SimpleListProperty;
@@ -197,7 +198,7 @@ public class MainController {
 
         if (volumes.size() == 1) {
             Volume volume = volumes.get(0);
-            alert.setContentText("Удалить книгу \"" + volume.getTitle() + "\" ?");
+            alert.setContentText("Удалить книгу \"" + volume.title() + "\" ?");
         } else
             alert.setContentText("Удалить " + volumes.size() + " книг?");
 

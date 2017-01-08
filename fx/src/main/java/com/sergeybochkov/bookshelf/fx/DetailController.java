@@ -1,5 +1,6 @@
 package com.sergeybochkov.bookshelf.fx;
 
+import com.sergeybochkov.bookshelf.fx.model.Volume;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
@@ -67,14 +68,11 @@ public class DetailController {
         publisherField.setText(volume.getPublisher());
         yearField.setText(volume.getYear());
         isbnField.setText(volume.getIsbn());
-        if (volume.getPages() == null)
-            pagesField.setText("");
-        else
-            pagesField.setText(String.valueOf(volume.getPages()));
-        if (volume.getBooks() != null)
-            booksArea.setText(String.join("\n", volume.getBooks()));
+        pagesField.setText(
+                volume.getPages() == null ? "" : String.valueOf(volume.getPages()));
+        booksArea.setText(
+                volume.getBooks() == null ? "" : String.join("\n", volume.getBooks()));
         annotationArea.setText(volume.getAnnotation());
-
         authorField.requestFocus();
     }
 
@@ -85,10 +83,8 @@ public class DetailController {
         volume.setPublisher(publisherField.getText());
         volume.setYear(yearField.getText());
         volume.setIsbn(isbnField.getText());
-        if (pagesField.getText().equals(""))
-            volume.setPages(null);
-        else
-            volume.setPages(Integer.parseInt(pagesField.getText()));
+        volume.setPages(
+                pagesField.getText().equals("") ? null : Integer.parseInt(pagesField.getText()));
         volume.setAnnotation(annotationArea.getText());
         volume.setBooks(Arrays.asList(booksArea.getText().split("\n")));
 
