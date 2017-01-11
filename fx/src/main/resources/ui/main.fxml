@@ -10,10 +10,10 @@
         <Menu text="Файл">
             <MenuItem text="Настройки" onAction="#showSettings" />
             <SeparatorMenuItem />
-            <MenuItem text="Выход" onAction="#exit" />
+            <MenuItem text="Выход" onAction="#close" />
         </Menu>
         <Menu text="Правка">
-            <MenuItem text="Добавить запись" onAction="#addBook" accelerator="meta+D" />
+            <MenuItem text="Добавить запись" onAction="#addBook" fx:id="addBookMenu" accelerator="meta+D" />
             <MenuItem text="Редактировать запись" onAction="#editBook" fx:id="editBookMenu" />
             <MenuItem text="Удалить запись" onAction="#deleteBook" fx:id="deleteBookMenu" />
         </Menu>
@@ -26,7 +26,7 @@
             <padding>
                 <Insets top="10" bottom="10" left="10" right="10" />
             </padding>
-            <Button text="Добавить" onAction="#addBook" />
+            <Button text="Добавить" onAction="#addBook" fx:id="addBookButton" />
             <Button text="Редактировать" onAction="#editBook" fx:id="editBookButton" />
             <Button text="Удалить" onAction="#deleteBook" fx:id="deleteBookButton" />
         </HBox>
@@ -69,7 +69,7 @@
             <Insets top="10" bottom="10" left="10" right="10"/>
         </padding>
 
-        <Button text="Выход" onAction="#exit"/>
+        <Button text="Выход" onAction="#close"/>
     </HBox>
 
     <stylesheets>

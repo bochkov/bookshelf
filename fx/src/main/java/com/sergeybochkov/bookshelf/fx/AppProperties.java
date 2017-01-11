@@ -6,29 +6,28 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Properties;
 
-public class AppProperties extends Properties {
+public final class AppProperties extends Properties {
 
     public static final String HOST = "host";
     public static final String PORT = "port";
 
-    private File dir = new File(System.getProperty("user.home") + File.separator + ".bookshelf");
-    private File config = new File(dir, "bookshelf.properties");
+    private static final File CONFIG_DIR = new File(System.getProperty("user.home"), ".bookshelf");
+    private static final File CONFIG_FILE = new File(CONFIG_DIR, "bookshelf.properties");
 
     public void load() {
-        if (!dir.exists() && !dir.mkdirs()) {
-            System.out.println("Ошибка создания каталога свойств " + dir.getAbsolutePath());
-            return;
+        if (CONFIG_DIR.exists() || CONFIG_DIR.mkdirs()) {
+            try (FileInputStream in = new FileInputStream(CONFIG_FILE)) {
+                load(in);
+            } catch (IOException ex) {
+                //
+            }
         }
-        try (FileInputStream in = new FileInputStream(config)) {
-            load(in);
-        }
-        catch (IOException ex) {
-            //
-        }
+        else
+            System.out.println("Ошибка создания каталога свойств " + CONFIG_DIR.getAbsolutePath());
     }
 
     public void save() {
-        try (FileOutputStream out = new FileOutputStream(config)) {
+        try (FileOutputStream out = new FileOutputStream(CONFIG_FILE)) {
             store(out, "Bookshelf properties");
         }
         catch (IOException ex) {
@@ -36,7 +35,7 @@ public class AppProperties extends Properties {
         }
     }
 
-    public String getHost() {
+    public String host() {
         return getProperty(HOST);
     }
 
@@ -44,7 +43,7 @@ public class AppProperties extends Properties {
         setProperty(HOST, host);
     }
 
-    public int getPort() {
+    public int port() {
         return Integer.parseInt(getProperty(PORT, "0"));
     }
 

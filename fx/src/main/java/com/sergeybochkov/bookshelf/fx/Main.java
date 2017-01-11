@@ -11,6 +11,7 @@ import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
 import javafx.scene.input.MouseButton;
 import javafx.stage.Stage;
 
@@ -36,12 +37,14 @@ public final class Main implements InitTarget {
     @FXML
     private TextField searchField;
     @FXML
-    private MenuItem editBookMenu, deleteBookMenu;
+    private MenuItem addBookMenu, editBookMenu, deleteBookMenu;
     @FXML
-    private Button editBookButton, deleteBookButton;
+    private Button addBookButton, editBookButton, deleteBookButton;
 
     public Main(Stage stage) {
         this.stage = stage;
+        this.stage.setTitle("BookShelf");
+        this.stage.getIcons().add(new Image(getClass().getResourceAsStream("/ui/logo.png")));
     }
 
     public Main withProperties(AppProperties appProperties) {
@@ -51,8 +54,18 @@ public final class Main implements InitTarget {
 
     @Override
     public void init() {
-        configureTable();
-        bind();
+        bookTable.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+        bookTable.setOnMouseClicked(event -> {
+            if (event.getButton().equals(MouseButton.PRIMARY) && event.getClickCount() == 2)
+                editBook();
+        });
+        bookTable.setRowFactory(new TableTooltip());
+        ObservableBooleanValue isSelected = bookTable.getSelectionModel().selectedIndexProperty().isEqualTo(-1);
+        editBookButton.disableProperty().bind(isSelected);
+        deleteBookButton.disableProperty().bind(isSelected);
+        editBookMenu.disableProperty().bind(isSelected);
+        deleteBookMenu.disableProperty().bind(isSelected);
+        bookTable.itemsProperty().bind(new SimpleListProperty<>(data));
         countLabel.setText("Томов: " + data.size());
         data.addListener((ListChangeListener<Volume>) c -> countLabel.setText("Томов: " + data.size()));
         searchField.textProperty().addListener((observable, oldValue, newValue) -> {
@@ -64,40 +77,13 @@ public final class Main implements InitTarget {
         });
     }
 
-    private void configureTable() {
-        bookTable.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-        bookTable.setOnMouseClicked(event -> {
-            if (event.getButton().equals(MouseButton.PRIMARY) && event.getClickCount() == 2)
-                editBook();
-        });
-        bookTable.setRowFactory(new TableTooltip());
-    }
-
-    private void bind() {
-        ObservableBooleanValue isSelected = bookTable.getSelectionModel().selectedIndexProperty().isEqualTo(-1);
-        editBookButton.disableProperty().bind(isSelected);
-        deleteBookButton.disableProperty().bind(isSelected);
-        editBookMenu.disableProperty().bind(isSelected);
-        deleteBookMenu.disableProperty().bind(isSelected);
-        bookTable.itemsProperty().bind(new SimpleListProperty<>(data));
-    }
-
     public void start() {
-        String host = appProperties.getHost();
-        int port = appProperties.getPort();
-        if (host != null && !host.isEmpty() && port != 0) {
-            client = new Client(host, port);
-            try {
-                data.setAll(client.findAll());
-            } catch (Exception ex) {
-                Alert alert = new Alert(Alert.AlertType.ERROR, "Нет соединения с сервером. Проверьте настройки");
-                alert.showAndWait();
-            }
-        }
-        else {
+        client = new Client(appProperties.host(), appProperties.port());
+        try {
+            data.setAll(client.findAll());
+        } catch (Exception ex) {
             Alert alert = new Alert(Alert.AlertType.ERROR, "Нет соединения с сервером. Проверьте настройки");
             alert.showAndWait();
-            showSettings();
         }
     }
 
@@ -115,11 +101,6 @@ public final class Main implements InitTarget {
         views.get("about")
                 .target(About.class)
                 .show();
-    }
-
-    @FXML
-    public void exit() {
-        System.exit(0);
     }
 
     @FXML
@@ -189,6 +170,7 @@ public final class Main implements InitTarget {
         start();
     }
 
+    @FXML
     @Override
     public void close() {
         stage.close();

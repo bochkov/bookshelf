@@ -21,8 +21,8 @@ public final class Settings implements Target, CallbackTarget {
 
     public Settings withProperties(AppProperties appProperties) {
         this.appProperties = appProperties;
-        this.hostField.setText(appProperties.getHost());
-        this.portField.setText(String.valueOf(appProperties.getPort()));
+        this.hostField.setText(appProperties.host());
+        this.portField.setText(String.valueOf(appProperties.port()));
         return this;
     }
 
