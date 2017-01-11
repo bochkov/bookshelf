@@ -1,5 +1,7 @@
 package com.sergeybochkov.bookshelf.fx;
 
+import com.sergeybochkov.bookshelf.fx.fxutil.Target;
+import com.sergeybochkov.bookshelf.fx.fxutil.VolumeCallback;
 import com.sergeybochkov.bookshelf.fx.model.Volume;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -10,56 +12,28 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.util.Arrays;
 
-public class DetailController {
-
-    public static final int MODE_ADD = 0;
-    public static final int MODE_EDIT = 1;
+public final class Detail implements Target, VolumeCallback {
 
     @FXML
-    private TextField authorField;
-    @FXML
-    private TextField nameField;
-    @FXML
-    private TextField publisherField;
-    @FXML
-    private TextField yearField;
-    @FXML
-    private TextField isbnField;
-    @FXML
-    private TextField pagesField;
+    private TextField authorField, nameField, publisherField, yearField, isbnField, pagesField;
     @FXML
     private TextArea annotationArea, booksArea;
     @FXML
     private Button okButton;
 
-    private Stage thisStage;
-    private VolumeCallback callback;
+    private final Stage stage;
+
+    private VolumeCallback.Callback volumeCallback = (vol) -> {};
     private Volume volume;
 
-    public void setStage(Stage stage) {
-        thisStage = stage;
+    public Detail(Stage stage) {
+        this.stage = stage;
     }
 
-    public void setMode(int mode) {
-        okButton.setText(mode == MODE_ADD ? "Добавить" : "Сохранить");
-        if (thisStage != null)
-            thisStage.setTitle(mode == MODE_ADD ? "Добавление записи" : "Редактирование записи");
-    }
-
-    public void setVolume(Volume volume) {
-        this.volume = volume == null ? new Volume() : volume;
+    public Detail withVolume(Volume volume) {
+        this.volume = volume;
         updateFields();
-    }
-
-    public void setCallback(VolumeCallback callback) {
-        this.callback = callback;
-    }
-
-    @FXML
-    public void exit() {
-        this.callback = null;
-        if (thisStage != null)
-            thisStage.close();
+        return this;
     }
 
     public void updateFields() {
@@ -87,13 +61,26 @@ public class DetailController {
                 pagesField.getText().equals("") ? null : Integer.parseInt(pagesField.getText()));
         volume.setAnnotation(annotationArea.getText());
         volume.setBooks(Arrays.asList(booksArea.getText().split("\n")));
+        volumeCallback.call(volume);
+        stage.close();
+    }
 
-        try {
-            callback.call(volume);
-        }
-        catch (Exception ex) {
-            ex.printStackTrace();
-        }
-        exit();
+    @Override
+    public void show() {
+        okButton.setText(volume.getId() == null ? "Добавить" : "Сохранить");
+        stage.setTitle(volume.getId() == null ? "Добавление записи" : "Редактирование записи");
+        stage.show();
+    }
+
+    @FXML
+    @Override
+    public void close() {
+        stage.close();
+    }
+
+    @Override
+    public Target callback(VolumeCallback.Callback volumeCallback) {
+        this.volumeCallback = volumeCallback;
+        return this;
     }
 }

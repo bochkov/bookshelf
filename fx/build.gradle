@@ -28,8 +28,8 @@ jar {
 
 macAppBundle {
     appName = "BookShelf"
-    bundleIdentifier = "com.sergeybochkov.bookshelf.fx.Application"
-    mainClassName = "com.sergeybochkov.bookshelf.fx.Application"
+    bundleIdentifier = "com.sergeybochkov.bookshelf.fx.App"
+    mainClassName = "com.sergeybochkov.bookshelf.fx.App"
     icon = "src/main/resources/ui/logo.icns"
     javaProperties.put("apple.laf.useScreenBar", "true")
 }

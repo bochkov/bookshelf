@@ -6,7 +6,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Properties;
 
-public class ApplicationProperties extends Properties {
+public class AppProperties extends Properties {
 
     public static final String HOST = "host";
     public static final String PORT = "port";

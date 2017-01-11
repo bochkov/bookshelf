@@ -5,21 +5,20 @@
 <?import java.net.URL?>
 <?import javafx.scene.control.cell.PropertyValueFactory?>
 <VBox xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="com.sergeybochkov.bookshelf.fx.MainController"
       prefWidth="1200" prefHeight="700">
-    <MenuBar fx:id="menuBar">
+    <MenuBar useSystemMenuBar="true">
         <Menu text="Файл">
             <MenuItem text="Настройки" onAction="#showSettings" />
             <SeparatorMenuItem />
             <MenuItem text="Выход" onAction="#exit" />
         </Menu>
         <Menu text="Правка">
-            <MenuItem text="Добавить запись" onAction="#addBook" mnemonicParsing="true" accelerator="meta+D" />
-            <MenuItem text="Редактировать запись" onAction="#editBook" fx:id="editBookMenuItem" />
-            <MenuItem text="Удалить запись" onAction="#deleteBook" fx:id="deleteBookMenuItem" />
+            <MenuItem text="Добавить запись" onAction="#addBook" accelerator="meta+D" />
+            <MenuItem text="Редактировать запись" onAction="#editBook" fx:id="editBookMenu" />
+            <MenuItem text="Удалить запись" onAction="#deleteBook" fx:id="deleteBookMenu" />
         </Menu>
         <Menu text="Помощь">
-            <MenuItem text="О программе" />
+            <MenuItem text="О программе" onAction="#showAbout" />
         </Menu>
     </MenuBar>
     <HBox>
