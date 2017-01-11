@@ -4,8 +4,12 @@ import com.sergeybochkov.bookshelf.fx.fxutil.InitTarget;
 import com.sergeybochkov.bookshelf.fx.fxutil.View;
 import com.sergeybochkov.bookshelf.fx.graphic.TableTooltip;
 import com.sergeybochkov.bookshelf.fx.model.Volume;
+import javafx.beans.binding.Bindings;
+import javafx.beans.binding.BooleanBinding;
 import javafx.beans.property.SimpleListProperty;
+import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableBooleanValue;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
@@ -78,12 +82,19 @@ public final class Main implements InitTarget {
     }
 
     public void start() {
+        data.clear();
         client = new Client(appProperties.host(), appProperties.port());
+        client.connectedProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue)
+                data.clear();
+        });
+        addBookMenu.disableProperty().bind(Bindings.not(client.connectedProperty()));
+        addBookButton.disableProperty().bind(Bindings.not(client.connectedProperty()));
         try {
             data.setAll(client.findAll());
         } catch (Exception ex) {
-            Alert alert = new Alert(Alert.AlertType.ERROR, "Нет соединения с сервером. Проверьте настройки");
-            alert.showAndWait();
+            new Alert(Alert.AlertType.ERROR, "Нет соединения с сервером. Проверьте настройки")
+                    .showAndWait();
         }
     }
 
@@ -139,13 +150,9 @@ public final class Main implements InitTarget {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Подтверждение");
         alert.setHeaderText(null);
-
-        if (volumes.size() == 1) {
-            Volume volume = volumes.get(0);
-            alert.setContentText("Удалить книгу \"" + volume.title() + "\" ?");
-        } else
-            alert.setContentText("Удалить " + volumes.size() + " книг?");
-
+        alert.setContentText(volumes.size() > 0 ?
+                String.format("Удалить книгу \"%s\" ?", volumes.get(0).title()) :
+                String.format("Удалить %s книг?", volumes.size()));
         Optional<ButtonType> op = alert.showAndWait();
         return op.isPresent() && op.get() == ButtonType.OK;
     }

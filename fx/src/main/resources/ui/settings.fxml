@@ -4,7 +4,7 @@
 <?import javafx.scene.layout.*?>
 <?import java.net.URL?>
 <VBox xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
-    <GridPane alignment="CENTER_LEFT" hgap="10" vgap="10">
+    <GridPane alignment="CENTER_LEFT" hgap="10" vgap="10" prefWidth="400">
         <padding>
             <Insets top="10" bottom="10" left="10" right="10" />
         </padding>

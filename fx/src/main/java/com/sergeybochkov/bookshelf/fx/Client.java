@@ -6,6 +6,9 @@ import com.google.gson.reflect.TypeToken;
 import com.sergeybochkov.bookshelf.fx.model.SearchQuery;
 import com.sergeybochkov.bookshelf.fx.model.Volume;
 import com.sergeybochkov.bookshelf.fx.model.VolumeList;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.value.ObservableBooleanValue;
 import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpHost;
 import org.apache.http.client.HttpClient;
@@ -23,26 +26,48 @@ public final class Client {
     private final HttpClient client;
     private final HttpHost hostConfiguration;
     private final Gson gson;
+    private final BooleanProperty connectedProperty;
 
     public Client(String host, int port) {
+        connectedProperty = new SimpleBooleanProperty(false);
         client = HttpClients.createDefault();
         hostConfiguration = new HttpHost(host, port);
         gson = new GsonBuilder()
                 .create();
     }
 
+    public ObservableBooleanValue connectedProperty() {
+        return connectedProperty;
+    }
+
     private String get(String url) throws IOException {
-        return client.execute(hostConfiguration,
-                new HttpGet(url),
-                httpResponse -> IOUtils.toString(httpResponse.getEntity().getContent(), "UTF-8"));
+        try {
+            String answer = client.execute(hostConfiguration,
+                    new HttpGet(url),
+                    httpResponse -> IOUtils.toString(httpResponse.getEntity().getContent(), "UTF-8"));
+            connectedProperty.setValue(true);
+            return answer;
+        }
+        catch (IOException ex) {
+            connectedProperty.setValue(false);
+            throw ex;
+        }
     }
 
     private String post(String url, String json) throws IOException {
-        HttpPost method = new HttpPost(url);
-        method.setEntity(new StringEntity(json, ContentType.APPLICATION_JSON));
-        return client.execute(hostConfiguration,
-                method,
-                httpResponse -> IOUtils.toString(httpResponse.getEntity().getContent(), "UTF-8"));
+        try {
+            HttpPost method = new HttpPost(url);
+            method.setEntity(new StringEntity(json, ContentType.APPLICATION_JSON));
+            String answer = client.execute(hostConfiguration,
+                    method,
+                    httpResponse -> IOUtils.toString(httpResponse.getEntity().getContent(), "UTF-8"));
+            connectedProperty.setValue(true);
+            return answer;
+        }
+        catch (IOException ex) {
+            connectedProperty.setValue(false);
+            throw ex;
+        }
     }
 
     public List<Volume> findAll() throws IOException {
