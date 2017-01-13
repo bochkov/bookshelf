@@ -13,8 +13,6 @@ import java.lang.reflect.Field;
 
 public final class TableTooltip implements Callback<TableView<Volume>, TableRow<Volume>> {
 
-    private final Tooltip tt = new Tooltip();
-
     private void hackTooltipStartTiming(Tooltip tooltip) {
         try {
             Field fieldBehavior = tooltip.getClass().getDeclaredField("BEHAVIOR");
@@ -34,11 +32,11 @@ public final class TableTooltip implements Callback<TableView<Volume>, TableRow<
 
     @Override
     public TableRow<Volume> call(TableView<Volume> param) {
+        Tooltip tt = new Tooltip();
         return new TableRow<Volume>() {
             @Override
             protected void updateItem(Volume volume, boolean empty) {
                 super.updateItem(volume, empty);
-                setTooltip(null);
                 if (volume == null || volume.getAnnotation() == null || volume.getAnnotation().equals("")) {
                     if (getStyleClass().contains("annotated"))
                         getStyleClass().remove("annotated");

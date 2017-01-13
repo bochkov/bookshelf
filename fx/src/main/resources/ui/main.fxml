@@ -4,7 +4,7 @@
 <?import javafx.scene.layout.*?>
 <?import java.net.URL?>
 <?import javafx.scene.control.cell.PropertyValueFactory?>
-<VBox xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+<VBox xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.sergeybochkov.bookshelf.fx.Main"
       prefWidth="1200" prefHeight="700">
     <MenuBar useSystemMenuBar="true">
         <Menu text="Файл">
@@ -37,14 +37,15 @@
             <padding>
                 <Insets top="10" bottom="10" left="10" right="10"/>
             </padding>
-
             <Label style="-fx-font-weight: bold" fx:id="countLabel" textAlignment="RIGHT" />
             <TextField fx:id="searchField" promptText="Поиск по библиотеке" prefColumnCount="25" />
         </HBox>
     </HBox>
 
-    <TableView VBox.vgrow="ALWAYS" fx:id="bookTable">
-        <columnResizePolicy><TableView fx:constant="CONSTRAINED_RESIZE_POLICY" /></columnResizePolicy>
+    <TableView VBox.vgrow="ALWAYS" fx:id="volumeTable">
+        <columnResizePolicy>
+            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+        </columnResizePolicy>
         <columns>
             <TableColumn text="Автор">
                 <cellValueFactory>
@@ -68,7 +69,6 @@
         <padding>
             <Insets top="10" bottom="10" left="10" right="10"/>
         </padding>
-
         <Button text="Выход" onAction="#close"/>
     </HBox>
 

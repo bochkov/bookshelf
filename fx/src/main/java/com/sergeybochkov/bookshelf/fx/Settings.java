@@ -6,47 +6,44 @@ import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
+import java.util.Properties;
+
 public final class Settings implements Target, CallbackTarget {
 
     private final Stage stage;
-    private AppProperties appProperties;
-    private CallbackTarget.Callback callback = () -> {};
+    private final Properties properties;
 
     @FXML
     private TextField hostField, portField;
+    private CallbackTarget.Callback callback;
 
-    public Settings(Stage stage) {
+    public Settings(Stage stage, Properties properties) {
         this.stage = stage;
-    }
-
-    public Settings withProperties(AppProperties appProperties) {
-        this.appProperties = appProperties;
-        this.hostField.setText(appProperties.host());
-        this.portField.setText(String.valueOf(appProperties.port()));
-        return this;
+        this.properties = properties;
     }
 
     @Override
-    public void show() {
-        stage.show();
-    }
-
-    @FXML
-    public void close() {
-        stage.close();
-    }
-
-    @FXML
-    public void save() {
-        appProperties.setHost(hostField.getText());
-        appProperties.setPort(Integer.parseInt(portField.getText()));
-        callback.call();
-        stage.close();
+    public void init() {
+        this.hostField.setText(properties.getProperty(AppProperties.HOST));
+        this.portField.setText(properties.getProperty(AppProperties.PORT));
     }
 
     @Override
     public Target callback(Callback callback) {
         this.callback = callback;
         return this;
+    }
+
+    @FXML
+    public void save() {
+        properties.setProperty(AppProperties.HOST, hostField.getText());
+        properties.setProperty(AppProperties.PORT, portField.getText());
+        callback.call();
+        stage.close();
+    }
+
+    @FXML
+    public void close() {
+        stage.close();
     }
 }
