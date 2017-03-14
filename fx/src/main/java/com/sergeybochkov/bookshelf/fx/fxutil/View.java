@@ -1,5 +1,6 @@
 package com.sergeybochkov.bookshelf.fx.fxutil;
 
+import com.sergeybochkov.bookshelf.fx.AppProperties;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Modality;
@@ -7,7 +8,6 @@ import javafx.stage.Stage;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Properties;
 
 public final class View {
 
@@ -15,13 +15,13 @@ public final class View {
     private final Target target;
     private final Map<String, View> views = new HashMap<>();
 
-    public View(String location, Properties properties) throws Exception {
+    public View(String location, AppProperties properties) throws Exception {
         stage = new Stage();
         FXMLLoader loader = new FXMLLoader(getClass().getResource(location));
         loader.setControllerFactory(clz -> {
             try {
                 return clz
-                        .getConstructor(Stage.class, Properties.class)
+                        .getConstructor(Stage.class, AppProperties.class)
                         .newInstance(stage, properties);
             }
             catch (Exception ex) {

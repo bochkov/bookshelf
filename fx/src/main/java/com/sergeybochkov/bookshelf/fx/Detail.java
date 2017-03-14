@@ -1,7 +1,7 @@
 package com.sergeybochkov.bookshelf.fx;
 
-import com.sergeybochkov.bookshelf.fx.fxutil.Target;
 import com.sergeybochkov.bookshelf.fx.fxutil.ResultCallback;
+import com.sergeybochkov.bookshelf.fx.fxutil.Target;
 import com.sergeybochkov.bookshelf.fx.model.Volume;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -11,12 +11,11 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.Properties;
 
 public final class Detail implements Target, ResultCallback {
 
     private final Stage stage;
-    private final Properties properties;
+    private final AppProperties properties;
 
     @FXML
     private TextField authorField, nameField, publisherField, yearField, isbnField, pagesField;
@@ -28,7 +27,7 @@ public final class Detail implements Target, ResultCallback {
     private Volume volume;
     private ResultCallback.Callback callback;
 
-    public Detail(Stage stage, Properties properties) {
+    public Detail(Stage stage, AppProperties properties) {
         this.stage = stage;
         this.properties = properties;
     }

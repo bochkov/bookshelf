@@ -6,18 +6,16 @@ import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
-import java.util.Properties;
-
 public final class Settings implements Target, CallbackTarget {
 
     private final Stage stage;
-    private final Properties properties;
+    private final AppProperties properties;
 
     @FXML
     private TextField hostField, portField;
     private CallbackTarget.Callback callback;
 
-    public Settings(Stage stage, Properties properties) {
+    public Settings(Stage stage, AppProperties properties) {
         this.stage = stage;
         this.properties = properties;
     }

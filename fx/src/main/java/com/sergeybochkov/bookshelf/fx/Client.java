@@ -24,16 +24,17 @@ import java.util.List;
 public final class Client {
 
     private final HttpClient client;
-    private final HttpHost hostConfiguration;
     private final Gson gson;
     private final BooleanProperty connectedProperty;
+    private final String host;
+    private final int port;
 
     public Client(String host, int port) {
         connectedProperty = new SimpleBooleanProperty(false);
         client = HttpClients.createDefault();
-        hostConfiguration = new HttpHost(host, port);
-        gson = new GsonBuilder()
-                .create();
+        gson = new GsonBuilder().create();
+        this.host = host;
+        this.port = port;
     }
 
     public ObservableBooleanValue connectedProperty() {
@@ -42,7 +43,7 @@ public final class Client {
 
     private String get(String url) throws IOException {
         try {
-            String answer = client.execute(hostConfiguration,
+            String answer = client.execute(new HttpHost(host, port),
                     new HttpGet(url),
                     httpResponse -> IOUtils.toString(httpResponse.getEntity().getContent(), "UTF-8"));
             connectedProperty.setValue(true);
@@ -58,7 +59,7 @@ public final class Client {
         try {
             HttpPost method = new HttpPost(url);
             method.setEntity(new StringEntity(json, ContentType.APPLICATION_JSON));
-            String answer = client.execute(hostConfiguration,
+            String answer = client.execute(new HttpHost(host, port),
                     method,
                     httpResponse -> IOUtils.toString(httpResponse.getEntity().getContent(), "UTF-8"));
             connectedProperty.setValue(true);

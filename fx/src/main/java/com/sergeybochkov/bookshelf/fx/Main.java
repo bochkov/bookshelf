@@ -17,12 +17,15 @@ import javafx.scene.input.MouseButton;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 public final class Main implements MainTarget {
 
     private final Stage stage;
-    private final Properties properties;
+    private final AppProperties properties;
     private final Map<String, View> views = new HashMap<>();
 
     @FXML
@@ -39,7 +42,7 @@ public final class Main implements MainTarget {
     private Client client;
     private ObservableList<Volume> volumes = FXCollections.observableArrayList();
 
-    public Main(Stage stage, Properties properties) {
+    public Main(Stage stage, AppProperties properties) {
         this.stage = stage;
         this.properties = properties;
         this.stage.setTitle("BookShelf");
@@ -81,8 +84,8 @@ public final class Main implements MainTarget {
     public void start() {
         volumes.clear();
         client = new Client(
-                properties.getProperty(AppProperties.HOST),
-                Integer.parseInt(properties.getProperty(AppProperties.PORT)));
+                properties.host(),
+                properties.port());
         client.connectedProperty().addListener((observable, oldValue, newValue) -> {
             if (!newValue)
                 volumes.clear();
