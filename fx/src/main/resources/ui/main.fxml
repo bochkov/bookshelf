@@ -39,6 +39,7 @@
             </padding>
             <Label style="-fx-font-weight: bold" fx:id="countLabel" textAlignment="RIGHT" />
             <TextField fx:id="searchField" promptText="Поиск по библиотеке" prefColumnCount="25" />
+            <Button text="Поиск" onAction="#search" />
         </HBox>
     </HBox>
 

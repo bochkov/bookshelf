@@ -65,13 +65,6 @@ public final class Main implements MainTarget {
         volumeTable.itemsProperty().bind(new SimpleListProperty<>(volumes));
         countLabel.setText("Томов: " + volumes.size());
         volumes.addListener((ListChangeListener<Volume>) c -> countLabel.setText("Томов: " + volumes.size()));
-        searchField.textProperty().addListener((observable, oldValue, newValue) -> {
-            try {
-                volumes.setAll(client.find(newValue));
-            } catch (IOException e) {
-                //e.printStackTrace();
-            }
-        });
     }
 
     @Override
@@ -141,6 +134,18 @@ public final class Main implements MainTarget {
                 client.delete(selectedVolumes);
                 volumes.removeAll(selectedVolumes);
             }
+        }
+    }
+
+    @FXML
+    public void search() {
+        try {
+            volumes.setAll(
+                    client.find(
+                            searchField.getText()));
+        } catch (IOException ex) {
+            new Alert(Alert.AlertType.ERROR, ex.getMessage())
+                    .showAndWait();
         }
     }
 
