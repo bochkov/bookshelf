@@ -1,7 +1,9 @@
 .idea/
 *.iml
 web/build/
+web/out/
 fx/build/
+fx/out/
 .gradle/
 *.log
 build/
