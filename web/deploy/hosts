@@ -2,7 +2,7 @@
 127.0.0.1 ansible_connection=local
 
 [nyc]
-nyc.sergeybochkov.com ansible_connection=ssh ansible_ssh_user=root ansible_ssh_private_key_file=~/Dropbox/secure/ssh/root.do.nyc
+nyc.sergeybochkov.com ansible_connection=ssh ansible_ssh_user=root ansible_ssh_private_key_file=~/.ssh/root.do.nyc
 
 [server]
-192.168.55.5 ansible_connection=ssh ansible_ssh_user=root ansible_ssh_private_key_file=~/Dropbox/secure/ssh/jupiter.root
+192.168.55.5 ansible_connection=ssh ansible_ssh_user=root ansible_ssh_private_key_file=~/.ssh/jupiter.root
