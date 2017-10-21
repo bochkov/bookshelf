@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.control.cell.PropertyValueFactory?>
 <?import javafx.scene.layout.*?>
 <?import java.net.URL?>
-<?import javafx.scene.control.cell.PropertyValueFactory?>
 <VBox xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.sergeybochkov.bookshelf.fx.Main"
       prefWidth="1200" prefHeight="700">
     <MenuBar useSystemMenuBar="true">
@@ -40,25 +40,26 @@
             <Label style="-fx-font-weight: bold" fx:id="countLabel" textAlignment="RIGHT" />
             <TextField fx:id="searchField" promptText="Поиск по библиотеке" prefColumnCount="25" />
             <Button text="Поиск" onAction="#search" />
+            <Button text="Очистить" onAction="#clearSearch" />
         </HBox>
     </HBox>
 
     <TableView VBox.vgrow="ALWAYS" fx:id="volumeTable">
         <columnResizePolicy>
-            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+            <TableView fx:constant="UNCONSTRAINED_RESIZE_POLICY" />
         </columnResizePolicy>
         <columns>
-            <TableColumn text="Автор">
+            <TableColumn text="Автор" prefWidth="150">
                 <cellValueFactory>
                     <PropertyValueFactory property="author"/>
                 </cellValueFactory>
             </TableColumn>
-            <TableColumn text="Название">
+            <TableColumn text="Название" prefWidth="800">
                 <cellValueFactory>
                     <PropertyValueFactory property="name"/>
                 </cellValueFactory>
             </TableColumn>
-            <TableColumn text="Год издания">
+            <TableColumn text="Год издания" prefWidth="100">
                 <cellValueFactory>
                     <PropertyValueFactory property="year"/>
                 </cellValueFactory>

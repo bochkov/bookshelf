@@ -149,6 +149,18 @@ public final class Main implements MainTarget {
         }
     }
 
+    @FXML
+    void clearSearch() {
+        searchField.setText("");
+        try {
+            volumes.setAll(
+                    client.findAll());
+        } catch (IOException ex) {
+            new Alert(Alert.AlertType.ERROR, ex.getMessage())
+                    .showAndWait();
+        }
+    }
+
     private boolean confirmDelete(List<Volume> volumes) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Подтверждение");
