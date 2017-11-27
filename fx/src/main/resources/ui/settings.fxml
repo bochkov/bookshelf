@@ -3,7 +3,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import java.net.URL?>
-<VBox xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.sergeybochkov.bookshelf.fx.Settings">
+<VBox xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.sb.bookshelf.fx.CtSettings">
     <GridPane alignment="CENTER_LEFT" hgap="10" vgap="10" prefWidth="400">
         <padding>
             <Insets top="10" bottom="10" left="10" right="10" />
@@ -14,6 +14,12 @@
 
         <Label text="Порт" GridPane.rowIndex="1" GridPane.columnIndex="0" />
         <TextField fx:id="portField" GridPane.rowIndex="1" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" />
+
+        <Label text="Имя пользователя" GridPane.rowIndex="2" GridPane.columnIndex="0" />
+        <TextField fx:id="userField" GridPane.rowIndex="2" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" />
+
+        <Label text="Пароль" GridPane.rowIndex="3" GridPane.columnIndex="0" />
+        <PasswordField fx:id="passField" GridPane.rowIndex="3" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" />
     </GridPane>
 
     <HBox alignment="center" spacing="15">

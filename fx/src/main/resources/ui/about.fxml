@@ -3,7 +3,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import java.net.URL?>
-<VBox xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.sergeybochkov.bookshelf.fx.About">
+<VBox xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.sb.bookshelf.fx.CtAbout">
 
     <GridPane GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS"
               GridPane.rowIndex="0" GridPane.columnIndex="0"

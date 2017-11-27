@@ -3,7 +3,7 @@
   gather_facts: false
   tasks:
     - file: path=/tmp/bookshelf-deploy state=directory
-    - copy: src=../build/libs/bookshelf-web-2.1.jar dest=/tmp/bookshelf-deploy/bookshelf.jar
+    - copy: src=../build/libs/bookshelf-web-2.2.jar dest=/tmp/bookshelf-deploy/bookshelf.jar
     - copy: src=Dockerfile dest=/tmp/bookshelf-deploy/Dockerfile
 
     - name: stop and delete obsolete containers

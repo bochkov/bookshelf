@@ -15,8 +15,17 @@
         <div class="navbar-header">
             <a class="navbar-brand" href="/">BookShelf</a>
         </div>
-        <div class="navbar-collapse">
-            <form class="navbar-form-alt" role="search">
+        <div>
+            {% if firstRun %}
+            <form id="userForm" class="navbar-form navbar-right">
+                <div class="form-group">
+                    <input type="search" class="form-control" placeholder="User" ng-model="user">
+                    <input type="password" class="form-control" placeholder="Password" ng-model="pass">
+                    <button type="submit" class="btn btn-default" ng-click="register(user, pass)">Create user</button>
+                </div>
+            </form>
+            {% endif %}
+            <form id="searchForm" class="navbar-form navbar-left" role="search">
                 <div class="form-group">
                     <div class="input-group">
                         <input type="search" class="form-control" placeholder="Search" ng-model="request">
@@ -46,8 +55,6 @@
     </table>
 </div>
 
-<script src="/static/js/jquery-2.1.4.min.js"></script>
-<script src="/static/js/bootstrap.min.js"></script>
 <script src="/static/js/angular.min.js"></script>
 <script src="/static/js/script.js"></script>
 

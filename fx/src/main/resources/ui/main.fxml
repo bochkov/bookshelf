@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<?import com.sb.bookshelf.fx.AnnotatedRow?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.control.cell.PropertyValueFactory?>
 <?import javafx.scene.layout.*?>
 <?import java.net.URL?>
-<VBox xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.sergeybochkov.bookshelf.fx.Main"
+<VBox xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.sb.bookshelf.fx.CtMain"
       prefWidth="1200" prefHeight="700">
     <MenuBar useSystemMenuBar="true">
         <Menu text="Файл">
@@ -14,7 +15,7 @@
         </Menu>
         <Menu text="Правка">
             <MenuItem text="Добавить запись" onAction="#addBook" fx:id="addBookMenu" accelerator="meta+D" />
-            <MenuItem text="Редактировать запись" onAction="#editBook" fx:id="editBookMenu" />
+            <MenuItem text="Просмотр записи" onAction="#previewBook" fx:id="previewBookMenu" />
             <MenuItem text="Удалить запись" onAction="#deleteBook" fx:id="deleteBookMenu" />
         </Menu>
         <Menu text="Помощь">
@@ -27,7 +28,7 @@
                 <Insets top="10" bottom="10" left="10" right="10" />
             </padding>
             <Button text="Добавить" onAction="#addBook" fx:id="addBookButton" />
-            <Button text="Редактировать" onAction="#editBook" fx:id="editBookButton" />
+            <Button text="Просмотр" onAction="#previewBook" fx:id="previewBookButton" />
             <Button text="Удалить" onAction="#deleteBook" fx:id="deleteBookButton" />
         </HBox>
 
@@ -39,12 +40,15 @@
             </padding>
             <Label style="-fx-font-weight: bold" fx:id="countLabel" textAlignment="RIGHT" />
             <TextField fx:id="searchField" promptText="Поиск по библиотеке" prefColumnCount="25" />
-            <Button text="Поиск" onAction="#search" />
+            <Button fx:id="searchButton" text="Поиск" onAction="#search" />
             <Button text="Очистить" onAction="#clearSearch" />
         </HBox>
     </HBox>
 
     <TableView VBox.vgrow="ALWAYS" fx:id="volumeTable">
+        <rowFactory>
+            <AnnotatedRow />
+        </rowFactory>
         <columnResizePolicy>
             <TableView fx:constant="UNCONSTRAINED_RESIZE_POLICY" />
         </columnResizePolicy>
