@@ -69,7 +69,7 @@ public final class CtPreview implements Initializable {
 
     @FXML
     public void editBook() {
-        STAGE.close();
         callback.call(volume);
+        STAGE.close();
     }
 }

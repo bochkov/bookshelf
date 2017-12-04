@@ -125,30 +125,34 @@ public final class CtMain implements Initializable {
             CtDetail.instance(STAGE.getOwner(), Modality.APPLICATION_MODAL)
                     .withVolume(
                             new Volume(),
-                            volume -> {
-                                try {
-                                    // save
-                                    new Volumes(
-                                            appProps.hostProperty().get(),
-                                            appProps.portProperty().get(),
-                                            appProps.userProperty().get(),
-                                            appProps.passProperty().get()
-                                    ).save(volume);
-                                    // add to table
-                                    if (volumes.contains(volume))
-                                        volumes.set(volumes.indexOf(volume), volume);
-                                    else
-                                        volumes.add(volume);
-                                    volumeTable.scrollTo(volume);
-                                } catch (IOException ex) {
-                                    ex.printStackTrace();
-                                    new Alert(Alert.AlertType.ERROR, ex.getMessage())
-                                            .showAndWait();
-                                }
-                            })
+                            this::saveAndShow)
                     .toStage()
                     .showAndWait();
         } catch (IOException ex) {
+            new Alert(Alert.AlertType.ERROR, ex.getMessage())
+                    .showAndWait();
+        }
+    }
+
+    private void saveAndShow(Volume volume) {
+        try {
+            // save
+            volume.setId(
+                    new Volumes(
+                            appProps.hostProperty().get(),
+                            appProps.portProperty().get(),
+                            appProps.userProperty().get(),
+                            appProps.passProperty().get()
+                    ).save(volume).getId()
+            );
+            // add to table
+            if (volumes.contains(volume))
+                volumes.set(volumes.indexOf(volume), volume);
+            else
+                volumes.add(volume);
+            volumeTable.scrollTo(volume);
+        } catch (IOException ex) {
+            ex.printStackTrace();
             new Alert(Alert.AlertType.ERROR, ex.getMessage())
                     .showAndWait();
         }
@@ -165,19 +169,7 @@ public final class CtMain implements Initializable {
                                 v -> {
                                     try {
                                         CtDetail.instance(STAGE.getOwner(), Modality.APPLICATION_MODAL)
-                                                .withVolume(v, vol -> {
-                                                    try {
-                                                        new Volumes(
-                                                                appProps.hostProperty().get(),
-                                                                appProps.portProperty().get(),
-                                                                appProps.userProperty().get(),
-                                                                appProps.passProperty().get()
-                                                        ).save(vol);
-                                                    } catch (IOException ex) {
-                                                        new Alert(Alert.AlertType.ERROR, ex.getMessage())
-                                                                .showAndWait();
-                                                    }
-                                                })
+                                                .withVolume(v, this::saveAndShow)
                                                 .toStage()
                                                 .showAndWait();
                                     } catch (IOException ex) {

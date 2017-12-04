@@ -62,8 +62,8 @@ public final class Volumes {
         );
     }
 
-    public void save(Volume volume) throws IOException {
-        new ObjectMapper()
+    public Volume save(Volume volume) throws IOException {
+        return new ObjectMapper()
                 .readValue(
                         new JdkRequest(String.format("http://%s:%s@%s:%s/api/save/", user, pass, host, port))
                                 .through(RetryWire.class)
