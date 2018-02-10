@@ -27,10 +27,10 @@ dependencies {
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-data-mongodb'
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-security'
 
-    compile group: 'org.springframework.boot', name: 'spring-boot-devtools'
+    //compile group: 'org.springframework.boot', name: 'spring-boot-devtools'
 
     compile group: 'org.jtwig', name: 'jtwig-spring-boot-starter', version: '5.86.1.RELEASE'
-    compile group: 'org.projectlombok', name:'lombok', version:'1.16.18'
+    compileOnly group: 'org.projectlombok', name:'lombok', version:'1.16.18'
 }
 
 jar {
