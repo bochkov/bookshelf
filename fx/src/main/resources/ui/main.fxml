@@ -9,48 +9,48 @@
       prefWidth="1200" prefHeight="700">
     <MenuBar useSystemMenuBar="true">
         <Menu text="Файл">
-            <MenuItem text="Настройки" onAction="#showSettings" />
-            <SeparatorMenuItem />
-            <MenuItem text="Выход" onAction="#close" />
+            <MenuItem text="Настройки" onAction="#showSettings"/>
+            <SeparatorMenuItem/>
+            <MenuItem text="Выход" onAction="#close"/>
         </Menu>
         <Menu text="Правка">
-            <MenuItem text="Добавить запись" onAction="#addBook" fx:id="addBookMenu" accelerator="meta+D" />
-            <MenuItem text="Просмотр записи" onAction="#previewBook" fx:id="previewBookMenu" />
-            <MenuItem text="Удалить запись" onAction="#deleteBook" fx:id="deleteBookMenu" />
+            <MenuItem text="Добавить запись" onAction="#addBook" fx:id="addBookMenu" accelerator="meta+D"/>
+            <MenuItem text="Просмотр записи" onAction="#previewBook" fx:id="previewBookMenu"/>
+            <MenuItem text="Удалить запись" onAction="#deleteBook" fx:id="deleteBookMenu"/>
         </Menu>
         <Menu text="Помощь">
-            <MenuItem text="О программе" onAction="#showAbout" />
+            <MenuItem text="О программе" onAction="#showAbout"/>
         </Menu>
     </MenuBar>
     <HBox>
         <HBox spacing="10">
             <padding>
-                <Insets top="10" bottom="10" left="10" right="10" />
+                <Insets top="10" bottom="10" left="10" right="10"/>
             </padding>
-            <Button text="Добавить" onAction="#addBook" fx:id="addBookButton" />
-            <Button text="Просмотр" onAction="#previewBook" fx:id="previewBookButton" />
-            <Button text="Удалить" onAction="#deleteBook" fx:id="deleteBookButton" />
+            <Button text="Добавить" onAction="#addBook" fx:id="addBookButton"/>
+            <Button text="Просмотр" onAction="#previewBook" fx:id="previewBookButton"/>
+            <Button text="Удалить" onAction="#deleteBook" fx:id="deleteBookButton"/>
         </HBox>
 
-        <HBox HBox.hgrow="ALWAYS" />
+        <HBox HBox.hgrow="ALWAYS"/>
 
         <HBox spacing="10" alignment="CENTER_RIGHT">
             <padding>
                 <Insets top="10" bottom="10" left="10" right="10"/>
             </padding>
-            <Label style="-fx-font-weight: bold" fx:id="countLabel" textAlignment="RIGHT" />
-            <TextField fx:id="searchField" promptText="Поиск по библиотеке" prefColumnCount="25" />
-            <Button fx:id="searchButton" text="Поиск" onAction="#search" />
-            <Button text="Очистить" onAction="#clearSearch" />
+            <Label style="-fx-font-weight: bold" fx:id="countLabel" textAlignment="RIGHT"/>
+            <TextField fx:id="searchField" promptText="Поиск по библиотеке" prefColumnCount="25"/>
+            <Button fx:id="searchButton" text="Поиск" onAction="#search"/>
+            <Button text="Очистить" onAction="#clearSearch"/>
         </HBox>
     </HBox>
 
     <TableView VBox.vgrow="ALWAYS" fx:id="volumeTable">
         <rowFactory>
-            <AnnotatedRow />
+            <AnnotatedRow/>
         </rowFactory>
         <columnResizePolicy>
-            <TableView fx:constant="UNCONSTRAINED_RESIZE_POLICY" />
+            <TableView fx:constant="UNCONSTRAINED_RESIZE_POLICY"/>
         </columnResizePolicy>
         <columns>
             <TableColumn text="Автор" prefWidth="150">

@@ -41,7 +41,7 @@ public final class CtMain implements Initializable {
     Label countLabel;
     AppProps appProps;
 
-    public static CtMain instance(Window parent) throws IOException {
+    public static CtMain instance(Window parent) {
         return STAGE_FACTORY.newStage(parent);
     }
 
@@ -102,16 +102,10 @@ public final class CtMain implements Initializable {
 
     @FXML
     void showSettings() {
-        try {
-            CtSettings.instance(STAGE.getOwner())
-                    .properties(appProps)
-                    .toStage()
-                    .showAndWait();
-            clearSearch();
-        } catch (IOException ex) {
-            new Alert(Alert.AlertType.ERROR, ex.getMessage())
-                    .showAndWait();
-        }
+        CtSettings.instance(STAGE.getOwner())
+                .properties(appProps)
+                .toStage(this::clearSearch)
+                .showAndWait();
     }
 
     @FXML
@@ -121,17 +115,12 @@ public final class CtMain implements Initializable {
 
     @FXML
     void addBook() {
-        try {
-            CtDetail.instance(STAGE.getOwner(), Modality.APPLICATION_MODAL)
-                    .withVolume(
-                            new Volume(),
-                            this::saveAndShow)
-                    .toStage()
-                    .showAndWait();
-        } catch (IOException ex) {
-            new Alert(Alert.AlertType.ERROR, ex.getMessage())
-                    .showAndWait();
-        }
+        CtDetail.instance(STAGE.getOwner(), Modality.APPLICATION_MODAL)
+                .withVolume(
+                        new Volume(),
+                        this::saveAndShow)
+                .toStage()
+                .showAndWait();
     }
 
     private void saveAndShow(Volume volume) {
@@ -162,27 +151,15 @@ public final class CtMain implements Initializable {
     void previewBook() {
         List<Volume> selectedRows = volumeTable.getSelectionModel().getSelectedItems();
         if (!selectedRows.isEmpty()) {
-            try {
-                CtPreview.instance(STAGE.getOwner(), Modality.APPLICATION_MODAL)
-                        .withVolume(
-                                selectedRows.get(0),
-                                v -> {
-                                    try {
-                                        CtDetail.instance(STAGE.getOwner(), Modality.APPLICATION_MODAL)
-                                                .withVolume(v, this::saveAndShow)
-                                                .toStage()
-                                                .showAndWait();
-                                    } catch (IOException ex) {
-                                        new Alert(Alert.AlertType.ERROR, ex.getMessage())
-                                                .showAndWait();
-                                    }
-                                })
-                        .toStage()
-                        .showAndWait();
-            } catch (IOException ex) {
-                new Alert(Alert.AlertType.ERROR, ex.getMessage())
-                        .showAndWait();
-            }
+            CtPreview.instance(STAGE.getOwner(), Modality.APPLICATION_MODAL)
+                    .withVolume(
+                            selectedRows.get(0),
+                            v -> CtDetail.instance(STAGE.getOwner(), Modality.APPLICATION_MODAL)
+                                    .withVolume(v, this::saveAndShow)
+                                    .toStage()
+                                    .showAndWait())
+                    .toStage()
+                    .showAndWait();
         }
     }
 
@@ -220,14 +197,9 @@ public final class CtMain implements Initializable {
 
     @FXML
     void showAbout() {
-        try {
-            CtAbout.instance(STAGE.getOwner())
-                    .toStage()
-                    .showAndWait();
-        } catch (IOException ex) {
-            new Alert(Alert.AlertType.ERROR, ex.getMessage())
-                    .showAndWait();
-        }
+        CtAbout.instance(STAGE.getOwner())
+                .toStage()
+                .showAndWait();
     }
 
     @FXML

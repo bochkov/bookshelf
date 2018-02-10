@@ -18,11 +18,11 @@ public final class StageFactory<T> {
         this.stage = stage;
     }
 
-    public T newStage(Window parent) throws IOException {
+    public T newStage(Window parent) {
         return newStage(parent, Modality.NONE);
     }
 
-    public T newStage(Window parent, Modality modality) throws IOException {
+    public T newStage(Window parent, Modality modality) {
         if (stage.getScene() == null) {
             try {
                 stage.setScene(new Scene(fxml.load()));

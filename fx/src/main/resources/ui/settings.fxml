@@ -3,35 +3,38 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import java.net.URL?>
-<VBox xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.sb.bookshelf.fx.CtSettings">
-    <GridPane alignment="CENTER_LEFT" hgap="10" vgap="10" prefWidth="400">
-        <padding>
-            <Insets top="10" bottom="10" left="10" right="10" />
-        </padding>
+<GridPane xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.sb.bookshelf.fx.CtSettings"
+          GridPane.vgrow="NEVER" GridPane.hgrow="ALWAYS">
 
-        <Label text="Сервер" GridPane.rowIndex="0" GridPane.columnIndex="0" />
-        <TextField fx:id="hostField" GridPane.rowIndex="0" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" />
-
-        <Label text="Порт" GridPane.rowIndex="1" GridPane.columnIndex="0" />
-        <TextField fx:id="portField" GridPane.rowIndex="1" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" />
-
-        <Label text="Имя пользователя" GridPane.rowIndex="2" GridPane.columnIndex="0" />
-        <TextField fx:id="userField" GridPane.rowIndex="2" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" />
-
-        <Label text="Пароль" GridPane.rowIndex="3" GridPane.columnIndex="0" />
-        <PasswordField fx:id="passField" GridPane.rowIndex="3" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" />
-    </GridPane>
-
-    <HBox alignment="center" spacing="15">
+    <GridPane GridPane.vgrow="NEVER" GridPane.hgrow="ALWAYS"
+              alignment="CENTER_LEFT" hgap="10" vgap="10" prefWidth="400">
         <padding>
             <Insets top="10" bottom="10" left="10" right="10"/>
         </padding>
 
-        <Button text="Сохранить" onAction="#save" defaultButton="true" />
-        <Button text="Отмена" onAction="#close" />
+        <Label text="Сервер" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+        <TextField fx:id="hostField" GridPane.rowIndex="0" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS"/>
+
+        <Label text="Порт" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+        <TextField fx:id="portField" GridPane.rowIndex="1" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS"/>
+
+        <Label text="Имя пользователя" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+        <TextField fx:id="userField" GridPane.rowIndex="2" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS"/>
+
+        <Label text="Пароль" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+        <PasswordField fx:id="passField" GridPane.rowIndex="3" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS"/>
+    </GridPane>
+
+    <HBox GridPane.rowIndex="1" GridPane.columnIndex="0" alignment="center" spacing="15">
+        <padding>
+            <Insets top="10" bottom="10" left="10" right="10"/>
+        </padding>
+
+        <Button text="Сохранить" onAction="#save" defaultButton="true"/>
+        <Button text="Отмена" onAction="#close"/>
     </HBox>
 
     <stylesheets>
         <URL value="@/ui/style.css"/>
     </stylesheets>
-</VBox>
+</GridPane>

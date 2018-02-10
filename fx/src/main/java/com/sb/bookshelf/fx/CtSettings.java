@@ -8,7 +8,6 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -22,8 +21,9 @@ public final class CtSettings implements Initializable {
     @FXML
     PasswordField passField;
     AppProps appProps;
+    Callback success;
 
-    public static CtSettings instance(Window parent) throws IOException {
+    public static CtSettings instance(Window parent) {
         return STAGE_FACTORY.newStage(parent, Modality.APPLICATION_MODAL);
     }
 
@@ -36,7 +36,13 @@ public final class CtSettings implements Initializable {
         return this;
     }
 
-    public Stage toStage() throws IOException {
+    public Stage toStage() {
+        return toStage(new Callback.EMPTY());
+    }
+
+    public Stage toStage(Callback callback) {
+        this.success = callback;
+        STAGE.setResizable(false);
         return STAGE;
     }
 
@@ -51,6 +57,7 @@ public final class CtSettings implements Initializable {
         appProps.portProperty().setValue(Integer.valueOf(portField.getText()));
         appProps.userProperty().setValue(userField.getText());
         appProps.passProperty().setValue(passField.getText());
+        success.call();
         STAGE.close();
     }
 

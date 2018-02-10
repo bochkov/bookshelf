@@ -1,64 +1,63 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import java.net.URL?>
-<VBox xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.sb.bookshelf.fx.CtPreview">
+<GridPane hgap="10" vgap="10" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS"
+          xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.sb.bookshelf.fx.CtPreview">
+    <GridPane GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS"
+              GridPane.rowIndex="0" GridPane.columnIndex="0"
+              hgap="10" vgap="10">
+        <padding>
+            <Insets top="20" bottom="10" left="40" right="10"/>
+        </padding>
 
-    <GridPane hgap="10" vgap="10" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS">
-        <GridPane GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS"
-                  GridPane.rowIndex="0" GridPane.columnIndex="0"
-                  hgap="10" vgap="10">
-            <padding>
-                <Insets top="10" bottom="10" left="10" right="10" />
-            </padding>
+        <Label GridPane.rowIndex="0" GridPane.columnIndex="0"
+               wrapText="true" prefWidth="300"
+               fx:id="authorLabel"/>
+        <Label GridPane.rowIndex="1" GridPane.columnIndex="0"
+               wrapText="true" prefWidth="300"
+               fx:id="nameLabel"/>
+        <Label GridPane.rowIndex="2" GridPane.columnIndex="0"
+               wrapText="true" prefWidth="300"
+               fx:id="publisherLabel"/>
+        <Label GridPane.rowIndex="3" GridPane.columnIndex="0"
+               fx:id="yearLabel"/>
+        <Label GridPane.rowIndex="4" GridPane.columnIndex="0"
+               fx:id="pagesLabel"/>
+        <Label GridPane.rowIndex="5" GridPane.columnIndex="0"
+               fx:id="isbnLabel"/>
 
-            <Label text="Автор" GridPane.rowIndex="0" GridPane.columnIndex="0" />
-            <Label GridPane.rowIndex="0" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" fx:id="authorLabel" />
-
-            <Label text="Название" GridPane.rowIndex="1" GridPane.columnIndex="0" />
-            <Label GridPane.rowIndex="1" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" fx:id="nameLabel" />
-
-            <Label text="Издательство" GridPane.rowIndex="2" GridPane.columnIndex="0" />
-            <Label GridPane.rowIndex="2" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" fx:id="publisherLabel" />
-
-            <Label text="Год издания" GridPane.rowIndex="3" GridPane.columnIndex="0" />
-            <Label GridPane.rowIndex="3" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" fx:id="yearLabel" />
-
-            <Label text="Страниц" GridPane.rowIndex="4" GridPane.columnIndex="0" />
-            <Label GridPane.rowIndex="4" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" fx:id="pagesLabel" />
-
-            <Label text="ISBN" GridPane.rowIndex="5" GridPane.columnIndex="0" />
-            <Label GridPane.rowIndex="5" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" fx:id="isbnLabel" />
-        </GridPane>
-        <GridPane GridPane.vgrow="ALWAYS" GridPane.hgrow="ALWAYS"
-                  GridPane.rowIndex="0" GridPane.columnIndex="1"
-                  hgap="10" vgap="10">
-            <padding>
-                <Insets top="10" bottom="10" right="10" />
-            </padding>
-            <Label text="Произведения" alignment="TOP_LEFT" GridPane.rowIndex="0" GridPane.columnIndex="0" />
-            <TextArea GridPane.rowIndex="1" GridPane.columnIndex="0"
-                      GridPane.hgrow="ALWAYS" VBox.vgrow="ALWAYS"
-                      prefColumnCount="25" wrapText="true" fx:id="booksArea" />
-
-            <Label GridPane.rowIndex="2" GridPane.columnIndex="0">Аннотация</Label>
-            <TextArea GridPane.rowIndex="3" GridPane.columnIndex="0"
-                      GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS"
-                      prefColumnCount="25" wrapText="true" fx:id="annotationArea" />
-        </GridPane>
+        <TextArea GridPane.rowIndex="6" GridPane.columnIndex="0"
+                  GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS"
+                  prefColumnCount="25" wrapText="true" fx:id="annotationArea"/>
     </GridPane>
-
-    <HBox alignment="center" spacing="15">
+    <GridPane GridPane.vgrow="ALWAYS" GridPane.hgrow="ALWAYS"
+              GridPane.rowIndex="0" GridPane.columnIndex="1"
+              hgap="10" vgap="10">
+        <padding>
+            <Insets top="10" bottom="10" right="10"/>
+        </padding>
+        <Label text="Произведения" GridPane.halignment="CENTER"
+               GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+        <TextArea GridPane.rowIndex="1" GridPane.columnIndex="0"
+                  GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS"
+                  prefColumnCount="25" wrapText="true" fx:id="booksArea"/>
+    </GridPane>
+    <HBox GridPane.columnSpan="2" GridPane.rowIndex="1" GridPane.columnIndex="0"
+          alignment="center" spacing="15">
         <padding>
             <Insets top="10" bottom="10" left="10" right="10"/>
         </padding>
 
-        <Button text="Правка" onAction="#editBook" />
-        <Button text="Закрыть" onAction="#close" defaultButton="true" />
+        <Button text="Правка" onAction="#editBook"/>
+        <Button text="Закрыть" onAction="#close" defaultButton="true"/>
     </HBox>
 
     <stylesheets>
         <URL value="@/ui/style.css"/>
     </stylesheets>
-</VBox>
+</GridPane>
+
+

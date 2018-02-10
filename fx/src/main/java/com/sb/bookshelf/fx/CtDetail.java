@@ -3,16 +3,15 @@ package com.sb.bookshelf.fx;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.ResourceBundle;
-import javafx.scene.control.TextArea;
 
 public final class CtDetail implements Initializable {
 
@@ -31,7 +30,7 @@ public final class CtDetail implements Initializable {
     Volume volume;
     VolCallback callback;
 
-    public static CtDetail instance(Window parent, Modality modality) throws IOException {
+    public static CtDetail instance(Window parent, Modality modality) {
         return STAGE_FACTORY.newStage(parent, modality);
     }
 

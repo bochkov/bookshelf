@@ -8,7 +8,6 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -27,7 +26,7 @@ public final class CtPreview implements Initializable {
     Volume volume;
     VolCallback callback;
 
-    public static CtPreview instance(Window parent, Modality modality) throws IOException {
+    public static CtPreview instance(Window parent, Modality modality) {
         return STAGE_FACTORY.newStage(parent, modality);
     }
 
@@ -35,7 +34,16 @@ public final class CtPreview implements Initializable {
         STAGE.setTitle(volume.title());
         this.volume = volume;
         this.callback = callback;
-        updateFields();
+        this.volume.fill(
+                authorLabel,
+                nameLabel,
+                publisherLabel,
+                yearLabel,
+                isbnLabel,
+                pagesLabel,
+                booksArea,
+                annotationArea
+        );
         return this;
     }
 
@@ -52,19 +60,6 @@ public final class CtPreview implements Initializable {
     @FXML
     void close() {
         STAGE.close();
-    }
-
-    public void updateFields() {
-        authorLabel.setText(volume.getAuthor());
-        nameLabel.setText(volume.getName());
-        publisherLabel.setText(volume.getPublisher());
-        yearLabel.setText(volume.getYear());
-        isbnLabel.setText(volume.getIsbn());
-        pagesLabel.setText(
-                volume.getPages() == null ? "" : String.valueOf(volume.getPages()));
-        booksArea.setText(
-                volume.getBooks() == null ? "" : String.join("\n", volume.getBooks()));
-        annotationArea.setText(volume.getAnnotation());
     }
 
     @FXML
