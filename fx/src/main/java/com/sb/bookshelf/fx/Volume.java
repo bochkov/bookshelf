@@ -2,7 +2,6 @@ package com.sb.bookshelf.fx;
 
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
-import javafx.scene.layout.GridPane;
 import lombok.Data;
 
 import java.util.List;
@@ -39,16 +38,47 @@ public final class Volume {
         lname.setText(name);
         lpublish.setText(publisher);
         lyear.setText(year);
-        lisbn.setText(isbn);
-        lpages.setText(pages == null ?
-                "" :
-                String.format("%s страниц", pages)
+        lisbn.setText(
+                new NotNull(
+                        isbn,
+                        data -> String.join("\n", isbn.split(",\\s+"))
+                ).value()
         );
-
-        lbooks.setText(books == null ? "" : String.join("\n", books));
+        lpages.setText(
+                new NotNull(
+                        pages,
+                        data -> String.format("%s страниц", pages)
+                ).value()
+        );
+        lbooks.setText(
+                new NotNull(
+                        books,
+                        data -> String.join("\n", books)
+                ).value()
+        );
         //lbooks.setVisible(books != null && !String.join("", books).isEmpty());
-
         lannot.setText(annotation);
         lannot.setVisible(annotation != null && !annotation.isEmpty());
+    }
+
+    interface Func {
+        String apply(Object data);
+    }
+
+    private final class NotNull {
+
+        private final Object data;
+        private final Func func;
+
+        public NotNull(Object data, Func func) {
+            this.data = data;
+            this.func = func;
+        }
+
+        public String value() {
+            return data != null ?
+                    func.apply(data)
+                    : "";
+        }
     }
 }
