@@ -234,4 +234,16 @@ public final class CtMain implements Initializable {
                     .showAndWait();
         }
     }
+
+    @FXML
+    void showSearchHelp() {
+        String message = "Существует возможность указать в каком поле искать." +
+                "для этого необходимо поисковый запрос заключить в фигурные скобки " +
+                "и указать поле, например {author=Булгаков,name=Мастер}.\n" +
+                "Поиск поддерживает поля Год издания (year), Автор (author), " +
+                "Название(name) и Текст Аннотации(annotation)";
+        Alert alert = new Alert(Alert.AlertType.INFORMATION, message);
+        alert.setHeaderText("Возможности поиска");
+        alert.showAndWait();
+    }
 }

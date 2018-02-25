@@ -38,10 +38,11 @@
             <padding>
                 <Insets top="10" bottom="10" left="10" right="10"/>
             </padding>
-            <Label style="-fx-font-weight: bold" fx:id="countLabel" textAlignment="RIGHT"/>
+            <Label fx:id="countLabel" textAlignment="RIGHT"/>
             <TextField fx:id="searchField" promptText="Поиск по библиотеке" prefColumnCount="25"/>
             <Button fx:id="searchButton" text="Поиск" onAction="#search"/>
             <Button text="Очистить" onAction="#clearSearch"/>
+            <Button text="?" onAction="#showSearchHelp"/>
         </HBox>
     </HBox>
 
