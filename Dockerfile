@@ -5,7 +5,7 @@ RUN apk update && \
   wget -O /usr/local/bin/dumb-init https://github.com/Yelp/dumb-init/releases/download/v1.2.1/dumb-init_1.2.1_amd64 && \
   chmod +x /usr/local/bin/dumb-init
 WORKDIR /opt
-ADD web/build/libs/bookshelf-web-2.2.jar bookshelf.jar
+ADD web/build/libs/bookshelf-web-2.3.jar bookshelf.jar
 EXPOSE 8080
 ENTRYPOINT ["/usr/local/bin/dumb-init", "--"]
 CMD ["/bin/sh", "-c", "java $JAVA_OPTS -Dfile.encoding=UTF-8 -Djava.security.egd=file:/dev/./urandom -jar bookshelf.jar --host=mongo"]

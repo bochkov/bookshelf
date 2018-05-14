@@ -4,10 +4,10 @@ import org.jtwig.spring.JtwigViewResolver;
 import org.jtwig.spring.boot.config.JtwigViewResolverConfigurer;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
-public class CfgTemplate extends WebMvcConfigurerAdapter implements JtwigViewResolverConfigurer {
+public class CfgTemplate implements WebMvcConfigurer, JtwigViewResolverConfigurer {
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {

@@ -1,20 +1,18 @@
 buildscript {
-    ext {
-        springBootVersion = '1.5.8.RELEASE'
-    }
     repositories {
         jcenter()
     }
     dependencies {
-        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:2.0.2.RELEASE")
     }
 }
 
 group = 'com.sergeybochkov'
-version = '2.2'
+version = '2.3'
 
-apply 'plugin': 'java'
-apply 'plugin': 'org.springframework.boot'
+apply plugin: 'java'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
 
 sourceCompatibility = '1.8'
 
@@ -29,8 +27,8 @@ dependencies {
 
     //compile group: 'org.springframework.boot', name: 'spring-boot-devtools'
 
-    compile group: 'org.jtwig', name: 'jtwig-spring-boot-starter', version: '5.86.1.RELEASE'
-    compileOnly group: 'org.projectlombok', name:'lombok', version:'1.16.18'
+    compile group: 'org.jtwig', name: 'jtwig-spring-boot-starter', version: '5.87.0.RELEASE'
+    compileOnly group: 'org.projectlombok', name:'lombok', version:'1.16.20'
 }
 
 jar {

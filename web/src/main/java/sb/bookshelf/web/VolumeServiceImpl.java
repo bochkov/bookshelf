@@ -54,6 +54,6 @@ public final class VolumeServiceImpl implements VolumeService {
 
     @Override
     public void delete(List<Volume> volumes) {
-        volumeDao.delete(volumes);
+        volumeDao.deleteAll(volumes);
     }
 }
