@@ -29,7 +29,7 @@ public final class Volumes {
         return Arrays.asList(
                 new ObjectMapper()
                         .readValue(
-                                new JdkRequest(String.format("http://%s:%s/api/list/", host, port))
+                                new JdkRequest(String.format("http://%s:%s/api/list", host, port))
                                         .through(RetryWire.class)
                                         .fetch()
                                         .as(JacksonResponse.class)
@@ -45,7 +45,7 @@ public final class Volumes {
         return Arrays.asList(
                 new ObjectMapper()
                         .readValue(
-                                new JdkRequest(String.format("http://%s:%s@%s:%s/api/search/", user, pass, host, port))
+                                new JdkRequest(String.format("http://%s:%s@%s:%s/api/search", user, pass, host, port))
                                         .through(RetryWire.class)
                                         .method(Request.POST)
                                         .body()
@@ -65,7 +65,7 @@ public final class Volumes {
     public Volume save(Volume volume) throws IOException {
         return new ObjectMapper()
                 .readValue(
-                        new JdkRequest(String.format("http://%s:%s@%s:%s/api/save/", user, pass, host, port))
+                        new JdkRequest(String.format("http://%s:%s@%s:%s/api/save", user, pass, host, port))
                                 .through(RetryWire.class)
                                 .through(BasicAuthWire.class)
                                 .method(Request.POST)
@@ -83,7 +83,7 @@ public final class Volumes {
     }
 
     public void delete(List<Volume> volumes) throws IOException {
-        new JdkRequest(String.format("http://%s:%s@%s:%s/api/delete/", user, pass, host, port))
+        new JdkRequest(String.format("http://%s:%s@%s:%s/api/delete", user, pass, host, port))
                 .through(RetryWire.class)
                 .through(BasicAuthWire.class)
                 .method(Request.POST)

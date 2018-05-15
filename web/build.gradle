@@ -24,10 +24,6 @@ dependencies {
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-web'
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-data-mongodb'
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-security'
-
-    //compile group: 'org.springframework.boot', name: 'spring-boot-devtools'
-
-    compile group: 'org.jtwig', name: 'jtwig-spring-boot-starter', version: '5.87.0.RELEASE'
     compileOnly group: 'org.projectlombok', name:'lombok', version:'1.16.20'
 }
 

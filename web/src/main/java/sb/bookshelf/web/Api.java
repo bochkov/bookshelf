@@ -3,13 +3,12 @@ package sb.bookshelf.web;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 @RestController
-@RequestMapping("api")
+@RequestMapping("/api")
 public final class Api {
 
     private final AccountSevice accountSevice;
@@ -21,34 +20,33 @@ public final class Api {
         this.volumeService = volumeService;
     }
 
-    @GetMapping(value = "/list/")
+    @GetMapping(value = "/list")
     public List<Volume> findAll() {
         return volumeService.findAll();
     }
 
-    @PostMapping(value = "/save/")
+    @PostMapping(value = "/save")
     public Volume addBook(@RequestBody Volume volume) {
         return volumeService.save(volume);
     }
 
-    @PostMapping(value = "/register/")
+    @PostMapping(value = "/register")
     public void registerTestUser(@RequestBody Account account) {
         accountSevice.register(account);
     }
 
-    @PostMapping(value = "/delete/")
+    @PostMapping(value = "/delete")
     public void delete(@RequestBody Volume[] volumes) {
         volumeService.delete(Arrays.asList(volumes));
     }
 
-    @PostMapping(value = "/search/")
+    @PostMapping(value = "/search")
     public List<Volume> search(@RequestBody String query) {
         if (query.startsWith("{")) {
             List<Volume> allVolumes = volumeService.findAll();
             allVolumes.retainAll(match(query));
             return allVolumes;
-        }
-        else
+        } else
             return volumeService.find(query);
     }
 
