@@ -36,10 +36,6 @@ public final class CtSettings implements Initializable {
         return this;
     }
 
-    public Stage toStage() {
-        return toStage(new Callback.EMPTY());
-    }
-
     public Stage toStage(Callback callback) {
         this.success = callback;
         STAGE.setResizable(false);

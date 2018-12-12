@@ -14,13 +14,11 @@ public final class AnnotatedRow implements Callback<TableView, TableRow> {
                 super.updateItem(volume, empty);
                 if (volume == null || volume.getAnnotation() == null
                         || volume.getAnnotation().isEmpty()) {
-                    if (getStyleClass().contains("annotated"))
-                        getStyleClass().remove("annotated");
+                    getStyleClass().remove("annotated");
                     if (!getStyleClass().contains("not-annotated"))
                         getStyleClass().add("not-annotated");
                 } else {
-                    if (getStyleClass().contains("not-annotated"))
-                        getStyleClass().remove("not-annotated");
+                    getStyleClass().remove("not-annotated");
                     if (!getStyleClass().contains("annotated"))
                         getStyleClass().add("annotated");
                 }

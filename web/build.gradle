@@ -1,17 +1,12 @@
-buildscript {
-    repositories {
-        jcenter()
-    }
-    dependencies {
-        classpath("org.springframework.boot:spring-boot-gradle-plugin:2.0.2.RELEASE")
-    }
+plugins {
+    id 'org.springframework.boot' version '2.1.1.RELEASE'
+    id 'io.franzbecker.gradle-lombok' version '1.14'
 }
 
 group = 'com.sergeybochkov'
 version = '2.3'
 
 apply plugin: 'java'
-apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
 
 sourceCompatibility = '1.8'
@@ -24,7 +19,7 @@ dependencies {
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-web'
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-data-mongodb'
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-security'
-    compileOnly group: 'org.projectlombok', name:'lombok', version:'1.16.20'
+    compileOnly group: 'org.projectlombok', name:'lombok', version:'1.18.4'
 }
 
 jar {

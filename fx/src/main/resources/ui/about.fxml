@@ -16,9 +16,7 @@
         </padding>
 
         <ImageView GridPane.rowIndex="0" GridPane.columnIndex="0" GridPane.halignment="CENTER">
-            <image>
-                <Image url="@/ui/logo.png" />
-            </image>
+            <Image url="@/ui/logo.png"/>
         </ImageView>
 
         <Label text="Bookshelf" id="titleLabel"

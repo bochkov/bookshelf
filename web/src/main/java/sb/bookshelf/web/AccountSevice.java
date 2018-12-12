@@ -4,6 +4,4 @@ public interface AccountSevice {
 
     void register(Account account);
 
-    boolean isEmpty();
-
 }

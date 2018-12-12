@@ -82,22 +82,23 @@ public final class CtMain implements Initializable {
                         String.format("Томов: %d", volumes.size())));
         searchButton.disableProperty().bind(searchField.textProperty().isEmpty());
 
-        STAGE.setOnShown(ev -> {
-                    try {
-                        volumes.setAll(
-                                new Volumes(
-                                        appProps.hostProperty().get(),
-                                        appProps.portProperty().get(),
-                                        appProps.userProperty().get(),
-                                        appProps.passProperty().get()
-                                ).findAll()
-                        );
-                    } catch (IOException ex) {
-                        new Alert(Alert.AlertType.ERROR, ex.getMessage())
-                                .showAndWait();
-                    }
-                }
-        );
+        STAGE.setOnShown(ev -> onShown());
+    }
+
+    private void onShown() {
+        try {
+            volumes.setAll(
+                    new Volumes(
+                            appProps.hostProperty().get(),
+                            appProps.portProperty().get(),
+                            appProps.userProperty().get(),
+                            appProps.passProperty().get()
+                    ).findAll()
+            );
+        } catch (IOException ex) {
+            new Alert(Alert.AlertType.ERROR, ex.getMessage())
+                    .showAndWait();
+        }
     }
 
     @FXML
@@ -221,18 +222,7 @@ public final class CtMain implements Initializable {
     @FXML
     void clearSearch() {
         searchField.setText("");
-        try {
-            volumes.setAll(
-                    new Volumes(
-                            appProps.hostProperty().get(),
-                            appProps.portProperty().get(),
-                            appProps.userProperty().get(),
-                            appProps.passProperty().get()
-                    ).findAll());
-        } catch (IOException ex) {
-            new Alert(Alert.AlertType.ERROR, ex.getMessage())
-                    .showAndWait();
-        }
+        onShown();
     }
 
     @FXML

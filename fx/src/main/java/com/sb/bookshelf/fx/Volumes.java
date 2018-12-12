@@ -41,6 +41,7 @@ public final class Volumes {
         );
     }
 
+    @SuppressWarnings("Duplicates")
     public List<Volume> find(String query) throws IOException {
         return Arrays.asList(
                 new ObjectMapper()
