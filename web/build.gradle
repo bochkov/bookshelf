@@ -1,5 +1,5 @@
 plugins {
-    id 'org.springframework.boot' version '2.1.1.RELEASE'
+    id 'org.springframework.boot' version '2.1.2.RELEASE'
     id 'io.franzbecker.gradle-lombok' version '1.14'
 }
 
@@ -10,6 +10,7 @@ apply plugin: 'java'
 apply plugin: 'io.spring.dependency-management'
 
 sourceCompatibility = '1.8'
+targetCompatibility = '1.8'
 
 repositories() {
     jcenter()

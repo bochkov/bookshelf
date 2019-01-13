@@ -6,9 +6,10 @@ plugins {
 group = 'com.sergeybochkov'
 version = '2.3'
 
-apply 'plugin': 'java'
+apply plugin: 'java'
 
 sourceCompatibility = '1.8'
+targetCompatibility = '1.8'
 
 repositories() {
     jcenter()
@@ -28,7 +29,7 @@ dependencies {
 }
 
 jar {
-    baseName = project.name
+    archivesBaseName = project.name
     version = project.version
 }
 
