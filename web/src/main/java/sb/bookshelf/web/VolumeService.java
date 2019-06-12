@@ -13,4 +13,6 @@ public interface VolumeService {
     Volume save(Volume volume);
 
     void delete(List<Volume> volumes);
+
+    Long count();
 }

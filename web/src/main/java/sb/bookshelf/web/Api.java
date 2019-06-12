@@ -20,6 +20,11 @@ public final class Api {
         this.volumeService = volumeService;
     }
 
+    @GetMapping(value = "/count")
+    public Long totalBooks() {
+        return volumeService.count();
+    }
+
     @GetMapping(value = "/list")
     public List<Volume> findAll() {
         return volumeService.findAll();
