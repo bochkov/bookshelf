@@ -7,3 +7,4 @@ fx/out/
 .gradle/
 *.log
 build/
+*.gz
