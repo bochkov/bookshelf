@@ -9,6 +9,8 @@
       prefWidth="1200" prefHeight="700">
     <MenuBar useSystemMenuBar="true">
         <Menu text="Файл">
+            <MenuItem text="Показать все тома" onAction="#viewAll" fx:id="viewAllMenu" />
+            <SeparatorMenuItem/>
             <MenuItem text="Настройки" onAction="#showSettings"/>
             <SeparatorMenuItem/>
             <MenuItem text="Выход" onAction="#close"/>
@@ -80,6 +82,6 @@
     </HBox>
 
     <stylesheets>
-        <URL value="@/ui/style.css"/>
+        <URL value="@../ui/style.css"/>
     </stylesheets>
 </VBox>

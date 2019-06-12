@@ -33,6 +33,6 @@
     </HBox>
 
     <stylesheets>
-        <URL value="@/ui/style.css"/>
+        <URL value="@../ui/style.css"/>
     </stylesheets>
 </GridPane>

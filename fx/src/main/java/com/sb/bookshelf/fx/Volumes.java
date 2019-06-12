@@ -25,6 +25,17 @@ public final class Volumes {
         this.pass = pass;
     }
 
+    public Long count() throws IOException {
+        return new ObjectMapper()
+                .readValue(
+                        new JdkRequest(String.format("http://%s:%s/api/count", host, port))
+                                .through(RetryWire.class)
+                                .fetch()
+                                .body(),
+                        Long.class
+                );
+    }
+
     public List<Volume> findAll() throws IOException {
         return Arrays.asList(
                 new ObjectMapper()
