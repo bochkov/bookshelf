@@ -1,3 +1,5 @@
+rootProject.name = 'bookshelf'
+
 include 'web'
 project(':web').name = 'bookshelf-web'
 include 'fx'

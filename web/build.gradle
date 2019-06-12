@@ -1,29 +1,18 @@
 plugins {
-    id 'org.springframework.boot' version '2.1.2.RELEASE'
-    id 'io.franzbecker.gradle-lombok' version '1.14'
+    id 'org.springframework.boot' version '2.1.5.RELEASE'
 }
 
 group = 'com.sergeybochkov'
 version = '2.3'
 
-apply plugin: 'java'
 apply plugin: 'io.spring.dependency-management'
 
-sourceCompatibility = '1.8'
-targetCompatibility = '1.8'
-
-repositories() {
-    jcenter()
-}
 
 dependencies {
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-web'
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-data-mongodb'
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-security'
-    compileOnly group: 'org.projectlombok', name:'lombok', version:'1.18.4'
-}
 
-jar {
-    baseName = project.name
-    version = project.version
+    compileOnly 'org.projectlombok:lombok:1.18.8'
+    annotationProcessor 'org.projectlombok:lombok:1.18.8'
 }
