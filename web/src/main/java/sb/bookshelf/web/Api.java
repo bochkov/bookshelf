@@ -30,8 +30,8 @@ public final class Api {
         return volumeService.findAll();
     }
 
-    @GetMapping(value = "/latest")
-    public List<Volume> latest(@RequestParam int count) {
+    @GetMapping(value = "/list/latest")
+    public List<Volume> latest(@RequestParam(defaultValue = "10", name = "c") int count) {
         return volumeService.latest(count);
     }
 
