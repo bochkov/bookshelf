@@ -30,6 +30,11 @@ public final class Api {
         return volumeService.findAll();
     }
 
+    @GetMapping(value = "/latest")
+    public List<Volume> latest(@RequestParam int count) {
+        return volumeService.latest(count);
+    }
+
     @PostMapping(value = "/save")
     public Volume addBook(@RequestBody Volume volume) {
         return volumeService.save(volume);

@@ -1,6 +1,8 @@
 package sb.bookshelf.web;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -19,6 +21,14 @@ public final class VolumeServiceImpl implements VolumeService {
     @Override
     public List<Volume> findAll() {
         return volumeDao.findAll();
+    }
+
+    @Override
+    public List<Volume> latest(int count) {
+        Sort sort = new Sort(Sort.Direction.DESC, "_id");
+        return volumeDao.findAll(
+                PageRequest.of(0, count, sort)
+        ).getContent();
     }
 
     @Override

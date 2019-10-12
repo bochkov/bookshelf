@@ -105,4 +105,20 @@ public final class Volumes {
                 .header("Content-Type", "application/json")
                 .fetch();
     }
+
+    public List<Volume> latest(int count) throws IOException {
+        return Arrays.asList(
+                new ObjectMapper()
+                        .readValue(
+                                new JdkRequest(String.format("http://%s:%s/api/latest?c=%d", host, port, count))
+                                        .through(RetryWire.class)
+                                        .fetch()
+                                        .as(JacksonResponse.class)
+                                        .json()
+                                        .readArray()
+                                        .toString(),
+                                Volume[].class
+                        )
+        );
+    }
 }

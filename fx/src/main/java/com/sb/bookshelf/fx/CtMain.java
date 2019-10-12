@@ -87,7 +87,14 @@ public final class CtMain implements Initializable {
 
     private void onShown() {
         try {
-            volumes.clear();
+            volumes.addAll(
+                    new Volumes(
+                            appProps.hostProperty().get(),
+                            appProps.portProperty().get(),
+                            appProps.userProperty().get(),
+                            appProps.passProperty().get()
+                    ).latest(20)
+            );
             countLabel.setText(
                     String.format(
                             "Томов: %d",

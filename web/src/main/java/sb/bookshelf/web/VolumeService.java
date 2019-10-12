@@ -6,6 +6,8 @@ public interface VolumeService {
 
     List<Volume> findAll();
 
+    List<Volume> latest(int count);
+
     List<Volume> find(String query);
 
     List<Volume> findByField(String field, String query);

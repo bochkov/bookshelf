@@ -7,7 +7,7 @@ sudo: required
 language: java
 
 jdk:
-  - openjdk12
+  - openjdk11
 
 services:
   - docker
@@ -28,3 +28,10 @@ after_success:
   - docker build -t bookshelf .
   - docker tag bookshelf:latest 902382300595.dkr.ecr.us-east-1.amazonaws.com/bookshelf:latest
   - docker push 902382300595.dkr.ecr.us-east-1.amazonaws.com/bookshelf:latest
+
+
+notifications:
+  email: false
+  webhooks:
+    urls:
+      - https://resnyx.sergeybochkov.com/travis
