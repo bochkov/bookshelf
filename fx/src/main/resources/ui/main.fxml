@@ -9,8 +9,6 @@
       prefWidth="1200" prefHeight="700">
     <MenuBar useSystemMenuBar="true">
         <Menu text="Файл">
-            <MenuItem text="Показать все тома" onAction="#viewAll" fx:id="viewAllMenu" />
-            <SeparatorMenuItem/>
             <MenuItem text="Настройки" onAction="#showSettings"/>
             <SeparatorMenuItem/>
             <MenuItem text="Выход" onAction="#close"/>
@@ -19,6 +17,10 @@
             <MenuItem text="Добавить запись" onAction="#addBook" fx:id="addBookMenu" accelerator="meta+D"/>
             <MenuItem text="Просмотр записи" onAction="#previewBook" fx:id="previewBookMenu"/>
             <MenuItem text="Удалить запись" onAction="#deleteBook" fx:id="deleteBookMenu"/>
+        </Menu>
+        <Menu text="Вид">
+            <MenuItem text="Показать все тома" onAction="#viewAll" fx:id="viewAllMenu" />
+            <MenuItem text="Показать последние добавленные" onAction="#viewLatest" fx:id="viewLatestMenu" />
         </Menu>
         <Menu text="Помощь">
             <MenuItem text="О программе" onAction="#showAbout"/>

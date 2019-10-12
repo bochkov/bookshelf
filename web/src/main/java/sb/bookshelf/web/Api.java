@@ -20,12 +20,12 @@ public final class Api {
         this.volumeService = volumeService;
     }
 
-    @GetMapping(value = "/count")
+    @GetMapping(value = "/count/")
     public Long totalBooks() {
         return volumeService.count();
     }
 
-    @GetMapping(value = "/list")
+    @GetMapping(value = "/list/")
     public List<Volume> findAll() {
         return volumeService.findAll();
     }
@@ -35,22 +35,22 @@ public final class Api {
         return volumeService.latest(count);
     }
 
-    @PostMapping(value = "/save")
+    @PostMapping(value = "/save/")
     public Volume addBook(@RequestBody Volume volume) {
         return volumeService.save(volume);
     }
 
-    @PostMapping(value = "/register")
+    @PostMapping(value = "/register/")
     public void registerTestUser(@RequestBody Account account) {
         accountSevice.register(account);
     }
 
-    @PostMapping(value = "/delete")
+    @PostMapping(value = "/delete/")
     public void delete(@RequestBody Volume[] volumes) {
         volumeService.delete(Arrays.asList(volumes));
     }
 
-    @PostMapping(value = "/search")
+    @PostMapping(value = "/search/")
     public List<Volume> search(@RequestBody String query) {
         if (query.startsWith("{")) {
             List<Volume> allVolumes = volumeService.findAll();

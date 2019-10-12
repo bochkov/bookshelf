@@ -30,7 +30,7 @@ public class CfgSecurity extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.authenticationProvider(authProvider())
                 .authorizeRequests()
-                .antMatchers("/api/count", "/api/list/*", "/api/search", "/api/register").permitAll()
+                .antMatchers("/api/count/", "/api/list/*", "/api/search/", "/api/register/").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .httpBasic()

@@ -32,7 +32,7 @@ public final class CtMain implements Initializable {
     @FXML
     Button searchButton;
     @FXML
-    MenuItem viewAllMenu, addBookMenu, previewBookMenu, deleteBookMenu;
+    MenuItem viewAllMenu, viewLatestMenu, addBookMenu, previewBookMenu, deleteBookMenu;
     @FXML
     TableView<Volume> volumeTable;
     @FXML
@@ -87,14 +87,7 @@ public final class CtMain implements Initializable {
 
     private void onShown() {
         try {
-            volumes.addAll(
-                    new Volumes(
-                            appProps.hostProperty().get(),
-                            appProps.portProperty().get(),
-                            appProps.userProperty().get(),
-                            appProps.passProperty().get()
-                    ).latest(20)
-            );
+            volumes.clear();
             countLabel.setText(
                     String.format(
                             "Томов: %d",
@@ -113,9 +106,26 @@ public final class CtMain implements Initializable {
     }
 
     @FXML
+    void viewLatest() {
+        try {
+            volumes.setAll(
+                    new Volumes(
+                            appProps.hostProperty().get(),
+                            appProps.portProperty().get(),
+                            appProps.userProperty().get(),
+                            appProps.passProperty().get()
+                    ).latest(20)
+            );
+        } catch (IOException ex) {
+            new Alert(Alert.AlertType.ERROR, ex.getMessage())
+                    .showAndWait();
+        }
+    }
+
+    @FXML
     void viewAll() {
         try {
-            volumes.addAll(
+            volumes.setAll(
                     new Volumes(
                             appProps.hostProperty().get(),
                             appProps.portProperty().get(),
