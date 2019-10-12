@@ -110,7 +110,10 @@ public final class Volumes {
         return Arrays.asList(
                 new ObjectMapper()
                         .readValue(
-                                new JdkRequest(String.format("http://%s:%s/api/list/latest/?c=%d", host, port, count))
+                                new JdkRequest(String.format("http://%s:%s/api/list/latest", host, port))
+                                        .body()
+                                        .formParam("c", count)
+                                        .back()
                                         .through(RetryWire.class)
                                         .fetch()
                                         .as(JacksonResponse.class)
