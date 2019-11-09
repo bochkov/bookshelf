@@ -25,7 +25,9 @@ public final class VolumeServiceImpl implements VolumeService {
 
     @Override
     public List<Volume> latest(int count) {
-        Sort sort = new Sort(Sort.Direction.DESC, "_id");
+        Sort sort = Sort.by(
+                new Sort.Order(Sort.Direction.DESC, "_id")
+        );
         return volumeDao.findAll(
                 PageRequest.of(0, count, sort)
         ).getContent();
