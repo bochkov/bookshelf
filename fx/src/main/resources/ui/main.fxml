@@ -51,6 +51,9 @@
     </HBox>
 
     <TableView VBox.vgrow="ALWAYS" fx:id="volumeTable">
+        <placeholder>
+            <Label/>
+        </placeholder>
         <rowFactory>
             <AnnotatedRow/>
         </rowFactory>
