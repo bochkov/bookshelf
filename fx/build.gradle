@@ -12,6 +12,7 @@ dependencies {
         exclude module: 'jcabi-log'
     }
     compile group: 'org.glassfish', name: 'javax.json', version: '1.1.4'
+    implementation('javax.xml.bind:jaxb-api:2.2.11') // нужен для работы jcabi-http и именно 2.2.11
     compile group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.10.0'
     compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.10.0'
     compile group: 'com.jcabi', name: 'jcabi-log', version: '0.18'
