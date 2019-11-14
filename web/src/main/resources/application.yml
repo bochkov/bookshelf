@@ -6,4 +6,5 @@ spring:
       database: ${db:bookshelf}
 
 logging:
-  file: bookshelf.log
+  file:
+    name: bookshelf.log

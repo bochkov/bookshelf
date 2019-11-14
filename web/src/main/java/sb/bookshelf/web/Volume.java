@@ -2,6 +2,7 @@ package sb.bookshelf.web;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.ToString;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -10,6 +11,7 @@ import java.util.List;
 
 @Data
 @EqualsAndHashCode(of = "id")
+@ToString(exclude = "books")
 @Document(collection = Volume.COLLECTION_NAME)
 public final class Volume implements Serializable {
 
@@ -26,10 +28,4 @@ public final class Volume implements Serializable {
     private Integer pages;
     private List<String> books;
 
-    @Override
-    public String toString() {
-        return String.format("Volume {id='%s', name='%s', author='%s', publisher='%s', " +
-                "year='%s', annotation='%s', isbn='%s', pages=%d}",
-                id, name, author, publisher, year, annotation, isbn, pages);
-    }
 }
