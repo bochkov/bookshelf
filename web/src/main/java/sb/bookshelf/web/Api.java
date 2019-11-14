@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @RestController
@@ -47,7 +46,7 @@ public final class Api {
 
     @PostMapping(value = "/delete/")
     public void delete(@RequestBody Volume[] volumes) {
-        volumeService.delete(Arrays.asList(volumes));
+        volumeService.delete(List.of(volumes));
     }
 
     @PostMapping(value = "/search/")
