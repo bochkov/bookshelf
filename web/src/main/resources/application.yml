@@ -1,10 +1,12 @@
 spring:
   data:
     mongodb:
-      host: ${host:192.168.55.5}
+      host: ${host:10.10.10.10}
       port: ${port:27017}
       database: ${db:bookshelf}
+  profiles:
+    active: production
 
 logging:
   file:
-    name: bookshelf.log
+    name: ./logs/bookshelf.log

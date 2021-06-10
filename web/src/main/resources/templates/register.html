@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>My Bookshelf - Register</title>
+    <meta content="text/html; charset=UTF-8">
+    <link rel="stylesheet" type="text/css" th:href="@{/style.css}"/>
+</head>
+<body>
+<h1>Register user</h1>
+<form th:action="@{/register}" th:method="POST">
+    <label for="user">Username</label>
+    <input type="text" name="username" id="user">
+    <label for="passwd">Password</label>
+    <input type="password" name="password" id="passwd">
+    <p><input type="submit" value="Submit">
+</form>
+
+</body>
+</html>

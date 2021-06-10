@@ -1,0 +1,60 @@
+plugins {
+    id 'java'
+    id 'idea'
+    id 'application'
+}
+
+group = 'com.sergeybochkov'
+version = '3.0'
+sourceCompatibility = JavaVersion.VERSION_11
+targetCompatibility = JavaVersion.VERSION_11
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'com.miglayout:miglayout-parent:11.0'
+    implementation 'com.miglayout:miglayout-swing:11.0'
+
+    implementation 'com.formdev:flatlaf:1.2'
+    implementation 'com.formdev:flatlaf-extras:1.2'
+
+    implementation 'ch.qos.logback:logback-classic:1.2.3'
+    implementation 'org.slf4j:slf4j-api:1.7.30'
+
+    implementation 'com.konghq:unirest-java:3.11.09'
+
+    implementation project(':common')
+
+    compileOnly 'org.projectlombok:lombok:1.18.20'
+    annotationProcessor 'org.projectlombok:lombok:1.18.20'
+}
+
+mainClassName = 'sb.bookshelf.app.App'
+
+task("macApp", dependsOn: 'build') {
+    doLast {
+        def outDir = "$buildDir/macApp" as File
+        def appDir = "$outDir/Bookshelf.app" as File
+        delete outDir
+        project.file(appDir).mkdirs()
+        copy {
+            from tarTree(distTar.archiveFile)
+            into "$appDir/Contents/MacOS"
+        }
+        copy {
+            from 'src/main/resources/bookshelf.icns'
+            into "$appDir/Contents/Resources"
+        }
+        copy {
+            from 'src/main/resources/Info.plist'
+            into "$appDir/Contents"
+            filter { line -> line.replace('{{ root }}', distTar.getArchiveBaseName().get() + "-" + distTar.getArchiveVersion().get()) }
+        }
+        copy {
+            from 'src/main/resources/PkgInfo'
+            into "$appDir/Contents"
+        }
+    }
+}

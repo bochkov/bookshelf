@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>My Bookshelf</title>
+    <meta content="text/html; charset=UTF-8">
+    <link rel="stylesheet" type="text/css" th:href="@{/style.css}"/>
+</head>
+<body>
+
+<form th:action="@{/search}" th:method="POST">
+    <a href="/">Index</a> |
+    <label for="search_field">Search</label>
+    <input type="text" name="query" id="search_field" th:value="${query}">
+    <input type="submit" value="Search">
+</form>
+
+<hr/>
+
+<h1 th:text="${title}"></h1>
+
+<div th:if="${volumes.isEmpty()}">
+    <p>Nothing here</p>
+</div>
+
+<div th:unless="${volumes.isEmpty()}">
+    <ul class="small">
+        <li th:each="vol : ${volumes}">
+            <a th:href="@{'/v/' + ${vol.id}}" th:text="${vol.desc()}"></a>
+        </li>
+    </ul>
+</div>
+
+</body>
+</html>

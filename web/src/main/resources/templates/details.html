@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>My Bookshelf</title>
+    <meta content="text/html; charset=UTF-8">
+    <link rel="stylesheet" type="text/css" th:href="@{/style.css}"/>
+</head>
+<body>
+
+<form th:action="@{/search}" th:method="POST">
+    <a href="/">Index</a> |
+    <label for="search_field"></label>
+    <input type="text" name="query" id="search_field" th:value="${query}">
+    <input type="submit" value="Search">
+</form>
+
+<hr/>
+
+<div>
+    <span class="small" th:text="${volume.author}"></span>
+    <br/>
+    <span class="big" th:text="${volume.title}"></span>
+    <br/>
+    <span class="xsmall gray" th:text="${volume.metaData()}"></span>
+    <p>
+        <span th:if="${volume.annotation}" th:text="${volume.annotation}"></span>
+    <p>
+    <div th:if="${volume.isBooksPresent()}">
+        Произведения в книге:<br/>
+        <ul class="small">
+            <li th:each="book : ${volume.books}" th:text="${book}"></li>
+        </ul>
+    </div>
+</div>
+
+</body>
+</html>
