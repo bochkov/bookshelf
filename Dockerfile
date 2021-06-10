@@ -5,4 +5,4 @@ RUN apk update && \
 WORKDIR /opt
 ADD web/build/libs/web-3.0.jar bookshelf.jar
 EXPOSE 8080
-CMD ["java", "$JAVA_OPTS", "-Dfile.encoding=UTF-8", "-Djava.security.egd=file:/dev/./urandom -jar", "bookshelf.jar", "--host=mongo"]
+ENTRYPOINT ["/bin/sh", "-c", "java $JAVA_OPTS -Dfile.encoding=UTF-8 -Djava.security.egd=file:/dev/./urandom -jar bookshelf.jar --host=mongo"]
