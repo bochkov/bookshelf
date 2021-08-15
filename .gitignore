@@ -8,3 +8,4 @@
 /app/out/
 /.gradle/
 /logs/
+.DS_Store
