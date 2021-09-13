@@ -18,7 +18,6 @@ public class DeleteVolume extends ExecService {
         var info = new DelInfo();
         info.setIds(volumes);
         Unirest.post("/api/delete/")
-                .header("Content-Type", "application/json")
                 .body(info)
                 .asObjectAsync(DelInfo.class, new LoggedCallback<>(callback));
     }

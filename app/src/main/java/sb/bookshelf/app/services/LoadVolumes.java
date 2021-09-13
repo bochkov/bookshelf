@@ -16,7 +16,6 @@ public final class LoadVolumes extends ExecService {
     @Override
     public void run() {
         Unirest.get("/api/list/")
-                .header("Accept", "application/json")
                 .asObjectAsync(
                         new GenericType<List<Volume>>() {
                         },

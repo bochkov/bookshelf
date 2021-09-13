@@ -11,6 +11,8 @@ import com.formdev.flatlaf.FlatLightLaf;
 import kong.unirest.Unirest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.http.HttpHeaders;
+import org.apache.http.entity.ContentType;
 import sb.bookshelf.app.services.CountVolumes;
 import sb.bookshelf.app.services.LoadMetadata;
 import sb.bookshelf.app.services.LoadVolumes;
@@ -88,7 +90,10 @@ public final class App extends JFrame {
             LOG.warn(ex.getMessage());
         }
         AppProps.load();
-        Unirest.config().defaultBaseUrl(AppProps.prop(AppProps.HOST));
+        Unirest.config()
+                .defaultBaseUrl(AppProps.prop(AppProps.HOST))
+                .addDefaultHeader(HttpHeaders.ACCEPT, ContentType.APPLICATION_JSON.getMimeType())
+                .addDefaultHeader(HttpHeaders.CONTENT_TYPE, ContentType.APPLICATION_JSON.getMimeType());
         String user = AppProps.prop(AppProps.USER, "");
         String password = AppProps.prop(AppProps.PASSWORD, "");
         if (!user.isEmpty() || !password.isEmpty())

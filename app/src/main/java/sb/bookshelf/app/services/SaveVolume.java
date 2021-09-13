@@ -14,7 +14,6 @@ public final class SaveVolume extends ExecService {
     @Override
     public void run() {
         Unirest.post("/api/save/")
-                .header("Content-Type", "application/json")
                 .body(volume)
                 .asObjectAsync(Volume.class, new LoggedCallback<>(callback));
     }

@@ -14,7 +14,6 @@ public final class CountVolumes extends ExecService {
     @Override
     public void run() {
         Unirest.get("/api/count/")
-                .header("Accept", "application/json")
                 .asObjectAsync(
                         new GenericType<TotalBooks>() {
                         },

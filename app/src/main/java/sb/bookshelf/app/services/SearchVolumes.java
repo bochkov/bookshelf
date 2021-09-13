@@ -18,7 +18,6 @@ public final class SearchVolumes extends ExecService {
     @Override
     public void run() {
         Unirest.post("/api/search/")
-                .header("Content-Type", "application/json")
                 .body(new SearchQuery(query))
                 .asObjectAsync(
                         new GenericType<>() {

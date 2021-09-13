@@ -17,7 +17,6 @@ public final class LoadMetadata extends ExecService {
     @Override
     public void run() {
         Unirest.get("/api/authors/")
-                .header("Accept", "application/json")
                 .asObjectAsync(
                         new GenericType<List<String>>() {
                         },
@@ -29,7 +28,6 @@ public final class LoadMetadata extends ExecService {
                         )
                 );
         Unirest.get("/api/publishers/")
-                .header("Accept", "application/json")
                 .asObjectAsync(
                         new GenericType<List<String>>() {
                         },
