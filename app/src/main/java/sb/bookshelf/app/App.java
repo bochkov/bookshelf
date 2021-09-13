@@ -16,10 +16,7 @@ import org.apache.http.entity.ContentType;
 import sb.bookshelf.app.services.CountVolumes;
 import sb.bookshelf.app.services.LoadMetadata;
 import sb.bookshelf.app.services.LoadVolumes;
-import sb.bookshelf.app.ui.BMenu;
-import sb.bookshelf.app.ui.BMenuBar;
-import sb.bookshelf.app.ui.BMenuItem;
-import sb.bookshelf.app.ui.BookPanel;
+import sb.bookshelf.app.ui.*;
 
 @Slf4j
 public final class App extends JFrame {
@@ -100,6 +97,7 @@ public final class App extends JFrame {
             Unirest.config().setDefaultBasicAuth(user, password);
         if (Taskbar.getTaskbar().isSupported(Taskbar.Feature.ICON_IMAGE))
             Taskbar.getTaskbar().setIconImage(Images.LOGO.getImage());
+        Desktop.getDesktop().setAboutHandler(new AboutDialog());
         new App().setVisible(true);
     }
 }

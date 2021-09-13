@@ -31,7 +31,10 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok:1.18.20'
 }
 
-mainClassName = 'sb.bookshelf.app.App'
+application {
+    mainClassName = 'sb.bookshelf.app.App'
+    applicationDefaultJvmArgs = ["-Xmx64m", "-Xdock:name=Bookshelf"]
+}
 
 task("macApp", dependsOn: 'build') {
     doLast {
