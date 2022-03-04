@@ -5,15 +5,15 @@ plugins {
 
 group = 'com.sergeybochkov'
 version = '1.0'
-sourceCompatibility = JavaVersion.VERSION_11
-targetCompatibility = JavaVersion.VERSION_11
+sourceCompatibility = JavaVersion.VERSION_17
+targetCompatibility = JavaVersion.VERSION_17
 
 repositories() {
     mavenCentral()
 }
 
 dependencies {
-    compileOnly 'org.springframework.data:spring-data-mongodb:3.2.1'
-    compileOnly 'org.projectlombok:lombok:1.18.20'
-    annotationProcessor 'org.projectlombok:lombok:1.18.20'
+    compileOnly 'org.springframework.data:spring-data-mongodb:3.3.2'
+    compileOnly 'org.projectlombok:lombok:1.18.22'
+    annotationProcessor 'org.projectlombok:lombok:1.18.22'
 }
