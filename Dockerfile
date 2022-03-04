@@ -1,4 +1,4 @@
-FROM openjdk:16-alpine
+FROM eclipse-temurin:17-jre-alpine
 RUN apk update && \
   apk add ca-certificates wget && \
   update-ca-certificates

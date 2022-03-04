@@ -31,7 +31,7 @@ dependencies {
 }
 
 application {
-    mainClassName = 'sb.bookshelf.app.App'
+    mainClass = 'sb.bookshelf.app.App'
     applicationDefaultJvmArgs = ["-Xmx64m", "-Xdock:name=Bookshelf"]
 }
 
