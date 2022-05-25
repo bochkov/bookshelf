@@ -9,4 +9,4 @@ spring:
 
 logging:
   file:
-    name: ./web/logs/bookshelf.log
+    name: logs/bookshelf.log
