@@ -17,12 +17,12 @@ dependencies {
     implementation 'com.miglayout:miglayout-parent:11.0'
     implementation 'com.miglayout:miglayout-swing:11.0'
 
-    implementation 'com.formdev:flatlaf:2.2'
-    implementation 'com.formdev:flatlaf-extras:2.2'
+    implementation 'com.formdev:flatlaf:2.6'
+    implementation 'com.formdev:flatlaf-extras:2.6'
 
-    implementation 'ch.qos.logback:logback-classic:1.2.11'
+    implementation 'ch.qos.logback:logback-classic:1.4.4'
 
-    implementation 'com.konghq:unirest-java:3.13.10'
+    implementation 'com.konghq:unirest-java:3.13.12'
 
     implementation project(':common')
 
