@@ -28,9 +28,9 @@ public class CfgSecurity {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http.authenticationProvider(authProvider())
-                .authorizeRequests()
-                .antMatchers("/api/save/", "/api/delete/").authenticated()
-                .antMatchers("/**").permitAll()
+                .authorizeHttpRequests()
+                .requestMatchers("/api/save/", "/api/delete/").authenticated()
+                .requestMatchers("/**").permitAll()
                 .and().httpBasic()
                 .and().csrf().disable()
                 .build();
