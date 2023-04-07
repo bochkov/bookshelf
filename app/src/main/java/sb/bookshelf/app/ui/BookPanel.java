@@ -2,6 +2,8 @@ package sb.bookshelf.app.ui;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -48,9 +50,18 @@ public final class BookPanel extends JPanel implements AuthorListener, Publisher
         });
         listPanel.add(new JScrollPane(table), "grow");
 
+        Action acEdit = new AcEdit(Images.ICON_EDIT);
+        table.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if (e.getClickCount() == 2)
+                    acEdit.actionPerformed(null);
+            }
+        });
+
         var cmdPanel = new JPanel(new MigLayout("insets 0", "[][][]push[]"));
         cmdPanel.add(new JButton(new AcAdd(Images.ICON_ADD)));
-        cmdPanel.add(new JButton(new AcEdit(Images.ICON_EDIT)));
+        cmdPanel.add(new JButton(acEdit));
         cmdPanel.add(new JButton(new AcDelete(Images.ICON_DEL)));
         cmdPanel.add(countLabel);
         listPanel.add(cmdPanel);

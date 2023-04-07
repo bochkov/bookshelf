@@ -17,8 +17,8 @@ dependencies {
     implementation 'com.miglayout:miglayout-parent:11.0'
     implementation 'com.miglayout:miglayout-swing:11.0'
 
-    implementation 'com.formdev:flatlaf:3.0'
-    implementation 'com.formdev:flatlaf-extras:3.0'
+    implementation 'com.formdev:flatlaf:3.1'
+    implementation 'com.formdev:flatlaf-extras:3.1'
 
     implementation 'ch.qos.logback:logback-classic:1.4.5'
 
