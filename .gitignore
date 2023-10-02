@@ -13,3 +13,6 @@
 
 /app/build/
 /app/out/
+
+logs/
+build/

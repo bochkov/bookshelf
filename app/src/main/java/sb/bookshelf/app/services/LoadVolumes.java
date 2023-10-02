@@ -2,12 +2,14 @@ package sb.bookshelf.app.services;
 
 import java.util.List;
 
-import kong.unirest.GenericType;
-import kong.unirest.Unirest;
+import kong.unirest.core.GenericType;
+import kong.unirest.core.Unirest;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import sb.bookshelf.app.ui.BookPanel;
 import sb.bookshelf.common.model.Volume;
 
+@Slf4j
 @RequiredArgsConstructor
 public final class LoadVolumes extends ExecService {
 

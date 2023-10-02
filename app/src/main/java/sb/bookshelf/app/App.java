@@ -8,11 +8,14 @@ import java.io.IOException;
 import javax.swing.*;
 
 import com.formdev.flatlaf.FlatLightLaf;
-import kong.unirest.Unirest;
+import kong.unirest.core.HeaderNames;
+import kong.unirest.core.MimeTypes;
+import kong.unirest.core.Unirest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.http.HttpHeaders;
-import org.apache.http.entity.ContentType;
+import sb.bdev.ui.swing.HMenu;
+import sb.bdev.ui.swing.HMenuBar;
+import sb.bdev.ui.swing.HMenuItem;
 import sb.bookshelf.app.services.CountVolumes;
 import sb.bookshelf.app.services.LoadMetadata;
 import sb.bookshelf.app.services.LoadVolumes;
@@ -29,9 +32,9 @@ public final class App extends JFrame {
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setPreferredSize(new Dimension(800, 600));
 
-        setJMenuBar(new BMenuBar(
-                new BMenu("Файл",
-                        new BMenuItem(new OpenProps("Настройки"))
+        setJMenuBar(new HMenuBar(
+                new HMenu("Файл",
+                        new HMenuItem(new OpenProps("Настройки"))
                 )
         ));
 
@@ -89,15 +92,17 @@ public final class App extends JFrame {
         AppProps.load();
         Unirest.config()
                 .defaultBaseUrl(AppProps.prop(AppProps.HOST))
-                .addDefaultHeader(HttpHeaders.ACCEPT, ContentType.APPLICATION_JSON.getMimeType())
-                .addDefaultHeader(HttpHeaders.CONTENT_TYPE, ContentType.APPLICATION_JSON.getMimeType());
+                .addDefaultHeader(HeaderNames.ACCEPT, MimeTypes.JSON)
+                .addDefaultHeader(HeaderNames.CONTENT_TYPE, MimeTypes.JSON);
         String user = AppProps.prop(AppProps.USER, "");
         String password = AppProps.prop(AppProps.PASSWORD, "");
         if (!user.isEmpty() || !password.isEmpty())
             Unirest.config().setDefaultBasicAuth(user, password);
         if (Taskbar.getTaskbar().isSupported(Taskbar.Feature.ICON_IMAGE))
             Taskbar.getTaskbar().setIconImage(Images.LOGO.getImage());
-        Desktop.getDesktop().setAboutHandler(new AboutDialog());
+        if (Desktop.getDesktop().isSupported(Desktop.Action.APP_ABOUT)) {
+            Desktop.getDesktop().setAboutHandler(new AboutDialog());
+        }
         new App().setVisible(true);
     }
 }

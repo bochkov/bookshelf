@@ -6,8 +6,10 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -28,11 +30,11 @@ public class CfgSecurity {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http.authenticationProvider(authProvider())
-                .authorizeHttpRequests()
-                .requestMatchers("/api/save/", "/api/delete/").authenticated()
-                .requestMatchers("/**").permitAll()
-                .and().httpBasic()
-                .and().csrf().disable()
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/api/save/", "/api/delete/").authenticated()
+                        .requestMatchers("/**").permitAll())
+                .httpBasic(Customizer.withDefaults())
+                .csrf(AbstractHttpConfigurer::disable)
                 .build();
     }
 

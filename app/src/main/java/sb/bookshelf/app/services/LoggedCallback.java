@@ -1,8 +1,8 @@
 package sb.bookshelf.app.services;
 
-import kong.unirest.Callback;
-import kong.unirest.HttpResponse;
-import kong.unirest.UnirestException;
+import kong.unirest.core.Callback;
+import kong.unirest.core.HttpResponse;
+import kong.unirest.core.UnirestException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 

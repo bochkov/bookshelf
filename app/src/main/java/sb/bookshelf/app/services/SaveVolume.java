@@ -1,7 +1,7 @@
 package sb.bookshelf.app.services;
 
-import kong.unirest.Callback;
-import kong.unirest.Unirest;
+import kong.unirest.core.Callback;
+import kong.unirest.core.Unirest;
 import lombok.RequiredArgsConstructor;
 import sb.bookshelf.common.model.Volume;
 

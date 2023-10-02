@@ -2,9 +2,9 @@ package sb.bookshelf.app.services;
 
 import java.util.List;
 
-import kong.unirest.Callback;
-import kong.unirest.GenericType;
-import kong.unirest.Unirest;
+import kong.unirest.core.Callback;
+import kong.unirest.core.GenericType;
+import kong.unirest.core.Unirest;
 import lombok.RequiredArgsConstructor;
 import sb.bookshelf.common.model.Volume;
 import sb.bookshelf.common.reqres.SearchQuery;
