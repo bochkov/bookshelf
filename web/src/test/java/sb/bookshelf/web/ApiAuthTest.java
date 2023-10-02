@@ -3,7 +3,7 @@ package sb.bookshelf.web;
 import java.util.Collections;
 
 import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
@@ -28,14 +28,10 @@ class ApiAuthTest {
     private final TestRestTemplate restTemplate = new TestRestTemplate();
     private final TestRestTemplate authTemplate = new TestRestTemplate("user", "password");
 
-    private String url;
+    private final String url;
 
-    @LocalServerPort
-    private int port;
-
-    @BeforeEach
-    public void setUp() {
-        url = "http://localhost:" + port;
+    public ApiAuthTest(@LocalServerPort int port) {
+        this.url = "http://localhost:" + port;
     }
 
     @Test
