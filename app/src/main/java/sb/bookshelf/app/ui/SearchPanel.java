@@ -10,14 +10,14 @@ import lombok.extern.slf4j.Slf4j;
 import net.miginfocom.swing.MigLayout;
 import sb.bookshelf.app.Images;
 import sb.bookshelf.app.services.SearchVolumes;
-import sb.bookshelf.common.model.Volume;
+import sb.bookshelf.common.model.VolumeInfo;
 
 @Slf4j
 public final class SearchPanel extends JPanel {
 
     private final VolumeTableModel model;
-    private final List<Volume> origin;
-    private final List<Volume> searched;
+    private final List<VolumeInfo> origin;
+    private final List<VolumeInfo> searched;
 
     private final JTextField field = new JTextField();
 

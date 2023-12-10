@@ -8,4 +8,5 @@ Launch parameters
 
 `--host=<mongo db host> --port=<mongo db port> --db=<mongo db name>`
 
-After start app go to http://localhost:8080/register and create user
+Create, edit and delete volumes can user with credentials defined in environment variables:
+`USER, PASSWORD`

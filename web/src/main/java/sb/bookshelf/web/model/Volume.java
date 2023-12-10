@@ -1,7 +1,6 @@
-package sb.bookshelf.common.model;
+package sb.bookshelf.web.model;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 import lombok.Data;
@@ -12,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
+import sb.bookshelf.common.model.VolumeInfo;
 
 @Slf4j
 @Data
@@ -48,36 +48,17 @@ public final class Volume implements Serializable {
         this.books = v.getBooks();
     }
 
-    public String printBooks() {
-        return isBooksPresent() ?
-                String.join("\n", books) : "";
-    }
-
-    public boolean isBooksPresent() {
-        return books != null && !books.isEmpty();
-    }
-
-    public String desc() {
-        String delimiter = author == null || author.endsWith(".") ? " " : ". ";
-        List<String> data = new ArrayList<>();
-        if (author != null && !author.isEmpty())
-            data.add(author);
-        if (title != null && !title.isEmpty())
-            data.add(title);
-        return String.join(delimiter, data);
-    }
-
-    public String metaData() {
-        List<String> data = new ArrayList<>();
-        if (publisher != null && !publisher.isEmpty())
-            data.add(publisher);
-        if (year != null && !year.isEmpty())
-            data.add(year);
-        if (isbn != null && !isbn.isEmpty())
-            data.add("ISBN " + isbn);
-        if (pages != null)
-            data.add(pages + " стр.");
-        return String.join(", ", data);
+    public VolumeInfo toVolumeInfo() {
+        VolumeInfo vi = new VolumeInfo();
+        vi.setId(id);
+        vi.setTitle(title);
+        vi.setAuthor(author);
+        vi.setPublisher(publisher);
+        vi.setYear(year);
+        vi.setIsbn(isbn);
+        vi.setPages(pages);
+        vi.setBooks(books);
+        return vi;
     }
 
 }

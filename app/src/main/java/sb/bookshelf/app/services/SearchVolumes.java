@@ -9,19 +9,19 @@ import kong.unirest.core.Unirest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import sb.bookshelf.common.messages.SearchQuery;
-import sb.bookshelf.common.model.Volume;
+import sb.bookshelf.common.model.VolumeInfo;
 
 @Slf4j
 @RequiredArgsConstructor
 public final class SearchVolumes extends ExecService {
 
-    private static final GenericType<List<Volume>> LIST_VOLUME_TYPE = new GenericType<>() {
+    private static final GenericType<List<VolumeInfo>> LIST_VOLUME_TYPE = new GenericType<>() {
     };
 
     private final String query;
-    private final Callback<List<Volume>> callback;
+    private final Callback<List<VolumeInfo>> callback;
 
-    private void searchCallback(HttpResponse<List<Volume>> response) {
+    private void searchCallback(HttpResponse<List<VolumeInfo>> response) {
         if (!response.isSuccess()) {
             LOG.warn("{} {}", this.getClass(), response.getStatus());
         }

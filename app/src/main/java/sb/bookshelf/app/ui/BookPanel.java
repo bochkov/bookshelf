@@ -17,7 +17,6 @@ import sb.bookshelf.app.services.CountVolumes;
 import sb.bookshelf.app.services.DeleteVolume;
 import sb.bookshelf.app.services.SaveVolume;
 import sb.bookshelf.common.messages.DeleteResponse;
-import sb.bookshelf.common.model.Volume;
 import sb.bookshelf.common.model.VolumeInfo;
 
 @Slf4j
@@ -44,7 +43,7 @@ public final class BookPanel extends JPanel implements AuthorListener, Publisher
         table.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
         table.getSelectionModel().addListSelectionListener(e -> {
             if (!e.getValueIsAdjusting()) {
-                Volume vol = model.get(table.getSelectedRow());
+                VolumeInfo vol = model.get(table.getSelectedRow());
                 bookInfo.view(vol);
             }
         });
@@ -70,7 +69,7 @@ public final class BookPanel extends JPanel implements AuthorListener, Publisher
         add(bookInfo);
     }
 
-    public void fill(List<Volume> volumes) {
+    public void fill(List<VolumeInfo> volumes) {
         model.set(volumes);
     }
 
@@ -126,7 +125,7 @@ public final class BookPanel extends JPanel implements AuthorListener, Publisher
             if (vol != null) {
                 new SaveVolume(vol, response -> {
                     if (response.isSuccess()) {
-                        Volume v = response.getBody();
+                        VolumeInfo v = response.getBody();
                         model.put(0, v);
                         new CountVolumes(BookPanel.this).start();
                         addAuthor(v.getAuthor());
@@ -154,7 +153,7 @@ public final class BookPanel extends JPanel implements AuthorListener, Publisher
             if (vol != null) {
                 new SaveVolume(vol, response -> {
                     if (response.isSuccess()) {
-                        Volume v = response.getBody();
+                        VolumeInfo v = response.getBody();
                         model.replaceIds(v);
                         new CountVolumes(BookPanel.this).start();
                         addAuthor(v.getAuthor());
@@ -173,8 +172,8 @@ public final class BookPanel extends JPanel implements AuthorListener, Publisher
             super("", icon);
         }
 
-        private List<Volume> selectedVolumes() {
-            List<Volume> volumes = new ArrayList<>();
+        private List<VolumeInfo> selectedVolumes() {
+            List<VolumeInfo> volumes = new ArrayList<>();
             for (int i : table.getSelectedRows())
                 volumes.add(model.get(i));
             return volumes;
@@ -193,7 +192,7 @@ public final class BookPanel extends JPanel implements AuthorListener, Publisher
                     JOptionPane.QUESTION_MESSAGE, null, new Object[]{"Да", "Нет"}, "Нет");
             if (res == JOptionPane.YES_OPTION) {
                 new DeleteVolume(
-                        volumes.stream().map(Volume::getId).toList(),
+                        volumes.stream().map(VolumeInfo::getId).toList(),
                         resp -> {
                             if (resp.isSuccess()) {
                                 DeleteResponse info = resp.getBody();

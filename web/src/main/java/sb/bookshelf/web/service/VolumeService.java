@@ -2,8 +2,7 @@ package sb.bookshelf.web.service;
 
 import java.util.List;
 
-import sb.bookshelf.common.model.Volume;
-import sb.bookshelf.common.model.VolumeInfo;
+import sb.bookshelf.web.model.Volume;
 
 public interface VolumeService {
 
@@ -19,7 +18,7 @@ public interface VolumeService {
 
     Volume get(String id);
 
-    Volume save(VolumeInfo volume);
+    Volume save(Volume volume);
 
     List<String> delete(List<String> ids);
 

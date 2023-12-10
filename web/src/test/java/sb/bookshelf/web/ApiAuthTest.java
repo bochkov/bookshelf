@@ -17,8 +17,8 @@ import sb.bookshelf.common.messages.DeleteRequest;
 import sb.bookshelf.common.messages.DeleteResponse;
 import sb.bookshelf.common.messages.SearchQuery;
 import sb.bookshelf.common.messages.TotalBooks;
-import sb.bookshelf.common.model.Volume;
 import sb.bookshelf.common.model.VolumeInfo;
+import sb.bookshelf.web.model.Volume;
 
 @ActiveProfiles("test")
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)

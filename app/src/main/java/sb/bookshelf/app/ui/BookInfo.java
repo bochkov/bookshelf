@@ -3,7 +3,7 @@ package sb.bookshelf.app.ui;
 import javax.swing.*;
 
 import net.miginfocom.swing.MigLayout;
-import sb.bookshelf.common.model.Volume;
+import sb.bookshelf.common.model.VolumeInfo;
 
 public final class BookInfo extends JPanel {
 
@@ -36,7 +36,7 @@ public final class BookInfo extends JPanel {
         scBooks.setVisible(false);
     }
 
-    public void view(Volume volume) {
+    public void view(VolumeInfo volume) {
         if (volume == null)
             clear();
         else {

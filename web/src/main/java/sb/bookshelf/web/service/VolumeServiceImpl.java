@@ -11,9 +11,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Service;
-import sb.bookshelf.common.model.Volume;
-import sb.bookshelf.common.model.VolumeInfo;
 import sb.bookshelf.web.dao.VolumeDao;
+import sb.bookshelf.web.model.Volume;
 
 @Slf4j
 @Service
@@ -88,9 +87,8 @@ public final class VolumeServiceImpl implements VolumeService {
     }
 
     @Override
-    public Volume save(VolumeInfo v) {
-        Volume vol = new Volume(v);
-        return volumeDao.save(vol);
+    public Volume save(Volume v) {
+        return volumeDao.save(v);
     }
 
     @Override

@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
-import sb.bookshelf.common.model.Volume;
+import sb.bookshelf.web.model.Volume;
 
 public interface VolumeDao extends MongoRepository<Volume, String> {
 

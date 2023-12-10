@@ -9,8 +9,8 @@ import sb.bookshelf.common.messages.DeleteRequest;
 import sb.bookshelf.common.messages.DeleteResponse;
 import sb.bookshelf.common.messages.SearchQuery;
 import sb.bookshelf.common.messages.TotalBooks;
-import sb.bookshelf.common.model.Volume;
 import sb.bookshelf.common.model.VolumeInfo;
+import sb.bookshelf.web.model.Volume;
 import sb.bookshelf.web.service.VolumeService;
 
 @Slf4j
@@ -37,13 +37,17 @@ public class Api {
     }
 
     @GetMapping(value = "/latest/")
-    public List<Volume> latest(@RequestParam(defaultValue = "10", name = "c") int count) {
-        return volumeService.latest(count);
+    public List<VolumeInfo> latest(@RequestParam(defaultValue = "10", name = "c") int count) {
+        return volumeService.latest(count)
+                .stream()
+                .map(Volume::toVolumeInfo)
+                .toList();
     }
 
     @PostMapping(value = "/save/")
-    public Volume saveBook(@RequestBody VolumeInfo info) {
-        return volumeService.save(info);
+    public VolumeInfo saveBook(@RequestBody VolumeInfo info) {
+        Volume vol = new Volume(info);
+        return volumeService.save(vol).toVolumeInfo();
     }
 
     @PostMapping(value = "/delete/")
@@ -56,7 +60,10 @@ public class Api {
     }
 
     @PostMapping(value = "/search/")
-    public List<Volume> search(@RequestBody SearchQuery query) {
-        return volumeService.find(query.getQuery());
+    public List<VolumeInfo> search(@RequestBody SearchQuery query) {
+        return volumeService.find(query.getQuery())
+                .stream()
+                .map(Volume::toVolumeInfo)
+                .toList();
     }
 }

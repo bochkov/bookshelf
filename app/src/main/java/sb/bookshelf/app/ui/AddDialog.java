@@ -9,7 +9,6 @@ import java.util.concurrent.atomic.AtomicReference;
 import javax.swing.*;
 
 import net.miginfocom.swing.MigLayout;
-import sb.bookshelf.common.model.Volume;
 import sb.bookshelf.common.model.VolumeInfo;
 
 public final class AddDialog extends JDialog {
@@ -69,7 +68,7 @@ public final class AddDialog extends JDialog {
         setLocationRelativeTo(owner);
     }
 
-    public void edit(Volume vol) {
+    public void edit(VolumeInfo vol) {
         if (vol != null) {
             bookTitle.setText(vol.getTitle());
             author.select(vol.getAuthor());

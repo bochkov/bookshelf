@@ -5,7 +5,6 @@ import kong.unirest.core.HttpResponse;
 import kong.unirest.core.Unirest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import sb.bookshelf.common.model.Volume;
 import sb.bookshelf.common.model.VolumeInfo;
 
 @Slf4j
@@ -13,9 +12,9 @@ import sb.bookshelf.common.model.VolumeInfo;
 public final class SaveVolume extends ExecService {
 
     private final VolumeInfo volume;
-    private final Callback<Volume> callback;
+    private final Callback<VolumeInfo> callback;
 
-    private void saveCallback(HttpResponse<Volume> response) {
+    private void saveCallback(HttpResponse<VolumeInfo> response) {
         if (!response.isSuccess()) {
             LOG.warn("{} {}", this.getClass(), response.getStatus());
         }
@@ -26,6 +25,6 @@ public final class SaveVolume extends ExecService {
     public void run() {
         Unirest.post("/api/save/")
                 .body(volume)
-                .asObjectAsync(Volume.class, this::saveCallback);
+                .asObjectAsync(VolumeInfo.class, this::saveCallback);
     }
 }

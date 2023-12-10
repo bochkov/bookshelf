@@ -1,5 +1,6 @@
 package sb.bookshelf.common.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import lombok.Data;
@@ -20,5 +21,37 @@ public final class VolumeInfo {
     private String isbn;
     private Integer pages;
     private List<String> books;
+
+    public String printBooks() {
+        return isBooksPresent() ?
+                String.join("\n", books) : "";
+    }
+
+    public boolean isBooksPresent() {
+        return books != null && !books.isEmpty();
+    }
+
+    public String desc() {
+        String delimiter = author == null || author.endsWith(".") ? " " : ". ";
+        List<String> data = new ArrayList<>();
+        if (author != null && !author.isEmpty())
+            data.add(author);
+        if (title != null && !title.isEmpty())
+            data.add(title);
+        return String.join(delimiter, data);
+    }
+
+    public String metaData() {
+        List<String> data = new ArrayList<>();
+        if (publisher != null && !publisher.isEmpty())
+            data.add(publisher);
+        if (year != null && !year.isEmpty())
+            data.add(year);
+        if (isbn != null && !isbn.isEmpty())
+            data.add("ISBN " + isbn);
+        if (pages != null)
+            data.add(pages + " стр.");
+        return String.join(", ", data);
+    }
 
 }
