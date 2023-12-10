@@ -57,10 +57,10 @@ public final class VolumeServiceImpl implements VolumeService {
     @Override
     public List<Volume> findByField(String field, String query) {
         return switch (field) {
-            case "title" -> volumeDao.findByTitleContaining(query);
-            case "author" -> volumeDao.findByAuthorContaining(query);
-            case "year" -> volumeDao.findByYearContaining(query);
-            case "annotation" -> volumeDao.findByAnnotationContaining(query);
+            case "title" -> volumeDao.findByTitleContainingIgnoreCase(query);
+            case "author" -> volumeDao.findByAuthorContainingIgnoreCase(query);
+            case "year" -> volumeDao.findByYearContainingIgnoreCase(query);
+            case "annotation" -> volumeDao.findByAnnotationContainingIgnoreCase(query);
             default -> new ArrayList<>();
         };
     }

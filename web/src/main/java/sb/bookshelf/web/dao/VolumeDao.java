@@ -17,11 +17,11 @@ public interface VolumeDao extends MongoRepository<Volume, String> {
             "] }")
     List<Volume> find(String query);
 
-    List<Volume> findByTitleContaining(String name);
+    List<Volume> findByTitleContainingIgnoreCase(String name);
 
-    List<Volume> findByAuthorContaining(String author);
+    List<Volume> findByAuthorContainingIgnoreCase(String author);
 
-    List<Volume> findByAnnotationContaining(String annotation);
+    List<Volume> findByAnnotationContainingIgnoreCase(String annotation);
 
-    List<Volume> findByYearContaining(String year);
+    List<Volume> findByYearContainingIgnoreCase(String year);
 }
