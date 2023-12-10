@@ -10,14 +10,10 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import sb.bookshelf.web.config.CfgSecurity;
 
+@Profile("test")
 @TestConfiguration
 @EnableWebSecurity
-@Profile("test")
 public class TestSecurityConfig extends CfgSecurity {
-
-    public TestSecurityConfig() {
-        super(null);
-    }
 
     @Bean
     @Override
@@ -26,7 +22,7 @@ public class TestSecurityConfig extends CfgSecurity {
                 .passwordEncoder(s -> passwordEncoder().encode(s))
                 .username("user")
                 .password("password")
-                .roles("USER")
+                .roles("RW")
                 .build();
         return new InMemoryUserDetailsManager(user);
     }

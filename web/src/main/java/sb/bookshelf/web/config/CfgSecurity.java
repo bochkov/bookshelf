@@ -1,6 +1,7 @@
 package sb.bookshelf.web.config;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.BeanCreationException;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
@@ -10,22 +11,19 @@ import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
-import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
-import sb.bookshelf.web.dao.AccountDao;
 
 @Configuration
 @EnableWebSecurity
 @Profile("production")
 @RequiredArgsConstructor
 public class CfgSecurity {
-
-    private final AccountDao accountDao;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -48,16 +46,18 @@ public class CfgSecurity {
 
     @Bean
     public UserDetailsService userDetailsService() {
-        return username -> {
-            var acc = accountDao.findByUsername(username);
-            if (acc != null) {
-                return new User(acc.getUsername(), acc.getPassword(),
-                        true, true, true, true,
-                        AuthorityUtils.createAuthorityList("USER")
-                );
-            }
-            throw new UsernameNotFoundException(String.format("Could not find user '%s'", username));
-        };
+        String user = System.getenv("USER");
+        String password = System.getenv("PASSWORD");
+        if (password == null || password.isEmpty()) {
+            throw new BeanCreationException("no password provided");
+        }
+        UserDetails userDetails = User.builder()
+                .passwordEncoder(pass -> passwordEncoder().encode(pass))
+                .username(user)
+                .password(password)
+                .roles("RW")
+                .build();
+        return new InMemoryUserDetailsManager(userDetails);
     }
 
     @Bean
