@@ -1,16 +1,16 @@
 package sb.bookshelf.web.controller;
 
-import java.io.Serializable;
 import java.util.List;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
+import sb.bookshelf.common.messages.DeleteRequest;
+import sb.bookshelf.common.messages.DeleteResponse;
+import sb.bookshelf.common.messages.SearchQuery;
+import sb.bookshelf.common.messages.TotalBooks;
 import sb.bookshelf.common.model.Volume;
-import sb.bookshelf.common.reqres.DelInfo;
-import sb.bookshelf.common.reqres.SearchQuery;
-import sb.bookshelf.common.reqres.TotalBooks;
-import sb.bookshelf.common.reqres.VolumeInfo;
+import sb.bookshelf.common.model.VolumeInfo;
 import sb.bookshelf.web.service.VolumeService;
 
 @Slf4j
@@ -22,7 +22,7 @@ public class Api {
     private final VolumeService volumeService;
 
     @GetMapping(value = "/count/")
-    public Serializable totalBooks() {
+    public TotalBooks totalBooks() {
         return new TotalBooks(volumeService.count());
     }
 
@@ -36,24 +36,23 @@ public class Api {
         return volumeService.allPublishers();
     }
 
-    @GetMapping(value = "/list/")
-    public List<Volume> findAll() {
-        return volumeService.findAll();
-    }
-
-    @GetMapping(value = "/list/latest")
+    @GetMapping(value = "/latest/")
     public List<Volume> latest(@RequestParam(defaultValue = "10", name = "c") int count) {
         return volumeService.latest(count);
     }
 
     @PostMapping(value = "/save/")
-    public Volume addBook(@RequestBody VolumeInfo info) {
-        return volumeService.save(info.toVolume());
+    public Volume saveBook(@RequestBody VolumeInfo info) {
+        return volumeService.save(info);
     }
 
     @PostMapping(value = "/delete/")
-    public Serializable delete(@RequestBody DelInfo ids) {
-        return volumeService.delete(ids.getIds());
+    public DeleteResponse delete(@RequestBody DeleteRequest req) {
+        return new DeleteResponse(
+                volumeService.delete(
+                        req.getIds()
+                )
+        );
     }
 
     @PostMapping(value = "/search/")

@@ -3,11 +3,9 @@ package sb.bookshelf.web.service;
 import java.util.List;
 
 import sb.bookshelf.common.model.Volume;
-import sb.bookshelf.common.reqres.DelInfo;
+import sb.bookshelf.common.model.VolumeInfo;
 
 public interface VolumeService {
-
-    List<Volume> findAll();
 
     List<Volume> latest(int count);
 
@@ -21,9 +19,9 @@ public interface VolumeService {
 
     Volume get(String id);
 
-    Volume save(Volume volume);
+    Volume save(VolumeInfo volume);
 
-    DelInfo delete(List<String> ids);
+    List<String> delete(List<String> ids);
 
     Long count();
 }

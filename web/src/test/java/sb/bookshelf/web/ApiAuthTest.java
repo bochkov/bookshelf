@@ -13,11 +13,12 @@ import org.springframework.context.annotation.Import;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ActiveProfiles;
+import sb.bookshelf.common.messages.DeleteRequest;
+import sb.bookshelf.common.messages.DeleteResponse;
+import sb.bookshelf.common.messages.SearchQuery;
+import sb.bookshelf.common.messages.TotalBooks;
 import sb.bookshelf.common.model.Volume;
-import sb.bookshelf.common.reqres.DelInfo;
-import sb.bookshelf.common.reqres.SearchQuery;
-import sb.bookshelf.common.reqres.TotalBooks;
-import sb.bookshelf.common.reqres.VolumeInfo;
+import sb.bookshelf.common.model.VolumeInfo;
 
 @ActiveProfiles("test")
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -40,7 +41,7 @@ class ApiAuthTest {
     }
 
     @ParameterizedTest
-    @ValueSource(strings = {"/api/authors/", "/api/publishers/", "/api/list/", "/api/list/latest"})
+    @ValueSource(strings = {"/api/authors/", "/api/publishers/", "/api/latest/"})
     void testAuthors(String path) {
         ResponseEntity<Object> response = restTemplate.getForEntity(url + path, Object.class);
         Assertions.assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
@@ -66,23 +67,21 @@ class ApiAuthTest {
 
     @Test
     void testDeleteVolume() {
-        DelInfo info = new DelInfo();
-        info.setIds(Collections.singletonList("hehe"));
-        ResponseEntity<DelInfo> response = restTemplate.postForEntity(url + "/api/delete/", info, DelInfo.class);
+        DeleteRequest req = new DeleteRequest(Collections.singletonList("hehe"));
+        ResponseEntity<DeleteResponse> response = restTemplate.postForEntity(url + "/api/delete/", req, DeleteResponse.class);
         Assertions.assertThat(response.getStatusCode()).isEqualTo(HttpStatus.UNAUTHORIZED);
     }
 
     @Test
     void testDeleteVolumeAuth() {
-        DelInfo info = new DelInfo();
-        info.setIds(Collections.singletonList("hehe"));
-        ResponseEntity<DelInfo> response = authTemplate.postForEntity(url + "/api/delete/", info, DelInfo.class);
+        DeleteRequest req = new DeleteRequest(Collections.singletonList("hehe"));
+        ResponseEntity<DeleteResponse> response = authTemplate.postForEntity(url + "/api/delete/", req, DeleteResponse.class);
         Assertions.assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
     }
 
     @Test
     void testSearchVolume() {
-        SearchQuery query = new SearchQuery("{author=Пушкин");
+        SearchQuery query = new SearchQuery("author=Пушкин");
         ResponseEntity<Object> response = restTemplate.postForEntity(url + "/api/search/", query, Object.class);
         Assertions.assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
     }

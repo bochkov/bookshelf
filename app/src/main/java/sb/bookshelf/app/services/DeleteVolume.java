@@ -3,22 +3,32 @@ package sb.bookshelf.app.services;
 import java.util.List;
 
 import kong.unirest.core.Callback;
+import kong.unirest.core.HttpResponse;
 import kong.unirest.core.Unirest;
 import lombok.RequiredArgsConstructor;
-import sb.bookshelf.common.reqres.DelInfo;
+import lombok.extern.slf4j.Slf4j;
+import sb.bookshelf.common.messages.DeleteRequest;
+import sb.bookshelf.common.messages.DeleteResponse;
 
+@Slf4j
 @RequiredArgsConstructor
 public class DeleteVolume extends ExecService {
 
-    private final List<String> volumes;
-    private final Callback<DelInfo> callback;
+    private final List<String> volumesIds;
+    private final Callback<DeleteResponse> callback;
+
+    private void deleteCallback(HttpResponse<DeleteResponse> response) {
+        if (!response.isSuccess()) {
+            LOG.warn("{} {}", this.getClass(), response.getStatus());
+        }
+        callback.completed(response);
+    }
 
     @Override
     public void run() {
-        var info = new DelInfo();
-        info.setIds(volumes);
+        DeleteRequest req = new DeleteRequest(volumesIds);
         Unirest.post("/api/delete/")
-                .body(info)
-                .asObjectAsync(DelInfo.class, new LoggedCallback<>(callback));
+                .body(req)
+                .asObjectAsync(DeleteResponse.class, this::deleteCallback);
     }
 }

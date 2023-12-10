@@ -4,6 +4,6 @@ import java.util.List;
 
 public interface AuthorListener {
 
-    void authors(List<String> authors);
+    void updateAuthors(List<String> authors);
 
 }

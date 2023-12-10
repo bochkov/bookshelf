@@ -1,4 +1,4 @@
-package sb.bookshelf.common.reqres;
+package sb.bookshelf.common.messages;
 
 import java.io.Serializable;
 

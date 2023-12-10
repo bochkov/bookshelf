@@ -10,6 +10,7 @@ import javax.swing.*;
 
 import net.miginfocom.swing.MigLayout;
 import sb.bookshelf.common.model.Volume;
+import sb.bookshelf.common.model.VolumeInfo;
 
 public final class AddDialog extends JDialog {
 
@@ -77,14 +78,14 @@ public final class AddDialog extends JDialog {
             annotation.setText(vol.getAnnotation());
             isbn.setText(vol.getIsbn());
             pages.setValue(vol.getPages());
-            books.setText(String.join("\n", vol.getBooks()));
+            books.setText(vol.printBooks());
             id.set(vol.getId());
         }
     }
 
-    public Volume result() {
+    public VolumeInfo result() {
         if (result.get() == RESULT_OK) {
-            var vol = new Volume();
+            var vol = new VolumeInfo();
             vol.setId(id.get());
             vol.setTitle(bookTitle.getText());
             vol.setAuthor(author.getSelectedItem());
@@ -93,7 +94,7 @@ public final class AddDialog extends JDialog {
             vol.setAnnotation(annotation.getText());
             vol.setIsbn(isbn.getText());
             vol.setPages((Integer) pages.getValue());
-            List<String> bookList = books.getText().isBlank() ?
+            List<String> bookList = books.getText().isEmpty() ?
                     new ArrayList<>() :
                     List.of(books.getText().split("\n"));
             vol.setBooks(bookList);

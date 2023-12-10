@@ -25,6 +25,11 @@ public final class VolumeTableModel extends AbstractTableModel {
         fireTableDataChanged();
     }
 
+    public void put(int pos, Volume volume) {
+        this.volumes.add(pos, volume);
+        fireTableDataChanged();
+    }
+
     public Volume get(int idx) {
         if (idx < 0 || idx > volumes.size())
             return null;
@@ -76,13 +81,10 @@ public final class VolumeTableModel extends AbstractTableModel {
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
         var vol = volumes.get(rowIndex);
-        switch (columnIndex) {
-            case 0:
-                return vol.getAuthor();
-            case 1:
-                return vol.getTitle();
-            default:
-                return null;
-        }
+        return switch (columnIndex) {
+            case 0 -> vol.getAuthor();
+            case 1 -> vol.getTitle();
+            default -> null;
+        };
     }
 }

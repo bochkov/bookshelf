@@ -1,6 +1,7 @@
 package sb.bookshelf.app.ui;
 
 import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.*;
@@ -27,8 +28,12 @@ public final class SearchPanel extends JPanel {
 
         setLayout(new MigLayout("nogrid, fillx, insets 0"));
         add(field, "grow");
-        add(new JButton(new AcSearch(Images.ICON_FIND)));
+        AcSearch acSearch = new AcSearch(Images.ICON_FIND);
+        add(new JButton(acSearch));
         add(new JButton(new AcClear(Images.ICON_CLEAR)));
+
+        this.field.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0), "startSearch");
+        this.field.getActionMap().put("startSearch", acSearch);
     }
 
     private final class AcSearch extends AbstractAction {

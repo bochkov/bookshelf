@@ -4,6 +4,6 @@ import java.util.List;
 
 public interface PublisherListener {
 
-    void publishers(List<String> publishers);
+    void updatePublishers(List<String> publishers);
 
 }

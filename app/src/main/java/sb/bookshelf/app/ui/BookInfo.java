@@ -44,7 +44,7 @@ public final class BookInfo extends JPanel {
             author.setText(String.format(AUTHOR_STR, volume.getAuthor()));
             metaData.setText(String.format(META_STR, volume.metaData()));
             annotation.setText(volume.getAnnotation());
-            books.setText(String.join("\n", volume.getBooks()));
+            books.setText(volume.printBooks());
             scAnnotation.setVisible(!annotation.getText().isEmpty());
             scBooks.setVisible(!books.getText().isEmpty());
         }

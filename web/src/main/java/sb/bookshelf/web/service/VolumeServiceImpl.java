@@ -1,7 +1,9 @@
 package sb.bookshelf.web.service;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -10,7 +12,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Service;
 import sb.bookshelf.common.model.Volume;
-import sb.bookshelf.common.reqres.DelInfo;
+import sb.bookshelf.common.model.VolumeInfo;
 import sb.bookshelf.web.dao.VolumeDao;
 
 @Slf4j
@@ -22,11 +24,6 @@ public final class VolumeServiceImpl implements VolumeService {
     private final MongoTemplate mongoTemplate;
 
     @Override
-    public List<Volume> findAll() {
-        return volumeDao.findAll();
-    }
-
-    @Override
     public List<Volume> latest(int count) {
         var sort = Sort.by(Sort.Direction.DESC, "_id");
         return volumeDao.findAll(
@@ -34,20 +31,28 @@ public final class VolumeServiceImpl implements VolumeService {
         ).getContent();
     }
 
+    private Set<Volume> match(String value) {
+        LOG.debug("value = {}", value);
+        Set<Volume> volumes = new HashSet<>();
+        for (String token : value.split("[;,]")) {
+            String[] f = token.split("=");
+            if (f.length == 2) {
+                LOG.debug("find by field={}, value={}", f[0], f[1]);
+                for (Volume vol : findByField(f[0], f[1])) {
+                    boolean added = volumes.add(vol);
+                    LOG.debug("{}: vol={}", added ? "added" : "already exist", vol);
+                }
+            }
+        }
+        return volumes;
+    }
+
     @Override
     public List<Volume> find(String query) {
         LOG.debug("{}", query);
-        if (query.startsWith("{")) {
-            List<Volume> allVolumes = findAll();
-            allVolumes.retainAll(match(query));
-            return allVolumes;
-        } else
-            return volumeDao.find(
-                    query
-                            .replace("[", "")
-                            .replace("]", "")
-                            .replace("{", "")
-            );
+        return query.contains("=") ?
+                new ArrayList<>(match(query)) :
+                volumeDao.find(query);
     }
 
     @Override
@@ -83,43 +88,25 @@ public final class VolumeServiceImpl implements VolumeService {
     }
 
     @Override
-    public Volume save(Volume volume) {
-        return volumeDao.save(volume);
+    public Volume save(VolumeInfo v) {
+        Volume vol = new Volume(v);
+        return volumeDao.save(vol);
     }
 
     @Override
-    public DelInfo delete(List<String> ids) {
-        var info = new DelInfo();
+    public List<String> delete(List<String> ids) {
+        List<String> deletedIds = new ArrayList<>();
         for (String id : ids) {
             volumeDao.findById(id).ifPresent(v -> {
                 volumeDao.deleteById(v.getId());
-                info.append(v.getId());
+                deletedIds.add(v.getId());
             });
         }
-        return info;
+        return deletedIds;
     }
 
     @Override
     public Long count() {
         return volumeDao.count();
-    }
-
-    private List<Volume> match(String value) {
-        LOG.debug("value = {}", value);
-        String v = value.replaceAll("[{}]", "");
-        List<Volume> volumes = new ArrayList<>();
-        for (String token : v.split("[;,]")) {
-            String[] f = token.split("=");
-            if (f.length == 2) {
-                if (volumes.isEmpty()) {
-                    volumes.addAll(findByField(f[0], f[1]));
-                    LOG.debug("added by field={}, value={}", f[0], f[1]);
-                } else {
-                    volumes.retainAll(findByField(f[0], f[1]));
-                    LOG.debug("retained field={}, value={}", f[0], f[1]);
-                }
-            }
-        }
-        return volumes;
     }
 }

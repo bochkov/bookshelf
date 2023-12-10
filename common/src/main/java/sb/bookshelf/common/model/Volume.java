@@ -6,6 +6,7 @@ import java.util.List;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.annotation.Id;
@@ -14,6 +15,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 @Slf4j
 @Data
+@NoArgsConstructor
 @EqualsAndHashCode(of = "id")
 @ToString(exclude = "books")
 @Document(collection = Volume.COLLECTION_NAME)
@@ -27,12 +29,29 @@ public final class Volume implements Serializable {
     private String title;
     @Indexed
     private String author;
+    @Indexed
     private String publisher;
     private String year;
     private String annotation;
     private String isbn;
     private Integer pages;
     private List<String> books;
+
+    public Volume(VolumeInfo v) {
+        this.id = v.getId();
+        this.title = v.getTitle();
+        this.author = v.getAuthor();
+        this.publisher = v.getPublisher();
+        this.year = v.getYear();
+        this.isbn = v.getIsbn();
+        this.pages = v.getPages();
+        this.books = v.getBooks();
+    }
+
+    public String printBooks() {
+        return isBooksPresent() ?
+                String.join("\n", books) : "";
+    }
 
     public boolean isBooksPresent() {
         return books != null && !books.isEmpty();

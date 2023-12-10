@@ -16,7 +16,10 @@ public final class AppProps extends Properties {
     public static final String USER = "server.username";
     public static final String PASSWORD = "server.password";
 
-    public static final File PROP_FILE = new File(System.getProperty("user.home") + File.separator + ".bookshelf", "bookshelf");
+    public static final File PROP_FILE = new File(
+            System.getProperty("user.home") + File.separator + ".config/bookshelf",
+            "bookshelf.properties"
+    );
 
     private static AppProps instance;
 

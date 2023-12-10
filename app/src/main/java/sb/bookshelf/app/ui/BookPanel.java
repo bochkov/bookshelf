@@ -7,7 +7,6 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 import javax.swing.*;
 
 import lombok.extern.slf4j.Slf4j;
@@ -17,8 +16,9 @@ import sb.bookshelf.app.Images;
 import sb.bookshelf.app.services.CountVolumes;
 import sb.bookshelf.app.services.DeleteVolume;
 import sb.bookshelf.app.services.SaveVolume;
+import sb.bookshelf.common.messages.DeleteResponse;
 import sb.bookshelf.common.model.Volume;
-import sb.bookshelf.common.reqres.DelInfo;
+import sb.bookshelf.common.model.VolumeInfo;
 
 @Slf4j
 public final class BookPanel extends JPanel implements AuthorListener, PublisherListener {
@@ -79,13 +79,13 @@ public final class BookPanel extends JPanel implements AuthorListener, Publisher
     }
 
     @Override
-    public void authors(List<String> authors) {
+    public void updateAuthors(List<String> authors) {
         authorsCache.clear();
         authorsCache.addAll(authors);
     }
 
     @Override
-    public void publishers(List<String> publishers) {
+    public void updatePublishers(List<String> publishers) {
         publishersCache.clear();
         publishersCache.addAll(publishers);
     }
@@ -107,7 +107,7 @@ public final class BookPanel extends JPanel implements AuthorListener, Publisher
         if (statusCode == 403) {
             text = "Операция не разрешена";
         } else {
-            text = "Ошибка выполения";
+            text = "Ошибка выполнения";
         }
         JOptionPane.showMessageDialog(this, text, App.TITLE, JOptionPane.ERROR_MESSAGE);
     }
@@ -122,12 +122,12 @@ public final class BookPanel extends JPanel implements AuthorListener, Publisher
         public void actionPerformed(ActionEvent e) {
             var dlg = new AddDialog(owner, "Добавить", authorsCache, publishersCache);
             dlg.setVisible(true);
-            Volume vol = dlg.result();
+            VolumeInfo vol = dlg.result();
             if (vol != null) {
                 new SaveVolume(vol, response -> {
                     if (response.isSuccess()) {
                         Volume v = response.getBody();
-                        model.add(v);
+                        model.put(0, v);
                         new CountVolumes(BookPanel.this).start();
                         addAuthor(v.getAuthor());
                         addPublisher(v.getPublisher());
@@ -150,7 +150,7 @@ public final class BookPanel extends JPanel implements AuthorListener, Publisher
             var dlg = new AddDialog(owner, "Редактировать", authorsCache, publishersCache);
             dlg.edit(model.get(table.getSelectedRow()));
             dlg.setVisible(true);
-            Volume vol = dlg.result();
+            VolumeInfo vol = dlg.result();
             if (vol != null) {
                 new SaveVolume(vol, response -> {
                     if (response.isSuccess()) {
@@ -193,10 +193,10 @@ public final class BookPanel extends JPanel implements AuthorListener, Publisher
                     JOptionPane.QUESTION_MESSAGE, null, new Object[]{"Да", "Нет"}, "Нет");
             if (res == JOptionPane.YES_OPTION) {
                 new DeleteVolume(
-                        volumes.stream().map(Volume::getId).collect(Collectors.toList()),
+                        volumes.stream().map(Volume::getId).toList(),
                         resp -> {
                             if (resp.isSuccess()) {
-                                DelInfo info = resp.getBody();
+                                DeleteResponse info = resp.getBody();
                                 model.removeIds(info.getIds());
                                 new CountVolumes(BookPanel.this).start();
                             } else {

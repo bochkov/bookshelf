@@ -19,7 +19,8 @@ import sb.bdev.ui.swing.HMenuItem;
 import sb.bookshelf.app.services.CountVolumes;
 import sb.bookshelf.app.services.LoadMetadata;
 import sb.bookshelf.app.services.LoadVolumes;
-import sb.bookshelf.app.ui.*;
+import sb.bookshelf.app.ui.AboutDialog;
+import sb.bookshelf.app.ui.BookPanel;
 
 @Slf4j
 public final class App extends JFrame {
@@ -55,7 +56,7 @@ public final class App extends JFrame {
         public void windowOpened(WindowEvent e) {
             new CountVolumes(books).start();
             new LoadMetadata(books, books).start();
-            new LoadVolumes(books).start();
+            new LoadVolumes(50, books).start();
         }
 
         @Override
