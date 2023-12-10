@@ -21,7 +21,7 @@ import sb.bookshelf.common.reqres.VolumeInfo;
 
 @ActiveProfiles("test")
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@Import({TestSecurityConfig.class})
+@Import({TestMongoConfig.class, TestSecurityConfig.class})
 class ApiAuthTest {
 
     private final TestRestTemplate restTemplate = new TestRestTemplate();
