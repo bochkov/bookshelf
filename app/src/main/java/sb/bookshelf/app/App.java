@@ -7,7 +7,9 @@ import java.awt.event.WindowEvent;
 import java.io.IOException;
 import javax.swing.*;
 
+import com.formdev.flatlaf.FlatLaf;
 import com.formdev.flatlaf.FlatLightLaf;
+import com.formdev.flatlaf.fonts.inter.FlatInterFont;
 import kong.unirest.core.HeaderNames;
 import kong.unirest.core.MimeTypes;
 import kong.unirest.core.Unirest;
@@ -85,11 +87,15 @@ public final class App extends JFrame {
 
     public static void main(String[] args) {
         System.setProperty("apple.laf.useScreenMenuBar", "true");
-        try {
-            UIManager.setLookAndFeel(new FlatLightLaf());
-        } catch (UnsupportedLookAndFeelException ex) {
-            LOG.warn(ex.getMessage());
-        }
+        System.setProperty("apple.awt.application.name", TITLE);
+        System.setProperty("apple.awt.application.appearance", "system");
+
+        FlatInterFont.install();
+        FlatLaf.setPreferredFontFamily(FlatInterFont.FAMILY);
+        FlatLaf.setPreferredLightFontFamily(FlatInterFont.FAMILY_LIGHT);
+        FlatLaf.setPreferredSemiboldFontFamily(FlatInterFont.FAMILY_SEMIBOLD);
+        FlatLightLaf.setup();
+
         AppProps.load();
         Unirest.config()
                 .defaultBaseUrl(AppProps.prop(AppProps.HOST))

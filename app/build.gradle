@@ -1,7 +1,7 @@
 plugins {
     id 'idea'
     id 'application'
-    id 'com.github.ben-manes.versions' version '0.50.0'
+    id 'com.github.ben-manes.versions' version '0.51.0'
 }
 
 group = 'com.sergeybochkov'
@@ -22,14 +22,15 @@ repositories {
 dependencies {
     implementation 'com.sb:bdev-rt:1.0.4.RELEASE'
 
-    implementation 'com.miglayout:miglayout-parent:11.2'
-    implementation 'com.miglayout:miglayout-swing:11.2'
-    implementation 'com.formdev:flatlaf:3.2.5'
-    implementation 'com.formdev:flatlaf-extras:3.2.5'
+    implementation 'com.miglayout:miglayout-parent:11.3'
+    implementation 'com.miglayout:miglayout-swing:11.3'
+    implementation 'com.formdev:flatlaf:3.4'
+    implementation 'com.formdev:flatlaf-extras:3.4'
+    implementation 'com.formdev:flatlaf-fonts-inter:4.0'
 
-    implementation 'ch.qos.logback:logback-classic:1.4.14'
+    implementation 'ch.qos.logback:logback-classic:1.5.0'
 
-    implementation platform('com.konghq:unirest-java-bom:4.2.1')
+    implementation platform('com.konghq:unirest-java-bom:4.2.9')
     implementation 'com.konghq:unirest-java-core'
     implementation 'com.konghq:unirest-object-mappers-gson'
     implementation 'com.google.code.gson:gson:2.10.1'
