@@ -1,16 +1,17 @@
 package sb.bookshelf.app.ui;
 
+import lombok.extern.slf4j.Slf4j;
+import net.miginfocom.swing.MigLayout;
+import sb.bdev.ui.HotKey;
+import sb.bookshelf.app.Images;
+import sb.bookshelf.app.services.SearchVolumes;
+import sb.bookshelf.common.model.VolumeInfo;
+
+import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
-import javax.swing.*;
-
-import lombok.extern.slf4j.Slf4j;
-import net.miginfocom.swing.MigLayout;
-import sb.bookshelf.app.Images;
-import sb.bookshelf.app.services.SearchVolumes;
-import sb.bookshelf.common.model.VolumeInfo;
 
 @Slf4j
 public final class SearchPanel extends JPanel {
@@ -28,12 +29,14 @@ public final class SearchPanel extends JPanel {
 
         setLayout(new MigLayout("nogrid, fillx, insets 0"));
         add(field, "grow");
+
         AcSearch acSearch = new AcSearch(Images.ICON_FIND);
         add(new JButton(acSearch));
-        add(new JButton(new AcClear(Images.ICON_CLEAR)));
+        new HotKey(KeyEvent.VK_ENTER, acSearch).on(field);
 
-        this.field.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0), "startSearch");
-        this.field.getActionMap().put("startSearch", acSearch);
+        AcClear acClear = new AcClear(Images.ICON_CLEAR);
+        add(new JButton(acClear));
+        new HotKey(KeyEvent.VK_ESCAPE, acClear).on(field);
     }
 
     private final class AcSearch extends AbstractAction {

@@ -1,12 +1,5 @@
 package sb.bookshelf.app;
 
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.io.IOException;
-import javax.swing.*;
-
 import com.formdev.flatlaf.FlatLaf;
 import com.formdev.flatlaf.FlatLightLaf;
 import com.formdev.flatlaf.fonts.inter.FlatInterFont;
@@ -23,6 +16,13 @@ import sb.bookshelf.app.services.LoadMetadata;
 import sb.bookshelf.app.services.LoadVolumes;
 import sb.bookshelf.app.ui.AboutDialog;
 import sb.bookshelf.app.ui.BookPanel;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.io.IOException;
 
 @Slf4j
 public final class App extends JFrame {
@@ -41,7 +41,7 @@ public final class App extends JFrame {
                 )
         ));
 
-        var books = new BookPanel(this);
+        BookPanel books = new BookPanel(this);
         add(books);
 
         pack();

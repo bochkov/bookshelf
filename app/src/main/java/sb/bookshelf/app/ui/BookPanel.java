@@ -1,16 +1,8 @@
 package sb.bookshelf.app.ui;
 
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import javax.swing.*;
-
 import lombok.extern.slf4j.Slf4j;
 import net.miginfocom.swing.MigLayout;
+import sb.bdev.ui.HotKey;
 import sb.bookshelf.app.App;
 import sb.bookshelf.app.Images;
 import sb.bookshelf.app.services.CountVolumes;
@@ -18,6 +10,16 @@ import sb.bookshelf.app.services.DeleteVolume;
 import sb.bookshelf.app.services.SaveVolume;
 import sb.bookshelf.common.messages.DeleteResponse;
 import sb.bookshelf.common.model.VolumeInfo;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 @Slf4j
 public final class BookPanel extends JPanel implements AuthorListener, PublisherListener {
@@ -35,9 +37,9 @@ public final class BookPanel extends JPanel implements AuthorListener, Publisher
         this.owner = owner;
         setLayout(new MigLayout("wrap 2, fill", "[40%,fill]20[60%,fill]", "fill, top"));
 
-        var listPanel = new JPanel(new MigLayout("wrap 1, fill, insets 0", "fill", "[top][grow][top]"));
+        JPanel listPanel = new JPanel(new MigLayout("wrap 1, fill, insets 0", "fill", "[top][grow][top]"));
 
-        var searchField = new SearchPanel(model);
+        SearchPanel searchField = new SearchPanel(model);
         listPanel.add(searchField);
         table.setTableHeader(null);
         table.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
@@ -49,6 +51,11 @@ public final class BookPanel extends JPanel implements AuthorListener, Publisher
         });
         listPanel.add(new JScrollPane(table), "grow");
 
+        JPanel cmdPanel = new JPanel(new MigLayout("insets 0", "[][][]push[]"));
+        Action acAdd = new AcAdd(Images.ICON_ADD);
+        cmdPanel.add(new JButton(acAdd));
+        new HotKey(KeyEvent.VK_INSERT, acAdd).on(this);
+
         Action acEdit = new AcEdit(Images.ICON_EDIT);
         table.addMouseListener(new MouseAdapter() {
             @Override
@@ -57,11 +64,12 @@ public final class BookPanel extends JPanel implements AuthorListener, Publisher
                     acEdit.actionPerformed(null);
             }
         });
-
-        var cmdPanel = new JPanel(new MigLayout("insets 0", "[][][]push[]"));
-        cmdPanel.add(new JButton(new AcAdd(Images.ICON_ADD)));
         cmdPanel.add(new JButton(acEdit));
-        cmdPanel.add(new JButton(new AcDelete(Images.ICON_DEL)));
+
+        Action acDel = new AcDelete(Images.ICON_DEL);
+        cmdPanel.add(new JButton(acDel));
+        new HotKey(KeyEvent.VK_DELETE, new AcDelete(null)).on(this);
+
         cmdPanel.add(countLabel);
         listPanel.add(cmdPanel);
 
@@ -119,7 +127,7 @@ public final class BookPanel extends JPanel implements AuthorListener, Publisher
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            var dlg = new AddDialog(owner, "Добавить", authorsCache, publishersCache);
+            AddDialog dlg = new AddDialog(owner, "Добавить", authorsCache, publishersCache);
             dlg.setVisible(true);
             VolumeInfo vol = dlg.result();
             if (vol != null) {
@@ -146,7 +154,7 @@ public final class BookPanel extends JPanel implements AuthorListener, Publisher
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            var dlg = new AddDialog(owner, "Редактировать", authorsCache, publishersCache);
+            AddDialog dlg = new AddDialog(owner, "Редактировать", authorsCache, publishersCache);
             dlg.edit(model.get(table.getSelectedRow()));
             dlg.setVisible(true);
             VolumeInfo vol = dlg.result();
@@ -181,7 +189,7 @@ public final class BookPanel extends JPanel implements AuthorListener, Publisher
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            var volumes = selectedVolumes();
+            List<VolumeInfo> volumes = selectedVolumes();
             if (volumes.isEmpty())
                 return;
 

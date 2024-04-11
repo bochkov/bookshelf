@@ -1,15 +1,17 @@
 package sb.bookshelf.app.ui;
 
+import net.miginfocom.swing.MigLayout;
+import sb.bdev.ui.HotKey;
+import sb.bookshelf.common.model.VolumeInfo;
+
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
-import javax.swing.*;
-
-import net.miginfocom.swing.MigLayout;
-import sb.bookshelf.common.model.VolumeInfo;
 
 public final class AddDialog extends JDialog {
 
@@ -33,7 +35,7 @@ public final class AddDialog extends JDialog {
 
         setLayout(new MigLayout("wrap 2", "[fill, grow, 40%][fill, grow, 60%]", "[fill, grow][]"));
 
-        var leftPanel = new JPanel(new MigLayout("wrap 2, insets 0, fillx", "[][fill, grow]"));
+        JPanel leftPanel = new JPanel(new MigLayout("wrap 2, insets 0, fillx", "[][fill, grow]"));
         leftPanel.add(new JLabel("Название"));
         leftPanel.add(bookTitle);
         leftPanel.add(new JLabel("Автор"));
@@ -49,15 +51,16 @@ public final class AddDialog extends JDialog {
         leftPanel.add(new JLabel("Кол-во страниц"));
         leftPanel.add(pages);
 
-        var rightPanel = new JPanel(new MigLayout("wrap 1, insets 0, fill", "", "[top][fill, grow][top][fill, grow]"));
+        JPanel rightPanel = new JPanel(new MigLayout("wrap 1, insets 0, fill", "", "[top][fill, grow][top][fill, grow]"));
         rightPanel.add(new JLabel("Аннотация"));
         rightPanel.add(new JScrollPane(annotation), "grow");
         rightPanel.add(new JLabel("Книги в книге"));
         rightPanel.add(new JScrollPane(books), "grow");
 
-        var cmdPanel = new JPanel(new MigLayout("nogrid, insets 0, center"));
+        JPanel cmdPanel = new JPanel(new MigLayout("nogrid, insets 0, center"));
         cmdPanel.add(new JButton(new AcSave("Сохранить")));
         cmdPanel.add(new JButton(new AcCancel("Отменить")));
+        new HotKey(KeyEvent.VK_ESCAPE, new AcCancel("Cancel")).on(getRootPane());
 
         add(leftPanel);
         add(rightPanel);
