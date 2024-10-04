@@ -20,25 +20,25 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.sb:bdev-rt:1.0.6.RELEASE'
+    implementation 'com.sb:bdev-rt:1.0.7.RELEASE'
 
-    implementation 'com.miglayout:miglayout-parent:11.3'
-    implementation 'com.miglayout:miglayout-swing:11.3'
-    implementation 'com.formdev:flatlaf:3.4.1'
-    implementation 'com.formdev:flatlaf-extras:3.4.1'
+    implementation 'com.miglayout:miglayout-parent:11.4.2'
+    implementation 'com.miglayout:miglayout-swing:11.4.2'
+    implementation 'com.formdev:flatlaf:3.5.1'
+    implementation 'com.formdev:flatlaf-extras:3.5.1'
     implementation 'com.formdev:flatlaf-fonts-inter:4.0'
 
-    implementation 'ch.qos.logback:logback-classic:1.5.4'
+    implementation 'ch.qos.logback:logback-classic:1.5.8'
 
-    implementation platform('com.konghq:unirest-java-bom:4.3.1')
+    implementation platform('com.konghq:unirest-java-bom:4.4.4')
     implementation 'com.konghq:unirest-java-core'
     implementation 'com.konghq:unirest-modules-gson'
-    implementation 'com.google.code.gson:gson:2.10.1'
+    implementation 'com.google.code.gson:gson:2.11.0'
 
     implementation project(':common')
 
-    compileOnly 'org.projectlombok:lombok:1.18.32'
-    annotationProcessor 'org.projectlombok:lombok:1.18.32'
+    compileOnly 'org.projectlombok:lombok:1.18.34'
+    annotationProcessor 'org.projectlombok:lombok:1.18.34'
 }
 
 application {
