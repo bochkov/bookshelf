@@ -24,26 +24,29 @@ dependencies {
 
     implementation 'com.miglayout:miglayout-parent:11.4.2'
     implementation 'com.miglayout:miglayout-swing:11.4.2'
-    implementation 'com.formdev:flatlaf:3.5.1'
-    implementation 'com.formdev:flatlaf-extras:3.5.1'
+    implementation 'com.formdev:flatlaf:3.5.2'
+    implementation 'com.formdev:flatlaf-extras:3.5.2'
     implementation 'com.formdev:flatlaf-fonts-inter:4.0'
 
-    implementation 'ch.qos.logback:logback-classic:1.5.8'
+    implementation 'ch.qos.logback:logback-classic:1.5.12'
 
-    implementation platform('com.konghq:unirest-java-bom:4.4.4')
+    implementation platform('com.konghq:unirest-java-bom:4.4.5')
     implementation 'com.konghq:unirest-java-core'
     implementation 'com.konghq:unirest-modules-gson'
     implementation 'com.google.code.gson:gson:2.11.0'
 
     implementation project(':common')
 
-    compileOnly 'org.projectlombok:lombok:1.18.34'
-    annotationProcessor 'org.projectlombok:lombok:1.18.34'
+    compileOnly 'org.projectlombok:lombok:1.18.36'
+    annotationProcessor 'org.projectlombok:lombok:1.18.36'
 }
 
 application {
     mainClass = 'sb.bookshelf.app.App'
-    applicationDefaultJvmArgs = ["-Xmx64m", "-Xdock:name=Bookshelf"]
+    applicationDefaultJvmArgs = ["-Xmx64m"]
+    if (org.gradle.internal.os.OperatingSystem.current().isMacOsX()) {
+        applicationDefaultJvmArgs += ["-Xdock:name=Bookshelf"]
+    }
 }
 
 task("macApp", dependsOn: 'build') {

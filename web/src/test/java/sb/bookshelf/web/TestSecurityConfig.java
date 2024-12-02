@@ -7,6 +7,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import sb.bookshelf.web.config.CfgSecurity;
 
@@ -17,9 +18,9 @@ public class TestSecurityConfig extends CfgSecurity {
 
     @Bean
     @Override
-    public UserDetailsService userDetailsService() {
+    public UserDetailsService userDetailsService(PasswordEncoder passwordEncoder) {
         UserDetails user = User.builder()
-                .passwordEncoder(s -> passwordEncoder().encode(s))
+                .passwordEncoder(passwordEncoder::encode)
                 .username("user")
                 .password("password")
                 .roles("RW")

@@ -5,8 +5,6 @@ import org.springframework.beans.factory.BeanCreationException;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
-import org.springframework.security.authentication.AuthenticationProvider;
-import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -26,34 +24,19 @@ import org.springframework.security.web.SecurityFilterChain;
 public class CfgSecurity {
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        return http.authenticationProvider(authProvider())
-                .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/save/", "/api/delete/").authenticated()
-                        .requestMatchers("/**").permitAll())
-                .httpBasic(Customizer.withDefaults())
-                .csrf(AbstractHttpConfigurer::disable)
-                .build();
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
     }
 
     @Bean
-    public AuthenticationProvider authProvider() {
-        var authProvider = new DaoAuthenticationProvider();
-        authProvider.setUserDetailsService(userDetailsService());
-        authProvider.setPasswordEncoder(passwordEncoder());
-        return authProvider;
-    }
-
-    @Bean
-    public UserDetailsService userDetailsService() {
+    public UserDetailsService userDetailsService(PasswordEncoder passwordEncoder) {
         String user = System.getenv("USER");
         String password = System.getenv("PASSWORD");
         if (password == null || password.isEmpty()) {
             throw new BeanCreationException("no password provided");
         }
-        UserDetails userDetails = User.builder()
-                .passwordEncoder(pass -> passwordEncoder().encode(pass))
-                .username(user)
+        UserDetails userDetails = User.withUsername(user)
+                .passwordEncoder(passwordEncoder::encode)
                 .password(password)
                 .roles("RW")
                 .build();
@@ -61,7 +44,13 @@ public class CfgSecurity {
     }
 
     @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        return http
+                .csrf(AbstractHttpConfigurer::disable)
+                .httpBasic(Customizer.withDefaults())
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/api/save/", "/api/delete/").authenticated()
+                        .requestMatchers("/**").permitAll())
+                .build();
     }
 }
