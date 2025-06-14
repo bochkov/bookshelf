@@ -1,7 +1,7 @@
 plugins {
     id 'java'
     id 'idea'
-    id 'com.github.ben-manes.versions' version '0.51.0'
+    id 'com.github.ben-manes.versions' version '0.52.0'
 }
 
 group = 'com.sergeybochkov'
@@ -17,6 +17,6 @@ repositories() {
 }
 
 dependencies {
-    compileOnly 'org.projectlombok:lombok:1.18.36'
-    annotationProcessor 'org.projectlombok:lombok:1.18.36'
+    compileOnly 'org.projectlombok:lombok:1.18.38'
+    annotationProcessor 'org.projectlombok:lombok:1.18.38'
 }

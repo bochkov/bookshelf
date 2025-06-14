@@ -1,7 +1,7 @@
 plugins {
     id 'idea'
     id 'application'
-    id 'com.github.ben-manes.versions' version '0.51.0'
+    id 'com.github.ben-manes.versions' version '0.52.0'
 }
 
 group = 'com.sergeybochkov'
@@ -15,7 +15,7 @@ java {
 repositories {
     mavenCentral()
     maven {
-        url 'https://maven.sergeybochkov.com/releases'
+        url = 'https://maven.sergeybochkov.com/releases'
     }
 }
 
@@ -24,21 +24,21 @@ dependencies {
 
     implementation 'com.miglayout:miglayout-parent:11.4.2'
     implementation 'com.miglayout:miglayout-swing:11.4.2'
-    implementation 'com.formdev:flatlaf:3.5.2'
-    implementation 'com.formdev:flatlaf-extras:3.5.2'
-    implementation 'com.formdev:flatlaf-fonts-inter:4.0'
+    implementation 'com.formdev:flatlaf:3.6'
+    implementation 'com.formdev:flatlaf-extras:3.6'
+    implementation 'com.formdev:flatlaf-fonts-inter:4.1'
 
-    implementation 'ch.qos.logback:logback-classic:1.5.12'
+    implementation 'ch.qos.logback:logback-classic:1.5.18'
 
-    implementation platform('com.konghq:unirest-java-bom:4.4.5')
+    implementation platform('com.konghq:unirest-java-bom:4.4.7')
     implementation 'com.konghq:unirest-java-core'
     implementation 'com.konghq:unirest-modules-gson'
-    implementation 'com.google.code.gson:gson:2.11.0'
+    implementation 'com.google.code.gson:gson:2.13.1'
 
     implementation project(':common')
 
-    compileOnly 'org.projectlombok:lombok:1.18.36'
-    annotationProcessor 'org.projectlombok:lombok:1.18.36'
+    compileOnly 'org.projectlombok:lombok:1.18.38'
+    annotationProcessor 'org.projectlombok:lombok:1.18.38'
 }
 
 application {

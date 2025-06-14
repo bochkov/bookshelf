@@ -1,9 +1,9 @@
 plugins {
     id 'java'
     id 'idea'
-    id 'org.springframework.boot' version '3.4.0'
-    id 'io.spring.dependency-management' version '1.1.6'
-    id 'com.github.ben-manes.versions' version '0.51.0'
+    id 'org.springframework.boot' version '3.5.0'
+    id 'io.spring.dependency-management' version '1.1.7'
+    id 'com.github.ben-manes.versions' version '0.52.0'
 }
 
 group = 'com.sergeybochkov'
@@ -34,8 +34,8 @@ dependencies {
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.security:spring-security-test'
-    testImplementation 'org.apache.httpcomponents.client5:httpclient5:5.4.1'
-    testImplementation 'org.assertj:assertj-core:3.26.3'
+    testImplementation 'org.apache.httpcomponents.client5:httpclient5:5.5'
+    testImplementation 'org.assertj:assertj-core:3.27.3'
 
     compileOnly 'org.projectlombok:lombok'
     testCompileOnly 'org.projectlombok:lombok'
@@ -45,4 +45,12 @@ dependencies {
 
 tasks.named('test') {
     useJUnitPlatform()
+}
+
+tasks.named('dependencyUpdates').configure {
+    rejectVersionIf {
+        return ['.*-m\\d+'].any { part -> 
+            it.candidate.version.toLowerCase().matches(part)
+        }
+    }
 }
