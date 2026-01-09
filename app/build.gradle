@@ -52,7 +52,7 @@ application {
 tasks.register("macApp") {
     dependsOn('build')
     doLast {
-        def outDir = "$layout.buildDirectory/macApp" as File
+        def outDir = "${layout.buildDirectory.get().asFile}/macApp" as File
         def appDir = "$outDir/Bookshelf.app" as File
         delete outDir
         project.file(appDir).mkdirs()
