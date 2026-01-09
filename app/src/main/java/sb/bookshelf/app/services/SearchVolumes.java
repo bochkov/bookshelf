@@ -1,7 +1,5 @@
 package sb.bookshelf.app.services;
 
-import java.util.List;
-
 import kong.unirest.core.Callback;
 import kong.unirest.core.GenericType;
 import kong.unirest.core.HttpResponse;
@@ -10,6 +8,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import sb.bookshelf.common.messages.SearchQuery;
 import sb.bookshelf.common.model.VolumeInfo;
+
+import java.util.List;
 
 @Slf4j
 @RequiredArgsConstructor

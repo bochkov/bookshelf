@@ -1,9 +1,9 @@
 package sb.bookshelf.app;
 
-import java.util.Objects;
-import javax.swing.*;
-
 import com.formdev.flatlaf.extras.FlatSVGIcon;
+
+import javax.swing.*;
+import java.util.Objects;
 
 public final class Images {
 

@@ -1,10 +1,10 @@
 package sb.bookshelf.web.dao;
 
-import java.util.List;
-
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
 import sb.bookshelf.web.model.Volume;
+
+import java.util.List;
 
 public interface VolumeDao extends MongoRepository<Volume, String> {
 

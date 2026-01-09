@@ -1,8 +1,5 @@
 package sb.bookshelf.web.model;
 
-import java.io.Serializable;
-import java.util.List;
-
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -12,6 +9,9 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import sb.bookshelf.common.model.VolumeInfo;
+
+import java.io.Serializable;
+import java.util.List;
 
 @Slf4j
 @Data

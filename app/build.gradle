@@ -1,15 +1,15 @@
 plugins {
     id 'idea'
     id 'application'
-    id 'com.github.ben-manes.versions' version '0.52.0'
+    id 'com.github.ben-manes.versions' version '0.53.0'
 }
 
 group = 'com.sergeybochkov'
 version = '3.0'
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_21
-    targetCompatibility = JavaVersion.VERSION_21
+    sourceCompatibility = JavaVersion.VERSION_25
+    targetCompatibility = JavaVersion.VERSION_25
 }
 
 repositories {
@@ -24,21 +24,21 @@ dependencies {
 
     implementation 'com.miglayout:miglayout-parent:11.4.2'
     implementation 'com.miglayout:miglayout-swing:11.4.2'
-    implementation 'com.formdev:flatlaf:3.6'
-    implementation 'com.formdev:flatlaf-extras:3.6'
+    implementation 'com.formdev:flatlaf:3.7'
+    implementation 'com.formdev:flatlaf-extras:3.7'
     implementation 'com.formdev:flatlaf-fonts-inter:4.1'
 
-    implementation 'ch.qos.logback:logback-classic:1.5.18'
+    implementation 'ch.qos.logback:logback-classic:1.5.24'
 
-    implementation platform('com.konghq:unirest-java-bom:4.4.7')
+    implementation platform('com.konghq:unirest-java-bom:4.7.0')
     implementation 'com.konghq:unirest-java-core'
     implementation 'com.konghq:unirest-modules-gson'
-    implementation 'com.google.code.gson:gson:2.13.1'
+    implementation 'com.google.code.gson:gson:2.13.2'
 
     implementation project(':common')
 
-    compileOnly 'org.projectlombok:lombok:1.18.38'
-    annotationProcessor 'org.projectlombok:lombok:1.18.38'
+    compileOnly 'org.projectlombok:lombok:1.18.42'
+    annotationProcessor 'org.projectlombok:lombok:1.18.42'
 }
 
 application {
@@ -49,9 +49,10 @@ application {
     }
 }
 
-task("macApp", dependsOn: 'build') {
+tasks.register("macApp") {
+    dependsOn('build')
     doLast {
-        def outDir = "$buildDir/macApp" as File
+        def outDir = "$layout.buildDirectory/macApp" as File
         def appDir = "$outDir/Bookshelf.app" as File
         delete outDir
         project.file(appDir).mkdirs()

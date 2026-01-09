@@ -19,7 +19,6 @@ import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 @EnableWebSecurity
-@Profile("production")
 @RequiredArgsConstructor
 public class CfgSecurity {
 
@@ -29,6 +28,7 @@ public class CfgSecurity {
     }
 
     @Bean
+    @Profile("!test")
     public UserDetailsService userDetailsService(PasswordEncoder passwordEncoder) {
         String user = System.getenv("USER");
         String password = System.getenv("PASSWORD");
@@ -44,7 +44,7 @@ public class CfgSecurity {
     }
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain filterChain(HttpSecurity http) {
         return http
                 .csrf(AbstractHttpConfigurer::disable)
                 .httpBasic(Customizer.withDefaults())

@@ -1,9 +1,9 @@
 package sb.bookshelf.app.ui;
 
-import javax.swing.*;
-
 import net.miginfocom.swing.MigLayout;
 import sb.bookshelf.common.model.VolumeInfo;
+
+import javax.swing.*;
 
 public final class BookInfo extends JPanel {
 

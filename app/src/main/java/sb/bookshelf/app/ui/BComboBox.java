@@ -1,7 +1,7 @@
 package sb.bookshelf.app.ui;
 
-import java.util.Collection;
 import javax.swing.*;
+import java.util.Collection;
 
 public class BComboBox<T> extends JComboBox<T> {
 

@@ -1,10 +1,10 @@
 package sb.bookshelf.app.ui;
 
+import sb.bookshelf.common.model.VolumeInfo;
+
+import javax.swing.table.AbstractTableModel;
 import java.util.ArrayList;
 import java.util.List;
-import javax.swing.table.AbstractTableModel;
-
-import sb.bookshelf.common.model.VolumeInfo;
 
 public final class VolumeTableModel extends AbstractTableModel {
 

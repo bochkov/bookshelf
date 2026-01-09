@@ -1,13 +1,13 @@
 package sb.bookshelf.app;
 
+import lombok.extern.slf4j.Slf4j;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.Properties;
-
-import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public final class AppProps extends Properties {

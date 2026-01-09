@@ -1,7 +1,5 @@
 package sb.bookshelf.app.services;
 
-import java.util.List;
-
 import kong.unirest.core.GenericType;
 import kong.unirest.core.HttpResponse;
 import kong.unirest.core.Unirest;
@@ -9,6 +7,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import sb.bookshelf.app.ui.AuthorListener;
 import sb.bookshelf.app.ui.PublisherListener;
+
+import java.util.List;
 
 @Slf4j
 @RequiredArgsConstructor
