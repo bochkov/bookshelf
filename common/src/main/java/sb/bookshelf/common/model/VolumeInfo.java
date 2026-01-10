@@ -34,23 +34,29 @@ public final class VolumeInfo {
     public String desc() {
         String delimiter = author == null || author.endsWith(".") ? " " : ". ";
         List<String> data = new ArrayList<>();
-        if (author != null && !author.isEmpty())
+        if (author != null && !author.isEmpty()) {
             data.add(author);
-        if (title != null && !title.isEmpty())
+        }
+        if (title != null && !title.isEmpty()) {
             data.add(title);
+        }
         return String.join(delimiter, data);
     }
 
     public String metaData() {
         List<String> data = new ArrayList<>();
-        if (publisher != null && !publisher.isEmpty())
+        if (publisher != null && !publisher.isEmpty()) {
             data.add(publisher);
-        if (year != null && !year.isEmpty())
+        }
+        if (year != null && !year.isEmpty()) {
             data.add(year);
-        if (isbn != null && !isbn.isEmpty())
+        }
+        if (isbn != null && !isbn.isEmpty()) {
             data.add("ISBN " + isbn);
-        if (pages != null)
+        }
+        if (pages != null) {
             data.add(pages + " стр.");
+        }
         return String.join(", ", data);
     }
 

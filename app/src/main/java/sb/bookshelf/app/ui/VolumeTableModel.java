@@ -11,7 +11,7 @@ public final class VolumeTableModel extends AbstractTableModel {
     private final List<VolumeInfo> volumes = new ArrayList<>();
 
     public List<VolumeInfo> allItems() {
-        return new ArrayList<>(volumes);
+        return List.copyOf(volumes);
     }
 
     public void set(List<VolumeInfo> volumes) {
@@ -31,15 +31,18 @@ public final class VolumeTableModel extends AbstractTableModel {
     }
 
     public VolumeInfo get(int idx) {
-        if (idx < 0 || idx > volumes.size())
+        if (idx < 0 || idx > volumes.size()) {
             return null;
+        }
         return volumes.get(idx);
     }
 
     public VolumeInfo getById(String id) {
-        for (VolumeInfo vol : volumes)
-            if (id.equals(vol.getId()))
+        for (VolumeInfo vol : volumes) {
+            if (id.equals(vol.getId())) {
                 return vol;
+            }
+        }
         return null;
     }
 
@@ -61,9 +64,10 @@ public final class VolumeTableModel extends AbstractTableModel {
     }
 
     private int idxOf(String id) {
-        for (var i = 0; i < volumes.size(); ++i) {
-            if (id.equals(volumes.get(i).getId()))
+        for (int i = 0; i < volumes.size(); ++i) {
+            if (id.equals(volumes.get(i).getId())) {
                 return i;
+            }
         }
         return -1;
     }

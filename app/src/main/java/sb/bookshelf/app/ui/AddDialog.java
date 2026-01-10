@@ -8,7 +8,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
@@ -35,7 +34,7 @@ public final class AddDialog extends JDialog {
 
         setLayout(new MigLayout("wrap 2", "[fill, grow, 40%][fill, grow, 60%]", "[fill, grow][]"));
 
-        JPanel leftPanel = new JPanel(new MigLayout("wrap 2, insets 0, fillx", "[][fill, grow]"));
+        JPanel leftPanel = new JPanel(new MigLayout("wrap 2, insets 0, fillX", "[][fill, grow]"));
         leftPanel.add(new JLabel("Название"));
         leftPanel.add(bookTitle);
         leftPanel.add(new JLabel("Автор"));
@@ -57,7 +56,7 @@ public final class AddDialog extends JDialog {
         rightPanel.add(new JLabel("Книги в книге"));
         rightPanel.add(new JScrollPane(books), "grow");
 
-        JPanel cmdPanel = new JPanel(new MigLayout("nogrid, insets 0, center"));
+        JPanel cmdPanel = new JPanel(new MigLayout("noGrid, insets 0, center"));
         cmdPanel.add(new JButton(new AcSave("Сохранить")));
         cmdPanel.add(new JButton(new AcCancel("Отменить")));
         new HotKey(KeyEvent.VK_ESCAPE, new AcCancel("Cancel")).on(getRootPane());
@@ -87,7 +86,7 @@ public final class AddDialog extends JDialog {
 
     public VolumeInfo result() {
         if (result.get() == RESULT_OK) {
-            var vol = new VolumeInfo();
+            VolumeInfo vol = new VolumeInfo();
             vol.setId(id.get());
             vol.setTitle(bookTitle.getText());
             vol.setAuthor(author.getSelectedItem());
@@ -96,13 +95,14 @@ public final class AddDialog extends JDialog {
             vol.setAnnotation(annotation.getText());
             vol.setIsbn(isbn.getText());
             vol.setPages((Integer) pages.getValue());
-            List<String> bookList = books.getText().isEmpty() ?
-                    new ArrayList<>() :
-                    List.of(books.getText().split("\n"));
+            List<String> bookList = books.getText().isEmpty()
+                    ? List.of()
+                    : List.of(books.getText().split("\n"));
             vol.setBooks(bookList);
             return vol;
-        } else
+        } else {
             return null;
+        }
     }
 
     private final class AcCancel extends AbstractAction {

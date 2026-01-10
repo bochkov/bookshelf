@@ -1,5 +1,7 @@
 package sb.bookshelf.app;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.File;
@@ -10,6 +12,7 @@ import java.nio.file.Files;
 import java.util.Properties;
 
 @Slf4j
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class AppProps extends Properties {
 
     public static final String HOST = "server.host";
@@ -23,17 +26,15 @@ public final class AppProps extends Properties {
 
     private static AppProps instance;
 
-    private AppProps() {
-    }
-
     public static AppProps getInstance() {
-        if (instance == null)
+        if (instance == null) {
             instance = new AppProps();
+        }
         return instance;
     }
 
     public static void load() {
-        try (var fis = new FileInputStream(PROP_FILE)) {
+        try (FileInputStream fis = new FileInputStream(PROP_FILE)) {
             AppProps.getInstance().load(fis);
             LOG.info("loaded props {}", instance);
         } catch (IOException ex) {
@@ -45,7 +46,7 @@ public final class AppProps extends Properties {
     }
 
     public static void store() {
-        var parent = PROP_FILE.getParentFile();
+        File parent = PROP_FILE.getParentFile();
         try {
             if (!parent.exists())
                 Files.createDirectory(parent.toPath());
@@ -53,8 +54,8 @@ public final class AppProps extends Properties {
             LOG.info(ex.getMessage(), ex);
             return;
         }
-        try (var fout = new FileOutputStream(PROP_FILE)) {
-            AppProps.getInstance().store(fout, "");
+        try (FileOutputStream out = new FileOutputStream(PROP_FILE)) {
+            AppProps.getInstance().store(out, "bookshelf properties");
             LOG.info("stored props {}", instance);
         } catch (IOException ex) {
             LOG.warn("cannot store property file");

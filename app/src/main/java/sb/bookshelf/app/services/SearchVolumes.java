@@ -2,7 +2,6 @@ package sb.bookshelf.app.services;
 
 import kong.unirest.core.Callback;
 import kong.unirest.core.GenericType;
-import kong.unirest.core.HttpResponse;
 import kong.unirest.core.Unirest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,18 +20,16 @@ public final class SearchVolumes extends ExecService {
     private final String query;
     private final Callback<List<VolumeInfo>> callback;
 
-    private void searchCallback(HttpResponse<List<VolumeInfo>> response) {
-        if (!response.isSuccess()) {
-            LOG.warn("{} {}", this.getClass(), response.getStatus());
-        }
-        callback.completed(response);
-    }
-
     @Override
     public void run() {
-        SearchQuery req = new SearchQuery(query);
         Unirest.post("/api/search/")
-                .body(req)
-                .asObjectAsync(LIST_VOLUME_TYPE, this::searchCallback);
+                .body(new SearchQuery(query))
+                .asObjectAsync(LIST_VOLUME_TYPE, resp -> {
+                    if (resp.isSuccess()) {
+                        callback.completed(resp);
+                    } else {
+                        LOG.warn("{} {}", this.getClass(), resp.getStatus());
+                    }
+                });
     }
 }

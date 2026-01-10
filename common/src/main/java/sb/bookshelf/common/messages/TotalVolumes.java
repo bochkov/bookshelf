@@ -9,7 +9,7 @@ import java.io.Serializable;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public final class TotalBooks implements Serializable {
+public final class TotalVolumes implements Serializable {
 
     private Long count;
 

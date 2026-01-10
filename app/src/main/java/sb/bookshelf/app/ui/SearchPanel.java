@@ -27,7 +27,7 @@ public final class SearchPanel extends JPanel {
         this.origin = new ArrayList<>();
         this.searched = new ArrayList<>();
 
-        setLayout(new MigLayout("nogrid, fillx, insets 0"));
+        setLayout(new MigLayout("noGrid, fillX, insets 0"));
         add(field, "grow");
 
         AcSearch acSearch = new AcSearch(Images.ICON_FIND);
@@ -47,8 +47,9 @@ public final class SearchPanel extends JPanel {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            if (origin.isEmpty())
+            if (origin.isEmpty()) {
                 origin.addAll(model.allItems());
+            }
             new SearchVolumes(field.getText(), resp -> {
                 if (resp.isSuccess()) {
                     searched.clear();

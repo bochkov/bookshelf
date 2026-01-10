@@ -3,24 +3,25 @@ package sb.bookshelf.app.ui;
 import javax.swing.*;
 import java.util.Collection;
 
-public class BComboBox<T> extends JComboBox<T> {
+public final class BComboBox<T> extends JComboBox<T> {
 
     private final Class<T> itemClass;
 
     public BComboBox(boolean editable, Class<T> itemClass) {
-        super();
         this.itemClass = itemClass;
         setEditable(editable);
     }
 
     public void addItems(Collection<T> items) {
-        for (T item : items)
+        for (T item : items) {
             addItem(item);
+        }
     }
 
     public void addItems(Collection<T> items, boolean addFirstNull) {
-        if (addFirstNull)
+        if (addFirstNull) {
             addItem(null);
+        }
         addItems(items);
     }
 
@@ -30,7 +31,7 @@ public class BComboBox<T> extends JComboBox<T> {
     }
 
     public void select(T item) {
-        for (var i = 0; i < getModel().getSize(); ++i) {
+        for (int i = 0; i < getModel().getSize(); ++i) {
             if (item != null && getItemAt(i) != null && getItemAt(i).equals(item)) {
                 setSelectedItem(getItemAt(i));
                 return;

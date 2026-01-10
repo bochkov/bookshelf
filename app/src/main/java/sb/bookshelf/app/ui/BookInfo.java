@@ -21,7 +21,7 @@ public final class BookInfo extends JPanel {
 
     public BookInfo() {
         setLayout(new MigLayout(
-                "flowy, gap 1, insets 0, fillx, hidemode 3",
+                "flowy, gap 1, insets 0, fillX, hideMode 3",
                 "",
                 "[][][]15[fill, grow]10[fill, grow]"
         ));
@@ -37,9 +37,15 @@ public final class BookInfo extends JPanel {
     }
 
     public void view(VolumeInfo volume) {
-        if (volume == null)
-            clear();
-        else {
+        if (volume == null) {
+            title.setText("");
+            author.setText("");
+            metaData.setText("");
+            annotation.setText("");
+            books.setText("");
+            scAnnotation.setVisible(false);
+            scBooks.setVisible(false);
+        } else {
             title.setText(String.format(TITLE_STR, volume.getTitle()));
             author.setText(String.format(AUTHOR_STR, volume.getAuthor()));
             metaData.setText(String.format(META_STR, volume.metaData()));
@@ -48,15 +54,5 @@ public final class BookInfo extends JPanel {
             scAnnotation.setVisible(!annotation.getText().isEmpty());
             scBooks.setVisible(!books.getText().isEmpty());
         }
-    }
-
-    private void clear() {
-        title.setText("");
-        author.setText("");
-        metaData.setText("");
-        annotation.setText("");
-        books.setText("");
-        scAnnotation.setVisible(false);
-        scBooks.setVisible(false);
     }
 }

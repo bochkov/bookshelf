@@ -1,7 +1,6 @@
 package sb.bookshelf.app.services;
 
 import kong.unirest.core.GenericType;
-import kong.unirest.core.HttpResponse;
 import kong.unirest.core.Unirest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,27 +19,23 @@ public final class LoadMetadata extends ExecService {
     private final AuthorListener authors;
     private final PublisherListener publishers;
 
-    private void authorsCallback(HttpResponse<List<String>> response) {
-        if (response.isSuccess()) {
-            authors.updateAuthors(response.getBody());
-        } else {
-            LOG.warn("{} {}", this.getClass(), response.getStatus());
-        }
-    }
-
-    private void publishersCallback(HttpResponse<List<String>> response) {
-        if (response.isSuccess()) {
-            publishers.updatePublishers(response.getBody());
-        } else {
-            LOG.warn("{} {}", this.getClass(), response.getStatus());
-        }
-    }
-
     @Override
     public void run() {
         Unirest.get("/api/authors/")
-                .asObjectAsync(LIST_STRING_TYPE, this::authorsCallback);
+                .asObjectAsync(LIST_STRING_TYPE, resp -> {
+                    if (resp.isSuccess()) {
+                        authors.updateAuthors(resp.getBody());
+                    } else {
+                        LOG.warn("{} {}", this.getClass(), resp.getStatus());
+                    }
+                });
         Unirest.get("/api/publishers/")
-                .asObjectAsync(LIST_STRING_TYPE, this::publishersCallback);
+                .asObjectAsync(LIST_STRING_TYPE, resp -> {
+                    if (resp.isSuccess()) {
+                        publishers.updatePublishers(resp.getBody());
+                    } else {
+                        LOG.warn("{} {}", this.getClass(), resp.getStatus());
+                    }
+                });
     }
 }

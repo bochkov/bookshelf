@@ -60,8 +60,9 @@ public final class BookPanel extends JPanel implements AuthorListener, Publisher
         table.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                if (e.getClickCount() == 2)
+                if (e.getClickCount() == 2) {
                     acEdit.actionPerformed(null);
+                }
             }
         });
         cmdPanel.add(new JButton(acEdit));
@@ -81,8 +82,8 @@ public final class BookPanel extends JPanel implements AuthorListener, Publisher
         model.set(volumes);
     }
 
-    public void count(Long total) {
-        countLabel.setText("Всего томов: " + total);
+    public void total(Long count) {
+        countLabel.setText("Всего томов: " + count);
     }
 
     @Override
@@ -98,14 +99,16 @@ public final class BookPanel extends JPanel implements AuthorListener, Publisher
     }
 
     private void addAuthor(String author) {
-        if (!authorsCache.contains(author))
+        if (!authorsCache.contains(author)) {
             authorsCache.add(author);
+        }
         Collections.sort(authorsCache);
     }
 
     private void addPublisher(String publisher) {
-        if (!publishersCache.contains(publisher))
+        if (!publishersCache.contains(publisher)) {
             publishersCache.add(publisher);
+        }
         Collections.sort(publishersCache);
     }
 
@@ -182,20 +185,21 @@ public final class BookPanel extends JPanel implements AuthorListener, Publisher
 
         private List<VolumeInfo> selectedVolumes() {
             List<VolumeInfo> volumes = new ArrayList<>();
-            for (int i : table.getSelectedRows())
+            for (int i : table.getSelectedRows()) {
                 volumes.add(model.get(i));
+            }
             return volumes;
         }
 
         @Override
         public void actionPerformed(ActionEvent e) {
             List<VolumeInfo> volumes = selectedVolumes();
-            if (volumes.isEmpty())
+            if (volumes.isEmpty()) {
                 return;
-
-            String msg = volumes.size() > 1 ?
-                    String.format("Удалить %s шт?", volumes.size()) :
-                    String.format("Удалить '%s'?", volumes.get(0).desc());
+            }
+            String msg = volumes.size() > 1
+                    ? String.format("Удалить %s шт?", volumes.size())
+                    : String.format("Удалить '%s'?", volumes.getFirst().desc());
             int res = JOptionPane.showOptionDialog(BookPanel.this, msg, "Подтверждение", JOptionPane.YES_NO_OPTION,
                     JOptionPane.QUESTION_MESSAGE, null, new Object[]{"Да", "Нет"}, "Нет");
             if (res == JOptionPane.YES_OPTION) {

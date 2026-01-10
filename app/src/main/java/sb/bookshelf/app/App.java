@@ -103,10 +103,12 @@ public final class App extends JFrame {
                 .addDefaultHeader(HeaderNames.CONTENT_TYPE, MimeTypes.JSON);
         String user = AppProps.prop(AppProps.USER, "");
         String password = AppProps.prop(AppProps.PASSWORD, "");
-        if (!user.isEmpty() || !password.isEmpty())
+        if (!user.isEmpty() || !password.isEmpty()) {
             Unirest.config().setDefaultBasicAuth(user, password);
-        if (Taskbar.getTaskbar().isSupported(Taskbar.Feature.ICON_IMAGE))
+        }
+        if (Taskbar.getTaskbar().isSupported(Taskbar.Feature.ICON_IMAGE)) {
             Taskbar.getTaskbar().setIconImage(Images.LOGO.getImage());
+        }
         if (Desktop.getDesktop().isSupported(Desktop.Action.APP_ABOUT)) {
             Desktop.getDesktop().setAboutHandler(new AboutDialog());
         }

@@ -1,10 +1,13 @@
 package sb.bookshelf.app;
 
 import com.formdev.flatlaf.extras.FlatSVGIcon;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 
 import javax.swing.*;
 import java.util.Objects;
 
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class Images {
 
     public static final ImageIcon LOGO = new ImageIcon(
@@ -17,7 +20,4 @@ public final class Images {
     public static final FlatSVGIcon ICON_FIND = new FlatSVGIcon("svg/search-solid.svg", 12, 12);
     public static final FlatSVGIcon ICON_CLEAR = new FlatSVGIcon("svg/eraser-solid.svg", 12, 12);
 
-
-    private Images() {
-    }
 }
